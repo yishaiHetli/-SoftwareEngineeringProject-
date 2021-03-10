@@ -17,7 +17,6 @@ public class Vector {
 	 */
 	public Vector(Point3D a) {
 		head = new Point3D(a.x, a.y, a.z);
-		
 				if (head.equals(Point3D.ZERO)) {
 			throw new IllegalArgumentException("the vector can't be zero");
 		}
