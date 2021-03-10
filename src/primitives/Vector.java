@@ -17,7 +17,7 @@ public class Vector {
 	 */
 	public Vector(Point3D a) {
 		head = new Point3D(a.x, a.y, a.z);
-				if (head.equals(Point3D.ZERO)) {
+		if (head.equals(Point3D.ZERO)) {
 			throw new IllegalArgumentException("the vector can't be zero");
 		}
 	}
@@ -25,26 +25,27 @@ public class Vector {
 	/**
 	 * ctor that gets three coordinates that represent a point in 3D
 	 * 
-	 * @param a the first Coordinate
-	 * @param b the second Coordinate
-	 * @param c the third Coordinate
+	 * @param coord_x the first Coordinate
+	 * @param coord_y the second Coordinate
+	 * @param coord_z the third Coordinate
 	 */
-	public Vector(Coordinate a, Coordinate b, Coordinate c) {
-		head = new Point3D(a, b, c);
+	public Vector(Coordinate coord_x, Coordinate coord_y, Coordinate coord_z) {
+		head = new Point3D(coord_x, coord_y, coord_z);
 	}
 
 	/**
 	 * ctor that gets three numbers that represent a point in 3D
 	 * 
-	 * @param a the first Coordinate
-	 * @param b the second Coordinate
-	 * @param c the third Coordinate
+	 * @param coord_x the first Coordinate
+	 * @param coord_y the second Coordinate
+	 * @param coord_z the third Coordinate
 	 */
-	public Vector(double a, double b, double c) {
-		head = new Point3D(new Coordinate(a), new Coordinate(b), new Coordinate(c));
-		if (head.equals(Point3D.ZERO)) {
+	public Vector(double coord_x, double coord_y, double coord_z) {
+		Point3D p = new Point3D(coord_x, coord_y, coord_z);
+		if (p.equals(Point3D.ZERO)) {
 			throw new IllegalArgumentException("the vector can't be zero");
 		}
+		this.head = p;
 	}
 
 	/**

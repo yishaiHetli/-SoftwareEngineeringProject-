@@ -40,26 +40,43 @@ public class Point3D {
 	}
 
 	/**
-	 * add the class Coordinates to the sent vector
+	 * add the class coordinates to the sent vector
 	 * 
 	 * @param vec vector to add
-	 * @return the added vector
+	 * @return return vector of their sum
 	 */
 	public Point3D add(Vector vec) {
 		return new Point3D(x.coord + vec.head.x.coord, y.coord + vec.head.y.coord, z.coord + vec.head.z.coord);
 	}
 
-	
+	/**
+	 * gets point and reduce her from this coordinates
+	 * 
+	 * @param other point in 3D to reduce from
+	 * @return the reduce value as vector
+	 */
 	public Vector subtract(Point3D other) {
 		return new Vector(x.coord - other.x.coord, y.coord - other.y.coord, z.coord - other.z.coord);
 	}
 
+	/**
+	 * calculate the distance between the sent point to this coordinates
+	 * 
+	 * @param other point to calculate the distance from
+	 * @return the distance squared
+	 */
 	public double distanceSquared(Point3D other) {
 		return (x.coord - other.x.coord) * (x.coord - other.x.coord)
 				+ (y.coord - other.y.coord) * (y.coord - other.y.coord)
 				+ (z.coord - other.z.coord) * (z.coord - other.z.coord);
 	}
 
+	/**
+	 * calculate the distance between the sent point to this coordinates
+	 * 
+	 * @param other point to calculate the distance from
+	 * @return the distance
+	 */
 	public double distance(Point3D other) {
 		return Math.sqrt(distanceSquared(other));
 	}
