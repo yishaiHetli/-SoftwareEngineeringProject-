@@ -16,33 +16,40 @@ public class Point3D {
 	/**
 	 * ctor: get 3 Coordinates and set class Coordinates
 	 * 
-	 * @param a first Coordinate
-	 * @param b second Coordinate
-	 * @param c third Coordinate
+	 * @param coord_x first Coordinate
+	 * @param coord_y second Coordinate
+	 * @param coord_z third Coordinate
 	 */
-	public Point3D(Coordinate a, Coordinate b, Coordinate c) {
-		x = new Coordinate(a.coord);
-		y = new Coordinate(b.coord);
-		z = new Coordinate(c.coord);
+	public Point3D(Coordinate coord_x, Coordinate coord_y, Coordinate coord_z) {
+		x = new Coordinate(coord_x.coord);
+		y = new Coordinate(coord_y.coord);
+		z = new Coordinate(coord_z.coord);
 	}
 
 	/**
 	 * ctor: get 3 numbers and set class Coordinates
 	 * 
-	 * @param a first Coordinate
-	 * @param b second Coordinate
-	 * @param c third Coordinate
+	 * @param coord_x first Coordinate
+	 * @param coord_y second Coordinate
+	 * @param coord_z third Coordinate
 	 */
-	public Point3D(double a, double b, double c) {
-		x = new Coordinate(a);
-		y = new Coordinate(b);
-		z = new Coordinate(c);
+	public Point3D(double coord_x, double coord_y, double coord_z) {
+		x = new Coordinate(coord_x);
+		y = new Coordinate(coord_y);
+		z = new Coordinate(coord_z);
 	}
 
-	public Point3D add(Vector a) {
-		return new Point3D(x.coord + a.head.x.coord, y.coord + a.head.y.coord, z.coord + a.head.z.coord);
+	/**
+	 * add the class Coordinates to the sent vector
+	 * 
+	 * @param vec vector to add
+	 * @return the added vector
+	 */
+	public Point3D add(Vector vec) {
+		return new Point3D(x.coord + vec.head.x.coord, y.coord + vec.head.y.coord, z.coord + vec.head.z.coord);
 	}
 
+	
 	public Vector subtract(Point3D other) {
 		return new Vector(x.coord - other.x.coord, y.coord - other.y.coord, z.coord - other.z.coord);
 	}
