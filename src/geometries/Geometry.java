@@ -6,7 +6,7 @@ import primitives.*;
  * interface that all that inherited from him must actualize it's contract that
  * is to actualize getNormal function
  * 
- * @author User
+ * @author David&Yishai
  *
  */
 public interface Geometry {

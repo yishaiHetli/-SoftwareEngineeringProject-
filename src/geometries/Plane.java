@@ -8,11 +8,24 @@ public class Plane implements Geometry {
 
 	Vector normal;
 
+	/**
+	 * ctor that gets three parameters
+	 * 
+	 * @param a first point
+	 * @param b second point
+	 * @param c third point
+	 */
 	public Plane(Point3D a, Point3D b, Point3D c) {
 		normal = null;
 		q0 = a;
 	}
 
+	/**
+	 * ctor that gets two parameters
+	 * 
+	 * @param a      some point in 3D
+	 * @param normal
+	 */
 	public Plane(Point3D a, Vector normal) {
 		this.normal = normal;
 		q0 = a;

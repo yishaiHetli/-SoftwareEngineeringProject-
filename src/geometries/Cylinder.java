@@ -4,7 +4,7 @@ import primitives.Point3D;
 import primitives.Vector;
 
 /**
- * this class represents a Cylinder shape
+ * this class represents a Cylinder shape that exten from tube shape
  * 
  * @author David&Yishai
  *
