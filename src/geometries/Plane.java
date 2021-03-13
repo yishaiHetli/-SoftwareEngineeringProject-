@@ -4,6 +4,11 @@ import primitives.*;
 
 public class Plane implements Geometry {
 
+	@Override
+	public String toString() {
+		return "q0= " + q0 + ", normal=" + normal;
+	}
+
 	Point3D q0;
 
 	Vector normal;

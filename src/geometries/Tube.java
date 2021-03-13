@@ -9,6 +9,11 @@ import primitives.*;
  *
  */
 public class Tube {
+	@Override
+	public String toString() {
+		return "axisRay= " + axisRay + ", radius=" + radius;
+	}
+
 	protected Ray axisRay;
 	protected double radius;
 

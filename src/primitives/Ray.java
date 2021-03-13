@@ -2,6 +2,11 @@ package primitives;
 
 public class Ray {
 	Point3D p0;
+	@Override
+	public String toString() {
+		return "p0=" + p0 + ", dir= " + dir ;
+	}
+
 	Vector dir;
 	public Ray(Point3D point, Vector vector)
 	{

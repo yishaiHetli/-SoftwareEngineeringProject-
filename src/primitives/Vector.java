@@ -123,6 +123,11 @@ public class Vector {
 		return Math.sqrt(this.lengthSquared());
 	}
 
+	@Override
+	public String toString() {
+		return "head= " + head ;
+	}
+
 	/**
 	 * normalize the class point by dividing in its length and return its value
 	 * 
