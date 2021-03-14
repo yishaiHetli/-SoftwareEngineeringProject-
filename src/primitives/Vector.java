@@ -8,7 +8,7 @@ package primitives;
  *
  */
 public class Vector {
-	Point3D head;
+	private Point3D head;
 
 	/**
 	 * ctor that get one parameter that represent a point in 3D

@@ -18,6 +18,6 @@ public class Sphere implements Geometry {
 	}
 
 	public Vector getNormal(Point3D a) {
-		return null;
+		return (a.subtract(center)).normalize();
 	}
 }

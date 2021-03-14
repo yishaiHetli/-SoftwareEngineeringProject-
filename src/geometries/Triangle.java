@@ -18,5 +18,6 @@ public class Triangle extends Plane {
 	public Triangle(Point3D point_a, Point3D point_b, Point3D point_c) {
 		super(point_a, point_b, point_c);
 	}
+	
 
 }

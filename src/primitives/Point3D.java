@@ -13,9 +13,9 @@ public class Point3D {
 		return "x=" + x + ", y=" + y + ", z=" + z;
 	}
 
-	Coordinate x;
-	Coordinate y;
-	Coordinate z;
+	final Coordinate x;
+	final Coordinate y;
+	final Coordinate z;
 	public final static Point3D ZERO = new Point3D(0, 0, 0);
 
 	/**
@@ -51,7 +51,8 @@ public class Point3D {
 	 * @return return vector of their sum
 	 */
 	public Point3D add(Vector vec) {
-		return new Point3D(x.coord + vec.head.x.coord, y.coord + vec.head.y.coord, z.coord + vec.head.z.coord);
+		Point3D head = vec.getHead();
+		return new Point3D(x.coord + head.x.coord, y.coord + head.y.coord, z.coord + head.z.coord);
 	}
 
 	/**

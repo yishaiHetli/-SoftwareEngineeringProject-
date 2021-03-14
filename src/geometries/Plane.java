@@ -21,7 +21,10 @@ public class Plane implements Geometry {
 	 * @param c third point
 	 */
 	public Plane(Point3D a, Point3D b, Point3D c) {
-		normal = null;
+		Vector v1 = b.subtract(a);
+		Vector v2 = c.subtract(a);
+		Vector n = v1.crossProduct(v2);
+		this.normal = n.normalize();
 		q0 = a;
 	}
 
