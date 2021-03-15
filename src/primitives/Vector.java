@@ -147,7 +147,8 @@ public class Vector {
 	 * @return the normalized vector
 	 */
 	public Vector normalized() {
-		return new Vector(this.normalize().head);
+		Vector x = new Vector(this.head);
+		return x.normalize();
 	}
 
 	@Override
