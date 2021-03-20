@@ -16,31 +16,31 @@ public class Plane implements Geometry {
 	/**
 	 * ctor that gets three parameters
 	 * 
-	 * @param a first point
-	 * @param b second point
-	 * @param c third point
+	 * @param point_a first point
+	 * @param point_b second point
+	 * @param point_c third point
 	 */
-	public Plane(Point3D a, Point3D b, Point3D c) {
-		Vector v1 = b.subtract(a);
-		Vector v2 = c.subtract(a);
+	public Plane(Point3D point_a, Point3D point_b, Point3D point_c) {
+		Vector v1 = point_b.subtract(point_a);
+		Vector v2 = point_c.subtract(point_a);
 		Vector n = v1.crossProduct(v2);
 		this.normal = n.normalize();
-		q0 = a;
+		q0 = point_a;
 	}
 
 	/**
 	 * ctor that gets two parameters
 	 * 
-	 * @param a      some point in 3D
+	 * @param point_a  some point in 3D
 	 * @param normal
 	 */
-	public Plane(Point3D a, Vector normal) {
+	public Plane(Point3D point_a, Vector normal) {
 		this.normal = normal;
-		q0 = a;
+		q0 = point_a;
 	}
 
 	public Vector getNormal(Point3D a) {
-		return null;
+		return normal;
 	}
 
 	public Point3D getQ0() {
