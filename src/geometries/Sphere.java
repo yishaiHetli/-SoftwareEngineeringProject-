@@ -12,6 +12,11 @@ public class Sphere implements Geometry {
 	Point3D center;
 	double radius;
 
+	public Sphere(Point3D center, double radius) {
+		this.center = center;
+		this.radius = radius;
+	}
+
 	@Override
 	public String toString() {
 		return "center= " + center + ", radius=" + radius;

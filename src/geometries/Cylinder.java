@@ -2,9 +2,6 @@ package geometries;
 
 import primitives.*;
 
-import primitives.Point3D;
-import primitives.Vector;
-
 /**
  * this class represents a Cylinder shape that exten from tube shape
  * 
@@ -13,6 +10,12 @@ import primitives.Vector;
  */
 public class Cylinder extends Tube {
 	double height;
+
+	
+	public Cylinder(Ray axisRay, double radius, double height) {
+		super(axisRay, radius);
+		this.height = height;
+	}
 
 	@Override
 	public String toString() {
