@@ -22,7 +22,10 @@ public class Sphere implements Geometry {
 		return "center= " + center + ", radius=" + radius;
 	}
 
-	public Vector getNormal(Point3D a) {
-		return (a.subtract(center)).normalize();
+	/**
+	 * calculate the normal to sphere in specific point
+	 */
+	public Vector getNormal(Point3D point) {
+		return (point.subtract(center)).normalize(); // normalized of (p-O)
 	}
 }

@@ -1,7 +1,7 @@
 
 /**
  * David Cohen  : 311209142 : deiv464@gmail.com 
- *  Yishai Hetli : 318645173 : yishaihetli@gmail.com   
+ * Yishai Hetli : 318645173 : yishaihetli@gmail.com   
  */
 
 import primitives.*;

@@ -13,6 +13,11 @@ public class Tube {
 	protected Ray axisRay;
 	protected double radius;
 
+	/**
+	 * ctor that get to values ray and double
+	 * @param axisRay ray that have point of start and vector for direction  
+	 * @param radius  
+	 */
 	public Tube(Ray axisRay, double radius) {
 		this.axisRay = axisRay;
 		this.radius = radius;
@@ -23,16 +28,26 @@ public class Tube {
 		return "axisRay= " + axisRay + ", radius=" + radius;
 	}
 
-	public Vector getNormal(Point3D p) { // (2,3,4)
-		Vector getDir = axisRay.getDir(); // v (1,0,2)
-		Point3D getP0 = axisRay.getP0(); // P0 (1,1,0)
-		double t = getDir.dotProduct(p.subtract(getP0)); // t = v * (p - p0) (1,2,4) == 9
-		if (!Util.isZero(t)) {
-			// projection of P-p0 on the ray:
-			getP0 = getP0.add(getDir.scale(t)); // O = p0 + (t*v) (1,1,0) + (9,0,18) = (10,1,18)
+	/**
+	 * get point and calculate the normal to it 
+	 * @param p point in 3D of which we want the normal
+	 * @return  the normal to the sending point
+	 */
+	public Vector getNormal(Point3D p) {
+		Vector getDir = axisRay.getDir(); // v
+		Point3D getP0 = axisRay.getP0(); // p0
+		double t;
+		try {
+			t = p.subtract(getP0).dotProduct(getDir); // t = v * (p - p0)
+		} catch (IllegalArgumentException e) { // if (p - p0) == 0
+			return getDir;
 		}
-		Vector check = p.subtract(getP0);
-		return check.normalize();// normalized vector of (p-O) (-8,2,-14) / sqrt (264)
+
+		if (!Util.isZero(t)) {
+			// projection of P - P0 on the ray:
+			getP0 = getP0.add(getDir.scale(t)); // O = p0 + (t*v)
+		}
+		return p.subtract(getP0).normalize(); // normalized vector of (p-O)
 	}
 
 }

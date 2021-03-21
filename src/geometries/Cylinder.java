@@ -29,25 +29,25 @@ public class Cylinder extends Tube {
 	 * @return normal vector
 	 **/
 	@Override
-	public Vector getNormal(Point3D point3D) {
-		Point3D o = axisRay.getP0();
-		Vector v = axisRay.getDir();
+	public Vector getNormal(Point3D p) {
+		Point3D getP0 = axisRay.getP0(); // p0
+		Vector getDir = axisRay.getDir(); // v
 
 		// projection of P-O on the ray:
 		double t;
 		try {
-			t = Util.alignZero(point3D.subtract(o).dotProduct(v));
-		} catch (IllegalArgumentException e) { // P = O
-			return v;
+			t = p.subtract(getP0).dotProduct(getDir); // (p-p0) * v
+		} catch (IllegalArgumentException e) { // if (p - p0) == 0
+			return getDir; 
 		}
-
+		
 		// if the point is at a base
-		if (t == 0 || Util.isZero(height - t))
-			return v;
+		if (Util.isZero(t) || Util.isZero(height - t))
+			return getDir;
 
 		// point is outside
-		o = o.add(v.scale(t));
-		return point3D.subtract(o).normalize();
+		getP0 = getP0.add(getDir.scale(t));
+		return p.subtract(getP0).normalize();
 	}
 
 }

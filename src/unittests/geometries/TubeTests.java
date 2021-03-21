@@ -7,15 +7,23 @@ import geometries.*;
 import org.junit.Test;
 
 public class TubeTests {
-
+	
+/**
+ * Test method for {@link geometries.Tube#getNormal(primitives.Point3D)}.
+ */
 	@Test
 	public void testGetNormal() {
-		Ray ray = new Ray(new Point3D(1, 1, 0), new Vector(1, 0, 2));
+		// test 1
+		Ray ray = new Ray(new Point3D(1, 1, 0), new Vector(1, 0, 0));
 		Tube tube = new Tube(ray, 0);
 		Vector val = tube.getNormal(new Point3D(2, 3, 4));
-		double root_264 = Math.sqrt(264);
-		assertEquals(new Vector(-8 / root_264, 2 / root_264, -14 / root_264), val);
-
+		double root_20 = Math.sqrt(20); // the expected length 
+		assertEquals(new Vector(0, 2 / root_20, 4 / root_20), val);
+		// test 2
+		ray = new Ray(new Point3D(0,0,0), new Vector(0,0,1));
+		tube = new Tube(ray, 1);
+		val = tube.getNormal(new Point3D(1,0,0));
+        assertEquals(new Vector(1,0,0),val);
 	}
 
 }
