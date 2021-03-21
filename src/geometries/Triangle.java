@@ -3,12 +3,12 @@ package geometries;
 import primitives.Point3D;
 
 /**
- * this class represent a triangle in a 3D that inherited from a plane shape
+ * this class represent a triangle in a 3D that inherited from a Polygon shape
  * 
  * @author David&Yishai
  *
  */
-public class Triangle extends Plane {
+public class Triangle extends Polygon {
 
 	@Override
 	public String toString() {
