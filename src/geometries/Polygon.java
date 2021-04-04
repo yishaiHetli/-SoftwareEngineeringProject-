@@ -1,5 +1,6 @@
 package geometries;
 
+import java.util.ArrayList;
 import java.util.List;
 import primitives.*;
 import static primitives.Util.*;
@@ -84,5 +85,44 @@ public class Polygon implements Geometry {
 	@Override
 	public Vector getNormal(Point3D point) {
 		return plane.getNormal();
+	}
+
+	@Override
+	public List<Point3D> findIntsersections(Ray ray) {
+		List<Vector> lst = new ArrayList<Vector>();
+		Point3D p0 = ray.getP0();
+		Vector v = ray.getDir();
+		try {
+			for (Point3D pi : vertices) {
+				Vector vi = pi.subtract(p0);
+				lst.add(vi);
+			}
+			int size = lst.size();
+			Vector Ni = lst.get(0).crossProduct(lst.get(1));
+			Ni.normalize();
+			double val = Ni.dotProduct(v);
+			boolean positive = false;
+			if (Util.isZero(val))
+				return null;
+			if (val > 0) {
+				positive = true;
+			}
+			for (int i = 1; i < size; ++i) {
+				if (i == size - 1) { // for the last loop
+					Ni = lst.get(i).crossProduct(lst.get(0));
+				} else {
+					Ni = lst.get(i).crossProduct(lst.get(i + 1));
+				}
+				Ni.normalize();
+				val = Ni.dotProduct(v);
+				if (Util.isZero(val))
+					return null;
+				if (val > 0 && !positive || val < 0 && positive)
+					return null;
+			}
+		} catch (Exception e) {
+			return null;
+		}
+		return plane.findIntsersections(ray);
 	}
 }

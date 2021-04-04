@@ -26,4 +26,5 @@ public class CylinderTest {
 		assertEquals(new Vector(new Point3D(0, 0, 1)), cylinder.getNormal(point)); // if t = 0
 	}
 
+	
 }

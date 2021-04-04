@@ -1,5 +1,8 @@
 package geometries;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import primitives.*;
 
 public class Plane implements Geometry {
@@ -16,9 +19,9 @@ public class Plane implements Geometry {
 	/**
 	 * ctor that gets three parameters
 	 * 
-	 * @param point_a first point 
-	 * @param point_b second point 
-	 * @param point_c third point 
+	 * @param point_a first point
+	 * @param point_b second point
+	 * @param point_c third point
 	 */
 	public Plane(Point3D point_a, Point3D point_b, Point3D point_c) {
 		Vector v1 = point_b.subtract(point_a);
@@ -32,7 +35,7 @@ public class Plane implements Geometry {
 	 * ctor that gets two parameters
 	 * 
 	 * @param point_a some point in 3D
-	 * @param normal  
+	 * @param normal
 	 */
 	public Plane(Point3D point_a, Vector normal) {
 		this.normal = normal;
@@ -55,5 +58,23 @@ public class Plane implements Geometry {
 	 */
 	public Vector getNormal() {
 		return normal;
+	}
+
+	@Override
+	public List<Point3D> findIntsersections(Ray ray) {
+		Vector v = ray.getDir();
+		Point3D p0 = ray.getP0();
+		if (q0.equals(p0))
+			return null;	
+		double numerator = normal.dotProduct(q0.subtract(p0));
+		double denominator = normal.dotProduct(v);
+		if (denominator == 0)
+			return null;
+		double t = numerator / denominator;
+		if (t <= 0 || Util.isZero(t))
+			return null;
+		List<Point3D> lst = new LinkedList<>();
+		lst.add(ray.getPoint(t)); // p0 + v*t
+		return lst;
 	}
 }

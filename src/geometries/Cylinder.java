@@ -1,5 +1,7 @@
 package geometries;
 
+import java.util.List;
+
 import primitives.*;
 
 /**
@@ -11,7 +13,6 @@ import primitives.*;
 public class Cylinder extends Tube {
 	double height;
 
-	
 	public Cylinder(Ray axisRay, double radius, double height) {
 		super(axisRay, radius);
 		this.height = height;
@@ -25,7 +26,7 @@ public class Cylinder extends Tube {
 	/**
 	 * Get Normal to Cylinder by the point3D
 	 *
-	 * @param point3D point in the cylinder
+	 * @param p point in the cylinder
 	 * @return normal vector
 	 **/
 	@Override
@@ -38,16 +39,21 @@ public class Cylinder extends Tube {
 		try {
 			t = p.subtract(getP0).dotProduct(getDir); // (p-p0) * v
 		} catch (IllegalArgumentException e) { // if (p - p0) == 0
-			return getDir; 
+			return getDir;
 		}
-		
+
 		// if the point is at a base
 		if (Util.isZero(t) || Util.isZero(height - t))
 			return getDir;
 
 		// point is outside
-		getP0 = getP0.add(getDir.scale(t));
-		return p.subtract(getP0).normalize();
+		getP0 = getP0.add(getDir.scale(t)); // p0 + v*t
+		return p.subtract(getP0).normalize(); // normalize of (p - p0)
 	}
 
+	@Override
+	public List<Point3D> findIntsersections(Ray ray) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

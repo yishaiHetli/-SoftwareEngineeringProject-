@@ -16,6 +16,19 @@ public class Point3D {
 	final Coordinate x;
 	final Coordinate y;
 	final Coordinate z;
+
+	public double getX() {
+		return x.coord;
+	}
+
+	public double getY() {
+		return y.coord;
+	}
+
+	public double getZ() {
+		return z.coord;
+	}
+
 	public final static Point3D ZERO = new Point3D(0, 0, 0);
 
 	/**
@@ -42,6 +55,13 @@ public class Point3D {
 		x = new Coordinate(coord_x);
 		y = new Coordinate(coord_y);
 		z = new Coordinate(coord_z);
+	}
+/**
+ * ctor: get point 3D and and set class Coordinates by calling another ctor
+ * @param point3D point in the class type 
+ */
+	public Point3D(Point3D point3D) {
+		this(point3D.x, point3D.y, point3D.z);
 	}
 
 	/**

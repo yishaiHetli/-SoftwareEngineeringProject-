@@ -157,5 +157,4 @@ public class VectorTests {
 		// test that check if the vector does not change
 		assertEquals(new Vector(1, 1, 1), x);
 	}
-
 }

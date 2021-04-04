@@ -26,15 +26,15 @@ public class Point3DTests {
 	@Test
 	public void testDistanceSquared() {
 		Point3D p1 = new Point3D(3, 4, 5);
-		double val = p1.distanceSquared(new Point3D(1,2,7));
-		assertEquals(12, val,0.0001);
+		double val = p1.distanceSquared(new Point3D(1, 2, 7));
+		assertEquals(12, val, 0.0001);
 	}
 
 	@Test
 	public void testDistance() {
 		Point3D p1 = new Point3D(3, 4, 5);
-		double val = p1.distance(new Point3D(1,2,7));
-		assertEquals(Math.sqrt(12), val,0.0001);
+		double val = p1.distance(new Point3D(1, 2, 7));
+		assertEquals(Math.sqrt(12), val, 0.0001);
 	}
 
 }
