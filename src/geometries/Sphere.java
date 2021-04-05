@@ -33,7 +33,7 @@ public class Sphere implements Geometry {
 	}
 
 	@Override
-	public List<Point3D> findIntsersections(Ray ray) {
+	public List<Point3D> findIntersections (Ray ray) {
 		Point3D p0 = ray.getP0();
 		Vector v = ray.getDir();
 		if (center.equals(p0)) {
@@ -47,19 +47,21 @@ public class Sphere implements Geometry {
 		}
 		double tm = Util.alignZero(u.dotProduct(v));
 		double length = Util.alignZero(u.lengthSquared() - tm * tm); // length square of u reduce square of tm
-		if (length <= 0 || Util.isZero(length))
+		if (length < 0)
 			return null;
 		double d = Math.sqrt(length);
 		if (d > radius)
 			return null;
 		double th = Math.sqrt(radius * radius - d * d);
+		if (Util.isZero(th)) // if the ray is tangent to the sphere
+			return null;
 		List<Point3D> lst = new LinkedList<Point3D>();
 		double t1 = tm + th;
 		double t2 = tm - th;
-		if (t1 > 0 && !Util.isZero(t1)) {
+		if (t1 > 0) {
 			lst.add(ray.getPoint(t1)); // p1 = p0 + t1 * v
 		}
-		if (t2 > 0 && !Util.isZero(t2)) {
+		if (t2 > 0 && t1 != t2) {
 			lst.add(ray.getPoint(t2)); // p2 = p0 + t2 * v
 		}
 		if (lst.isEmpty())

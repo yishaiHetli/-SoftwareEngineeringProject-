@@ -24,5 +24,4 @@ public class Triangle extends Polygon {
 		super(point_a, point_b, point_c);
 	}
 	
-
 }

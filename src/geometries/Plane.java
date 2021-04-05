@@ -61,7 +61,7 @@ public class Plane implements Geometry {
 	}
 
 	@Override
-	public List<Point3D> findIntsersections(Ray ray) {
+	public List<Point3D> findIntersections (Ray ray) {
 		Vector v = ray.getDir();
 		Point3D p0 = ray.getP0();
 		if (q0.equals(p0))
@@ -71,10 +71,8 @@ public class Plane implements Geometry {
 		if (denominator == 0)
 			return null;
 		double t = numerator / denominator;
-		if (t <= 0 || Util.isZero(t))
+		if (t <= 0 || Util.isZero(t)) 
 			return null;
-		List<Point3D> lst = new LinkedList<>();
-		lst.add(ray.getPoint(t)); // p0 + v*t
-		return lst;
+		return List.of(ray.getPoint(t)); // p0 + v*t
 	}
 }
