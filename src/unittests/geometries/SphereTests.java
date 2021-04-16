@@ -46,6 +46,8 @@ public class SphereTests {
 			result = List.of(result.get(1), result.get(0));
 		assertEquals("Ray crosses sphere", List.of(p1, p2), result);
 
+		// =============== Boundary Values Tests ==================
+		
 		// TC03 Ray's line is outside the sphere and goes in the opposite direction(0
 		// points)
 		assertNull("Ray's line out of sphere and go in the opposite direction",
