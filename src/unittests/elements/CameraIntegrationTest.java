@@ -1,97 +1,84 @@
+/**
+ *  Test class for camera ray intersections 
+ */
 package unittests.elements;
 
 import static org.junit.Assert.*;
-
 import org.junit.Test;
-
+import java.util.List;
 import elements.*;
 import primitives.*;
 import geometries.*;
 
 public class CameraIntegrationTest {
 
+	/**
+	 * 
+	 * @param camera   camera object to test is intersections
+	 * @param geo      the shape that the camera intersect into
+	 * @param expected the number of expected intersections
+	 * @param output
+	 */
 	private void assertIntersections(Camera camera, Intersectable geo, int expected, String output) {
 		int count = 0;
 		camera.setViewPlaneSize(3, 3).setDistance(1);
-
-		for (int i = 0; i < 3; i++) {
+		List<Point3D> intersections;
+		for (int i = 0; i < 3; i++) { // calculating all the camera interactions with the geometric shape
 			for (int j = 0; j < 3; j++) {
-				var intersections = geo.findIntersections(camera.constructRayThroughPixel(3, 3, j, i));
-				count += intersections == null ? 0 : intersections.size();
+				intersections = geo.findIntersections(camera.constructRayThroughPixel(3, 3, j, i));
+				if (intersections != null)
+					count += intersections.size();
 			}
 		}
-		assertEquals(output,expected, count);
+		assertEquals(output, expected, count);
 	}
 
 	/**
-	 * Integration tests of Camera Ray construction with Ray-Sphere Intersections
+	 * Integration tests of Camera Ray construction with Ray-Sphere,Plane,Triangle
+	 * Intersections
 	 */
 	@Test
-	public void cameraRaySphereIntegration() {
-		Camera cam1 = new Camera(Point3D.ZERO, new Vector(0, 0, -1), new Vector(0, -1, 0));
-		Camera cam2 = new Camera(new Point3D(0, 0, 0.5), new Vector(0, 0, -1), new Vector(0, -1, 0));
+	public void cameraIntegrations() {
+		Camera cam1 = new Camera(Point3D.ZERO, new Vector(0, 0, -1), new Vector(0, 1, 0));
+		Camera cam2 = new Camera(new Point3D(0, 0, 0.5), new Vector(0, 0, -1), new Vector(0, 1, 0));
 
-		// TC01: Small sphere (2 points)
-		assertIntersections(cam1, new Sphere(new Point3D(0, 0, -3), 1), 2,
-				"ERROR - TC01: Small sphere (2 points)");
+///////////////////////////////////--Sphere Tests-- //////////////////////////////////
 
-		// TC02: Big sphere (18 points)
-		assertIntersections(cam2, new Sphere(new Point3D(0, 0, -100), 90), 18,
-				"ERROR - TC02: Big sphere (18 points)");
+		// TC01: only one pixel interact the sphere twice (2 points)
+		assertIntersections(cam1, new Sphere(new Point3D(0, 0, -3), 1), 2, "ERROR - TC01");
+
+		// TC02: all the pixels interact the sphere twice (18 points)
+		assertIntersections(cam2, new Sphere(new Point3D(0, 0, -2.5), 2.5), 18, "ERROR - TC02");
 
 		// TC03: Medium sphere (10 points)
-		assertIntersections(cam2, new Sphere(new Point3D(0, 0, -2), 2), 10,
-				"ERROR - TC03: Medium sphere (10 points)");
+		assertIntersections(cam2, new Sphere(new Point3D(0, 0, -2), 2), 10, "ERROR - TC03");
 
-		// TC04: Inside sphere (9 points)
-		assertIntersections(cam2, new Sphere(new Point3D(0, 0, -1), 4), 9,
-				"ERROR - TC04: Inside sphere (9 points)");
+		// TC04: the camera is Inside the sphere (9 points)
+		assertIntersections(cam2, new Sphere(new Point3D(0, 0, -2), 4), 9, "ERROR - TC04");
 
-		// TC05: Beyond Sphere (0 points)
-		assertIntersections(cam1, new Sphere(new Point3D(0, 0, 1), 0.5), 0,
-				"ERROR - TC05: Beyond Sphere (0 points)");
-	}
+		// TC05: the camera is after the sphere (0 points)
+		assertIntersections(cam1, new Sphere(new Point3D(0, 0, 1), 0.5), 0, "ERROR - TC05");
 
-	/**
-	 * Integration tests of Camera Ray construction with Ray-Plane Intersections
-	 */
-	@Test
-	public void cameraRayPlaneIntegration() {
-		Camera cam = new Camera(Point3D.ZERO, new Vector(0, 0, -1), new Vector(0, -1, 0));
+///////////////////////////////////--Plane Tests-- //////////////////////////////////
 
-		// TC01: Plane against camera (9 points)
-		assertIntersections(cam, new Plane(new Point3D(0, 0, -5), new Vector(0, 0, 1)), 9,
-				"ERROR - TC01: Plane against camera (9 points)");
+		// TC06: Plane against camera (9 points)
+		assertIntersections(cam1, new Plane(new Point3D(0, 0, -5), new Vector(0, 0, 1)), 9, "ERROR - TC06");
 
-		// TC02: Plane with small angle (9 points)
-		assertIntersections(cam, new Plane(new Point3D(0, 0, -5), new Vector(0, 1, 2)), 9,
-				"ERROR - TC02: Plane with small angle (9 points)");
+		// TC07: Plane with small angle (9 points)
+		assertIntersections(cam1, new Plane(new Point3D(0, 0, -5), new Vector(0, 1, 2)), 9, "ERROR - TC07");
 
-		// TC03: Plane parallel to lower rays (6 points)
-		assertIntersections(cam, new Plane(new Point3D(0, 0, -5), new Vector(0, 1, 1)), 6,
-				"ERROR - TC03: Plane parallel to lower rays (6 points)");
+		// TC08: Plane parallel to lower rays (6 points)
+		assertIntersections(cam1, new Plane(new Point3D(0, 0, -5), new Vector(0, 1, 1)), 6, "ERROR - TC08");
 
-		// TC04: Beyond plane (0 points)
-		assertIntersections(cam, new Plane(new Point3D(0, 0, 5), new Vector(0, 1, 1)), 0,
-				"ERROR - TC04: Beyond plane (0 points)");
-	}
+///////////////////////////////////--Triangle Tests-- //////////////////////////////////
 
-	/**
-	 * Integration tests of Camera Ray construction with Ray-Triangle Intersections
-	 */
-	@Test
-	public void cameraRayTriangleIntegration() {
-		Camera cam = new Camera(Point3D.ZERO, new Vector(0, 0, -1), new Vector(0, -1, 0));
+		// TC09: small triangle (1 point)
+		assertIntersections(cam1, new Triangle(new Point3D(0, 1, -2), new Point3D(1, -1, -2), new Point3D(-1, -1, -2)),
+				1, "ERROR - TC09");
 
-		// TC01: small triangle (1 point)
-		assertIntersections(cam,
-				new Triangle(new Point3D(1, 1, -2), new Point3D(-1, 1, -2), new Point3D(0, -1, -2)), 1,
-				"ERROR - TC01: small triangle (1 point)");
-
-		// TC02: medium triangle (2 points)
-		assertIntersections(cam,
-				new Triangle(new Point3D(1, 1, -2), new Point3D(-1, 1, -2), new Point3D(0, -20, -2)), 2,
-				"ERROR - TC02: medium triangle (2 points)");
+		// TC10: medium triangle (2 points)
+		assertIntersections(cam1, new Triangle(new Point3D(0, 20, -2), new Point3D(1, -1, -2), new Point3D(-1, -1, -2)),
+				2, "ERROR - TC10");
 	}
 
 }
