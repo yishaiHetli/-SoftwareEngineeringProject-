@@ -1,6 +1,3 @@
-/**
- *  Test class for camera ray intersections 
- */
 package unittests.elements;
 
 import static org.junit.Assert.*;
@@ -10,6 +7,12 @@ import elements.*;
 import primitives.*;
 import geometries.*;
 
+/**
+ * Tests for camera intersections with sphere ,Plane ,Triangle
+ * 
+ * @author David&Yishai
+ *
+ */
 public class CameraIntegrationTest {
 
 	/**

@@ -7,7 +7,7 @@ import primitives.*;
  * class that represent a camera. We look at the camera as if it have an only
  * one point of view
  * 
- * @author User
+ * @author David&Yishai
  *
  */
 public class Camera {
@@ -22,14 +22,14 @@ public class Camera {
 
 	/**
 	 * 
-	 * @param p0   the start position of the camera
-	 * @param vTo  the direction of the camera
-	 * @param vUp  the orthogonal vector to vTo
+	 * @param p0  the start position of the camera
+	 * @param vTo the direction of the camera
+	 * @param vUp the orthogonal vector to vTo
 	 */
 	public Camera(Point3D p0, Vector vTo, Vector vUp) {
 
-		if (!Util.isZero(vUp.dotProduct(vTo))) {
-			throw new IllegalArgumentException("the vectors vUp and vTo must be orthogonals");
+		if (!Util.isZero(vUp.dotProduct(vTo))) { // if the vectors vUp and vTo not orthogonal
+			throw new IllegalArgumentException("the vectors vUp and vTo must be orthogonal");
 		}
 		this.p0 = p0;
 		this.vUp = vUp.normalized();
@@ -37,12 +37,23 @@ public class Camera {
 		this.vRight = this.vTo.crossProduct(this.vUp).normalized();
 	}
 
+	/**
+	 * 
+	 * @param width  the width of the view plane
+	 * @param height the height of the view plane
+	 * @return return the class object
+	 */
 	public Camera setViewPlaneSize(double width, double height) {
 		this.width = width;
 		this.height = height;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param distance distance from p0
+	 * @return the class object
+	 */
 	public Camera setDistance(double distance) {
 
 		this.distance = distance;
