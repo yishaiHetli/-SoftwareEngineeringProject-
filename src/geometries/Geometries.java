@@ -1,5 +1,6 @@
 package geometries;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -46,8 +47,20 @@ public class Geometries implements Intersectable {
 
 	@Override
 	public List<Point3D> findIntersections(Ray ray) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Point3D> allIntersection  = null;
+
+        //loop on all geometries
+        for (Intersectable cut :cuts) {
+            List<Point3D> intersections = cut.findIntersections(ray);
+
+            if (intersections != null) {
+                if (allIntersection  == null) {//for the first time
+                	allIntersection  = new ArrayList<Point3D>();
+                }
+                allIntersection .addAll(intersections);
+            }
+        }
+        return allIntersection ;
 	}
 
 }

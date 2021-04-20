@@ -2,6 +2,7 @@ package scene;
 
 import elements.AmbientLight;
 import geometries.Geometries;
+import geometries.Intersectable;
 import primitives.Color;
 
 public class Scene {
@@ -12,8 +13,7 @@ public class Scene {
 	public Geometries geometries = new Geometries();
 
 	public Scene(String _name) {
-		name = _name;
-		geometries = new Geometries();
+		this.name = _name;
 	}
 
 	public Scene setName(String name) {
@@ -31,8 +31,8 @@ public class Scene {
 		return this;
 	}
 
-	public Scene setGeometries(Geometries geometries) {
-		this.geometries = geometries;
+	public Scene addGeometry(Intersectable geo) {
+		geometries.add(geo);
 		return this;
 	}
 
