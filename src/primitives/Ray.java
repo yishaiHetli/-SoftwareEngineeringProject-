@@ -1,5 +1,7 @@
 package primitives;
 
+import java.util.List;
+
 public class Ray {
 	private Point3D p0;
 	private Vector dir;
@@ -26,7 +28,7 @@ public class Ray {
 		if (Util.isZero(t)) {
 			return new Point3D(p0.x, p0.y, p0.z);
 		}
-		return p0.add(dir.scale(t)); //p0 +v*t
+		return p0.add(dir.scale(t)); // p0 +v*t
 	}
 
 	@Override
@@ -41,4 +43,16 @@ public class Ray {
 		return this.p0.equals(other.p0) && this.dir.equals(other.dir);
 	}
 
+	public Point3D findClosestPoint(List<Point3D> lstPoint) {
+		if (lstPoint == null || lstPoint.size() == 0)
+			return null;
+		Point3D point = lstPoint.get(0);
+		double min = p0.distanceSquared(point);
+		for (Point3D pi : lstPoint) {
+			if (p0.distanceSquared(pi) < min) {
+				point = pi;
+			}
+		}
+		return point;
+	}
 }

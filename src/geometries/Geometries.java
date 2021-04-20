@@ -23,7 +23,7 @@ public class Geometries implements Intersectable {
 	}
 
 	/**
-	 * ctor that get an array in type of Intersectable and add that into the class
+	 * ctor that get an array in type of intersectable and add that into the class
 	 * list
 	 * 
 	 * @param geometries
