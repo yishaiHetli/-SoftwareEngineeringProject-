@@ -1,6 +1,8 @@
 package renderer;
 
 
+import java.util.*;
+
 import elements.*;
 import primitives.*;
 import scene.*;
@@ -13,6 +15,8 @@ public class Render {
 	private ImageWriter imageWriter;
 
 	public void renderImage() {
+		if(imageWriter == null || camera == null || rayTracer == null || scene == null )
+			throw new  MissingResourceException("argument was missing","Render","object");
 		int nX = imageWriter.getNx();
 		int nY = imageWriter.getNy();
 		for (int i = 0; i < nY; i++) {
@@ -25,6 +29,8 @@ public class Render {
 	}
 
 	public void printGrid(int interval, Color color) {
+		if(imageWriter == null || camera == null || rayTracer == null || scene == null )
+			throw new  MissingResourceException("argument was missing","Render","object");
 		int nX = imageWriter.getNx();
         int nY = imageWriter.getNy();
         for (int i = 0; i < nY; i++) {
@@ -37,6 +43,8 @@ public class Render {
 	}
 
 	public void writeToImage() {
+		if(imageWriter == null || camera == null || rayTracer == null || scene == null )
+			throw new  MissingResourceException("argument was missing","Render","object");
 		 imageWriter.writeToImage();
 	}
 

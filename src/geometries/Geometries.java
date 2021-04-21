@@ -1,6 +1,5 @@
 package geometries;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,19 +7,20 @@ import primitives.Point3D;
 import primitives.Ray;
 
 /**
- *  this class represents a collection of Intersectable shapes 
+ * this class represents a collection of Intersectable shapes
+ * 
  * @author David&Yishai
  *
  */
 public class Geometries implements Intersectable {
 
-	private List<Intersectable> cuts;
+	private List<Intersectable> geometric;
 
 	/**
 	 * empty ctor that Initialize the class list
 	 */
 	public Geometries() {
-		cuts = new LinkedList<Intersectable>();
+		geometric = new LinkedList<Intersectable>();
 	}
 
 	/**
@@ -32,35 +32,35 @@ public class Geometries implements Intersectable {
 	public Geometries(Intersectable... geometries) {
 		this();
 		for (Intersectable i : geometries)
-			cuts.add(i);
+			geometric.add(i);
 	}
 
 	/**
 	 * add the gets array into the class list of Intersectable
 	 * 
-	 * @param geometries  array in type of Intersectable
+	 * @param geometries array in type of Intersectable
 	 */
 	public void add(Intersectable... geometries) {
 		for (Intersectable i : geometries)
-			cuts.add(i);
+			geometric.add(i);
 	}
 
 	@Override
 	public List<Point3D> findIntersections(Ray ray) {
-		List<Point3D> allIntersection  = null;
+		List<Point3D> allCuts = null;
 
-        //loop on all geometries
-        for (Intersectable cut :cuts) {
-            List<Point3D> intersections = cut.findIntersections(ray);
+		// loop on all geometries
+		for (Intersectable geo : geometric) {
+			List<Point3D> cuts = geo.findIntersections(ray); // Fined the ray cuts points in the geometric
 
-            if (intersections != null) {
-                if (allIntersection  == null) {//for the first time
-                	allIntersection  = new ArrayList<Point3D>();
-                }
-                allIntersection .addAll(intersections);
-            }
-        }
-        return allIntersection ;
+			if (cuts != null) { 
+				if (allCuts == null) {// for the first time
+					allCuts = new LinkedList<Point3D>();
+				}
+				allCuts.addAll(cuts);
+			}
+		}
+		return allCuts;
 	}
 
 }

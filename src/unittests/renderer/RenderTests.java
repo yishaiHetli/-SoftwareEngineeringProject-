@@ -1,7 +1,7 @@
 /**
  * 
  */
-package unittests.elements;
+package unittests.renderer;
 import org.junit.Test;
 
 import elements.*;
@@ -28,7 +28,7 @@ public class RenderTests {
 	public void basicRenderTwoColorTest() {
 
 		Scene scene = new Scene("Test scene")//
-				.setAmbientLight(new AmbientLight(new Color(255, 191, 191), 1)) //
+				.setAmbientLight(new AmbientLight(new Color(255, 191, 191), 1))// 
 				.setBackground(new Color(75, 127, 90));
 
 		scene.geometries.add(new Sphere(new Point3D(0, 0, -100), 50),
