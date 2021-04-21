@@ -2,6 +2,11 @@ package primitives;
 
 import java.util.List;
 
+/**
+ * 
+ * @author david&yishai
+ *
+ */
 public class Ray {
 	private Point3D p0;
 	private Vector dir;
@@ -11,6 +16,11 @@ public class Ray {
 		return "p0=" + p0 + ", dir= " + dir;
 	}
 
+	/**
+	 * 
+	 * @param point  point of start for ray
+	 * @param vector direction vector for ray
+	 */
 	public Ray(Point3D point, Vector vector) {
 		p0 = point;
 		dir = vector.normalized();
@@ -24,6 +34,11 @@ public class Ray {
 		return dir;
 	}
 
+	/**
+	 * 
+	 * @param t number to multiply the vector with
+	 * @return the point of start + (direction vector * t)
+	 */
 	public Point3D getPoint(double t) {
 		if (Util.isZero(t)) {
 			return new Point3D(p0.x, p0.y, p0.z);
@@ -43,15 +58,19 @@ public class Ray {
 		return this.p0.equals(other.p0) && this.dir.equals(other.dir);
 	}
 
+	/**
+	 * 
+	 * @param lstPoint list of intersections points
+	 * @return the closes point of intersection to the ray start point
+	 */
 	public Point3D findClosestPoint(List<Point3D> lstPoint) {
 		if (lstPoint == null || lstPoint.size() == 0)
-			return null;
-		Point3D point = lstPoint.get(0);
+			return null;// return null if one of the fields is empty
+		Point3D point = lstPoint.get(0);// initializing the first point to be the closes
 		double min = p0.distanceSquared(point);
 		for (Point3D pi : lstPoint) {
-			if (p0.distanceSquared(pi) < min) {
+			if (p0.distanceSquared(pi) < min)//check if there is a closer point
 				point = pi;
-			}
 		}
 		return point;
 	}
