@@ -7,7 +7,8 @@ import elements.*;
 import primitives.*;
 import scene.*;
 /**
- * 
+ *  class to process the image color by calculating the color for each pixel 
+ *     
  * @author david&yishai
  *
  */
@@ -18,16 +19,19 @@ public class Render {
 	private RayTracerBase rayTracer;
 	private ImageWriter imageWriter;
 
+	/**
+	 * calculate the color for each point in the grid by the ray-camera intersection
+	 */
 	public void renderImage() {
-		if(imageWriter == null || camera == null || rayTracer == null || scene == null )
+		if(imageWriter == null || camera == null || rayTracer == null || scene == null ) // if one or more objects are massing 
 			throw new  MissingResourceException("argument was missing","Render","object");
 		int nX = imageWriter.getNx();
 		int nY = imageWriter.getNy();
-		for (int i = 0; i < nY; i++) {
-			for (int j = 0; j < nX; j++) {      
-				Ray ray = camera.constructRayThroughPixel(nX, nY, j, i);
-				Color color = rayTracer.traceRay(ray);
-				imageWriter.writePixel(j, i, color);
+		for (int i = 0; i < nY; i++) { // loop on all the columns 
+			for (int j = 0; j < nX; j++) {  // loop on all the rows
+				Ray ray = camera.constructRayThroughPixel(nX, nY, j, i); // fine the location of the ray on the view plane
+				Color color = rayTracer.traceRay(ray); // the point color 
+				imageWriter.writePixel(j, i, color); // paint the pixel in sent color 
 			}
 		}
 	}
@@ -41,8 +45,8 @@ public class Render {
 			throw new  MissingResourceException("argument was missing","Render","object");
 		int nX = imageWriter.getNx();
         int nY = imageWriter.getNy();
-        for (int i = 0; i < nY; i++) {//for every column 
-            for (int j = 0; j < nX; j++) {//for every row
+        for (int i = 0; i < nY; i++) {//loop on all the columns 
+            for (int j = 0; j < nX; j++) {//loop on all the rows
                 if (i % interval == 0 || j % interval == 0) { 
                     imageWriter.writePixel(j, i, color);
                 }

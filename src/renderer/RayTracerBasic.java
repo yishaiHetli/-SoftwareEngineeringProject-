@@ -4,7 +4,7 @@ import java.util.List;
 import primitives.*;
 import scene.Scene;
 /**
- * 
+ * the class help the render to process the image by the ray intersection with the geometries
  * @author david&yishai
  *
  */
@@ -13,10 +13,10 @@ public class RayTracerBasic extends RayTracerBase {
 	@Override
 	public Color traceRay(Ray ray) {
 		List<Point3D> intersections = scene.geometries.findIntersections(ray);
-		if(intersections == null)
+		if(intersections == null) // if there are no intersections return the color background 
 			return scene.background;
-		Point3D closestPoint = ray.findClosestPoint(intersections);
-		return calcColor(closestPoint);
+		Point3D closestPoint = ray.findClosestPoint(intersections); // find  the closest point to the ray from all the intersections
+		return calcColor(closestPoint); 
 	}
 /**
  * 
