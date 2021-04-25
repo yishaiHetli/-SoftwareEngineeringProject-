@@ -2,9 +2,7 @@ package unittests.renderer;
 
 import static org.junit.Assert.fail;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.Arrays;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,7 +18,7 @@ import scene.*;
 /**
  * Test rendering a basic image
  * 
- * @author david&yishai N.B(dan)
+ * @author David&Yishai N.B(Dan)
  */
 public class RenderTests {
 	private Camera camera = new Camera(Point3D.ZERO, new Vector(0, 0, -1), new Vector(0, -1, 0)) //
@@ -74,35 +72,44 @@ public class RenderTests {
 			doc.getDocumentElement().normalize();
 			NodeList sceneList = doc.getElementsByTagName(doc.getDocumentElement().getNodeName());
 			for (int i = 0; i < sceneList.getLength(); ++i) {// loop of all the Scene Elements
-				Node sceneNode = sceneList.item(i); 
+				Node sceneNode = sceneList.item(i);
 				if (sceneNode.getNodeType() == Node.ELEMENT_NODE) {// if the sceneNode is type of Node Element
-					Element element = (Element) sceneNode;//convert sceneNode to Element
-					//value of the attribute from string to list of int
-					List<Integer> list = stringToInt(element.getAttribute("background-color"));
-					//create a new Color with the list value
-					Color background = new Color(list.get(0), list.get(1), list.get(2));
-					//get the Elements in type string and convert it to list of int
-					list = stringToInt(getElement("ambient-light", "color", element, 0));
-					//create a new Color with the list value
-					Color light = new Color(list.get(0), list.get(1), list.get(2));
-					//set the fields of scene. background and ambient Light 
+					Element element = (Element) sceneNode;// convert sceneNode to Element
+					// value of the attribute from string to double array
+					double[] arr = stringToDouble(element.getAttribute("background-color"));
+					// create a new Color with the list value
+					Color background = new Color(arr[0], arr[1], arr[2]);
+					arr = stringToDouble( // get the Elements in type of string and convert it to double array
+							((Element) element.getElementsByTagName("ambient-light").item(0)).getAttribute("color"));
+					// create a new Color with the list value
+					Color light = new Color(arr[0], arr[1], arr[2]);
+					// set the fields of scene. background and ambient Light
 					scene.setBackground(background).setAmbientLight(new AmbientLight(light, 1));
-					//get the radius of sphere  
-					double radius = Double.parseDouble(getElement("sphere", "radius", element, 0));
-					//get the center point of sphere
-					list = stringToInt(getElement("sphere", "center", element, 0));
-					//add the sphere to the field geometries of scene 
-					scene.geometries.add(new Sphere(new Point3D(list.get(0), list.get(1), list.get(2)), radius));
-					//get the number of triangles
-					int size = element.getElementsByTagName("triangle").getLength();
-					for (int j = 0; j < size; ++j) {
-						list = stringToInt(getElement("triangle", "p0", element, j));
-						Point3D p0 = new Point3D(list.get(0), list.get(1), list.get(2));
-						list = stringToInt(getElement("triangle", "p1", element, j));
-						Point3D p1 = new Point3D(list.get(0), list.get(1), list.get(2));
-						list = stringToInt(getElement("triangle", "p2", element, j));
-						Point3D p2 = new Point3D(list.get(0), list.get(1), list.get(2));
-						//add the triangle to the field geometries of scene 
+
+					// get the NodeList of sphere
+					NodeList temp = element.getElementsByTagName("sphere");
+					int size = temp.getLength(); // get the size of elements in sphere
+					for (int j = 0; j < size; ++j) { // loop on all the sphere elements
+						NamedNodeMap node = temp.item(j).getAttributes();
+						// get the radius of sphere
+						double radius = Double.parseDouble(node.getNamedItem("radius").getNodeValue());
+						// get the center point of sphere
+						arr = stringToDouble(node.getNamedItem("center").getNodeValue());
+						// add the sphere to the field geometries of scene
+						scene.geometries.add(new Sphere(new Point3D(arr[0], arr[1], arr[2]), radius));
+					}
+					// get the NodeList of triangles
+					temp = element.getElementsByTagName("triangle"); // get the size of elements in triangles
+					size = temp.getLength();
+					for (int j = 0; j < size; ++j) { // loop on all the triangle elements
+						NamedNodeMap node = temp.item(j).getAttributes();
+						arr = stringToDouble(node.getNamedItem("p0").getNodeValue());
+						Point3D p0 = new Point3D(arr[0], arr[1], arr[2]);
+						arr = stringToDouble(node.getNamedItem("p1").getNodeValue());
+						Point3D p1 = new Point3D(arr[0], arr[1], arr[2]);
+						arr = stringToDouble(node.getNamedItem("p2").getNodeValue());
+						Point3D p2 = new Point3D(arr[0], arr[1], arr[2]);
+						// add the triangle to the field geometries of scene
 						scene.geometries.add(new Triangle(p0, p1, p2));
 					}
 				}
@@ -122,29 +129,13 @@ public class RenderTests {
 		render.printGrid(100, new Color(java.awt.Color.YELLOW));
 		render.writeToImage();
 	}
-/**
- * 
- * @param tag  name of tag Element
- * @param attribute  name of tag Element Attribute 
- * @param element  show of Element
- * @param item  the number of the tag Element
- * @return  string value of attribute of a specific tag element 
- */
-	private String getElement(String tag, String attribute, Element element, int item) {
-		element = (Element) element.getElementsByTagName(tag).item(item);
-		return element.getAttribute(attribute);
-	}
-/**
- * 
- * @param str  the string we want to convert
- * @return  list of string converted to int
- */
-	private List<Integer> stringToInt(String str) {
-		Scanner scanner = new Scanner(str);
-		List<Integer> list = new LinkedList<Integer>();
-		while (scanner.hasNextInt()) {
-			list.add(scanner.nextInt());
-		}
-		return list;
+
+	/**
+	 * 
+	 * @param str the string we want to convert
+	 * @return Array of string converted to double
+	 */
+	private double[] stringToDouble(String str) {
+		return Arrays.stream(str.split(" ")).mapToDouble(Double::parseDouble).toArray();
 	}
 }
