@@ -130,7 +130,7 @@ public class RenderTests {
  * @param item  the number of the tag Element
  * @return  string value of attribute of a specific tag element 
  */
-	public String getElement(String tag, String attribute, Element element, int item) {
+	private String getElement(String tag, String attribute, Element element, int item) {
 		element = (Element) element.getElementsByTagName(tag).item(item);
 		return element.getAttribute(attribute);
 	}
@@ -139,7 +139,7 @@ public class RenderTests {
  * @param str  the string we want to convert
  * @return  list of string converted to int
  */
-	public List<Integer> stringToInt(String str) {
+	private List<Integer> stringToInt(String str) {
 		Scanner scanner = new Scanner(str);
 		List<Integer> list = new LinkedList<Integer>();
 		while (scanner.hasNextInt()) {

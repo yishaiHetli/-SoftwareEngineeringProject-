@@ -2,8 +2,8 @@ package elements;
 
 import primitives.*;
 /**
- * class that calculate the light
- * @author david&yishai
+ * class that calculate the camera light
+ * @author David&Yishai
  *
  */
 public class AmbientLight {
