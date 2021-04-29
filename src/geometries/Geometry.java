@@ -4,7 +4,7 @@ import primitives.*;
 
 /**
  * interface that all that inherited from him must actualize it's contract that
- * is to actualize getNormal function
+ * is  to actualize getNormal function
  * 
  * @author David&Yishai
  *

@@ -52,20 +52,40 @@ public class RayTracerBasic extends RayTracerBase {
 			double nl = alignZero(n.dotProduct(l));
 			if (nl * nv > 0) { // sign(nl) == sing(nv)
 				Color lightIntensity = lightSource.getIntensity(intersection.point);
-				color = color.add(calcDiffusive(kd, l, n, lightIntensity),
-						calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+				color = color.add(calcDiffusive(kd, l, n, lightIntensity)
+						.add(calcSpecular(ks, l, n, v, nShininess, lightIntensity)));
 			}
 		}
 		return color;
 	}
 
+	/**
+	 * 
+	 * @param ks
+	 * @param l
+	 * @param n
+	 * @param v
+	 * @param nShininess
+	 * @param lightIntensity
+	 * @return
+	 */
 	private Color calcSpecular(double ks, Vector l, Vector n, Vector v, int nShininess, Color lightIntensity) {
-		return lightIntensity.scale(ks);
+		Vector r;
+		try {
+			r = l.subtract(n.scale(2 * (l.dotProduct(n)))); // r = l - 2 *( l*n)*n
+		} catch (Exception e) {
+			return Color.BLACK;
+		}
+		double vDotR = v.scale(-1).dotProduct(r);
+		if (alignZero(vDotR) <= 0) {
+			return Color.BLACK;
+		}
+		vDotR = Math.pow(vDotR, nShininess);
+		return lightIntensity.scale(ks * vDotR);
 	}
 
 	private Color calcDiffusive(double kd, Vector l, Vector n, Color lightIntensity) {
-		// TODO Auto-generated method stub
-		return null;
+		return lightIntensity.scale(kd * (Math.abs(l.dotProduct(n))));
 	}
 
 	/**
