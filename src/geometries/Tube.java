@@ -10,7 +10,7 @@ import primitives.*;
  * @author David&Yishai
  *
  */
-public class Tube implements Geometry {
+public class Tube extends Geometry {
 
 	protected Ray axisRay;
 	protected double radius;
@@ -43,11 +43,11 @@ public class Tube implements Geometry {
 		double t;
 		try {
 			t = p.subtract(getP0).dotProduct(getDir); // t = v * (p - p0)
-		} catch (IllegalArgumentException e) { // if (p - p0) == 0  the normal is v 
+		} catch (IllegalArgumentException e) { // if (p - p0) == 0 the normal is v
 			return getDir;
 		}
 
-		if (!Util.isZero(t)) { // if t == 0 the normal is just normalize(p - p0) 
+		if (!Util.isZero(t)) { // if t == 0 the normal is just normalize(p - p0)
 			// projection of P - P0 on the ray:
 			getP0 = getP0.add(getDir.scale(t)); // O = p0 + (t*v)
 		}
@@ -55,7 +55,7 @@ public class Tube implements Geometry {
 	}
 
 	@Override
-	public List<Point3D> findIntersections(Ray ray) {
+	public List<GeoPoint> findGeoIntersections(Ray ray) {
 		return null;
 	}
 

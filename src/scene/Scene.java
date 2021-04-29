@@ -1,12 +1,17 @@
 package scene;
 
 import elements.AmbientLight;
+import elements.LightSource;
 import geometries.Geometries;
 import geometries.Intersectable;
 import primitives.Color;
+
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * 
- * @author david&yishai
+ * @author David&Yishai
  *
  */
 public class Scene {
@@ -15,45 +20,61 @@ public class Scene {
 	public Color background = Color.BLACK;
 	public AmbientLight ambientLight = new AmbientLight(Color.BLACK, 0.0);
 	public Geometries geometries = new Geometries();
-/**
- * 
- * @param _name  the value to put in the field name
- */
+	public List<LightSource> lights = new LinkedList<LightSource>();
+
+	/**
+	 * 
+	 * @param _name the value to put in the field name
+	 */
 	public Scene(String _name) {
 		this.name = _name;
 	}
-/**
- * 
- * @param name  the value to put in the field name
- * @return this.name
- */
+
+	/**
+	 * 
+	 * @param name the value to put in the field name
+	 * @return the class object
+	 */
 	public Scene setName(String name) {
 		this.name = name;
 		return this;
 	}
-/**
- * 
- * @param background  the value to put in the field background
- * @return this.background
- */
+
+	/**
+	 * 
+	 * @param background the value to put in the field background
+	 * @return the class object
+	 */
 	public Scene setBackground(Color background) {
 		this.background = background;
 		return this;
 	}
-/**
- * 
- * @param ambientLight  the value to put in the field ambientLight 
- * @return this.ambientLight with the value of ambientLight
- */
+
+	/**
+	 *  set the lights colection
+	 * @param lights list of lights
+	 * @return the class object
+	 */
+	public Scene setLights(List<LightSource> lights) {
+		this.lights.addAll(lights);
+		return this;
+	}
+
+	/**
+	 * 
+	 * @param ambientLight the value to put in the field ambientLight
+	 * @return  the class object
+	 */
 	public Scene setAmbientLight(AmbientLight ambientLight) {
 		this.ambientLight = ambientLight;
 		return this;
 	}
-/**
- * 
- * @param geo  intersectable shape
- * @return a Scene performance with the new shape in the fields geometries
- */
+
+	/**
+	 * 
+	 * @param geo intersectable shape
+	 * @return a Scene performance with the new shape in the fields geometries
+	 */
 	public Scene addGeometry(Intersectable geo) {
 		geometries.add(geo);
 		return this;

@@ -1,11 +1,10 @@
 package geometries;
 
-
 import java.util.List;
 
 import primitives.*;
 
-public class Plane implements Geometry {
+public class Plane extends Geometry {
 
 	@Override
 	public String toString() {
@@ -25,7 +24,7 @@ public class Plane implements Geometry {
 	 */
 	public Plane(Point3D point_a, Point3D point_b, Point3D point_c) {
 		Vector v1 = point_b.subtract(point_a);
-		Vector v2 = point_c.subtract(point_a); 
+		Vector v2 = point_c.subtract(point_a);
 		Vector n = v1.crossProduct(v2);
 		this.normal = n.normalize();
 		q0 = point_a;
@@ -61,18 +60,18 @@ public class Plane implements Geometry {
 	}
 
 	@Override
-	public List<Point3D> findIntersections (Ray ray) {
+	public List<GeoPoint> findGeoIntersections(Ray ray) {
 		Vector v = ray.getDir();
 		Point3D p0 = ray.getP0();
 		if (q0.equals(p0))
-			return null;	
+			return null;
 		double numerator = normal.dotProduct(q0.subtract(p0));
 		double denominator = normal.dotProduct(v);
 		if (denominator == 0)
 			return null;
 		double t = numerator / denominator;
-		if (t <= 0 || Util.isZero(t)) 
+		if (t <= 0 || Util.isZero(t))
 			return null;
-		return List.of(ray.getPoint(t)); // p0 + v*t
+		return List.of(new GeoPoint(this, ray.getPoint(t))); // p0 + v*t
 	}
 }

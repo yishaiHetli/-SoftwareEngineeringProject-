@@ -11,7 +11,7 @@ import static primitives.Util.*;
  * 
  * @author Dan
  */
-public class Polygon implements Geometry {
+public class Polygon extends Geometry {
 	/**
 	 * List of polygon's vertices
 	 */
@@ -88,8 +88,8 @@ public class Polygon implements Geometry {
 	}
 
 	@Override
-	public List<Point3D> findIntersections(Ray ray) {
-		List<Point3D> intersections = plane.findIntersections(ray);
+	public List<GeoPoint> findGeoIntersections(Ray ray) {
+		List<GeoPoint> intersections = plane.findGeoIntersections(ray);
 		if (intersections == null) // if there are no intersections with the plane
 			return null;
 		List<Vector> lst = new ArrayList<Vector>();
@@ -125,6 +125,9 @@ public class Polygon implements Geometry {
 			}
 		} catch (Exception e) {
 			return null;
+		}
+		for (GeoPoint cut : intersections) {//?
+			cut.geometry = this;
 		}
 		return intersections; // the plane intersections
 	}

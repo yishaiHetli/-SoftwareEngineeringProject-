@@ -51,9 +51,4 @@ public class Cylinder extends Tube {
 		return p.subtract(getP0).normalize(); // normalize of (p - p0)
 	}
 
-	@Override
-	public List<Point3D> findIntersections (Ray ray) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

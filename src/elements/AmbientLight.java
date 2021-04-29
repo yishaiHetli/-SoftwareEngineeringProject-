@@ -6,24 +6,14 @@ import primitives.*;
  * @author David&Yishai
  *
  */
-public class AmbientLight {
-
-	private Color intensity;
+public class AmbientLight extends Light {
 /**
  * ctor calculate the intensity by multiply iA with kA
  * @param iA  Color
  * @param kA  double
  */
 	public AmbientLight(Color iA, double kA) {
-
-		intensity = iA.scale(kA);
-	}
-/**
- * 
- * @return  intensity
- */
-	public Color getIntensity() {
-		return intensity;
+		super(iA.scale(kA));
 	}
 
 }

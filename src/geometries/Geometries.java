@@ -3,7 +3,6 @@ package geometries;
 import java.util.LinkedList;
 import java.util.List;
 
-import primitives.Point3D;
 import primitives.Ray;
 
 /**
@@ -46,16 +45,16 @@ public class Geometries implements Intersectable {
 	}
 
 	@Override
-	public List<Point3D> findIntersections(Ray ray) {
-		List<Point3D> allCuts = null;
+	public List<GeoPoint> findGeoIntersections(Ray ray) {
+		List<GeoPoint> allCuts = null;
 
 		// loop on all geometries
 		for (Intersectable geo : geometric) {
-			List<Point3D> cuts = geo.findIntersections(ray); // Fined the ray cuts points in the geometric
+			List<GeoPoint> cuts = geo.findGeoIntersections(ray); // Fined the ray cuts points in the geometric
 
 			if (cuts != null) { 
 				if (allCuts == null) {// for the first time
-					allCuts = new LinkedList<Point3D>();
+					allCuts = new LinkedList<GeoPoint>();
 				}
 				allCuts.addAll(cuts);
 			}
