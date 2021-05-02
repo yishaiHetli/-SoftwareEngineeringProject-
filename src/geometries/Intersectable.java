@@ -59,7 +59,7 @@ public interface Intersectable {
 			if (!(obj instanceof GeoPoint))
 				return false;
 			GeoPoint other = (GeoPoint) obj;
-			return Objects.equals(geometry, other.geometry) && point.equals(other.point);
+			return Objects.equals(this.geometry, other.geometry) && this.point.equals(other.point);
 		}
 
 	}

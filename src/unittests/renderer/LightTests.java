@@ -1,7 +1,5 @@
 package unittests.renderer;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 import elements.*;
@@ -15,7 +13,7 @@ import scene.Scene;
  * 
  * @author Dan
  */
-public class LightsTest {
+public class LightTests {
 	private Scene scene1 = new Scene("Test scene");
 	private Scene scene2 = new Scene("Test scene") //
 			.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0.15));
@@ -76,8 +74,8 @@ public class LightsTest {
 	@Test
 	public void sphereSpot() {
 		scene1.geometries.add(sphere);
-		scene1.lights.add(new SpotLight(new Color(500, 300, 0), new Point3D(-50, -50, 50), 1, 0.00001, 0.00000001,
-				new Vector(1, 1, -2)));
+		scene1.lights.add(new SpotLight(new Color(500, 300, 0), new Point3D(-50, -50, 50), new Vector(1, 1, -2), 1,
+				0.00001, 0.00000001));
 
 		ImageWriter imageWriter = new ImageWriter("sphereSpot", 500, 500);
 		Render render = new Render()//
@@ -134,8 +132,8 @@ public class LightsTest {
 	public void trianglesSpot() {
 		scene2.geometries.add(triangle1.setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(300)),
 				triangle2.setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(300)));
-		scene2.lights.add(new SpotLight(new Color(500, 250, 250), new Point3D(10, -10, -130), 1, 0.0001, 0.000005,
-				new Vector(-2, -2, -1)));
+		scene2.lights.add(new SpotLight(new Color(500, 250, 250), new Point3D(10, -10, -130), new Vector(-2, -2, -1), 1,
+				0.0001, 0.000005));
 
 		ImageWriter imageWriter = new ImageWriter("trianglesSpot", 500, 500);
 		Render render = new Render()//
@@ -153,8 +151,8 @@ public class LightsTest {
 	@Test
 	public void sphereSpotSharp() {
 		scene1.geometries.add(sphere);
-		scene1.lights.add(new SpotLight(new Color(500, 300, 0), new Point3D(-50, -50, 50), 1,
-				0.000005, 0.00000025,new Vector(1, 1, -2)));
+		scene1.lights.add(new SpotLight(new Color(500, 300, 0), new Point3D(-50, -50, 50), new Vector(1, 1, -2), 1,
+				0.000005, 0.00000025, 5));
 
 		ImageWriter imageWriter = new ImageWriter("sphereSpotSharp", 500, 500);
 		Render render = new Render()//
@@ -173,8 +171,8 @@ public class LightsTest {
 	public void trianglesSpotSharp() {
 		scene2.geometries.add(triangle1.setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(300)),
 				triangle2.setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(300)));
-		scene2.lights.add(new SpotLight(new Color(800, 400, 400), new Point3D(10, -10, -130), 1,
-				0.00005, 0.0000025,  new Vector(-2, -2, -1)));
+		scene2.lights.add(new SpotLight(new Color(800, 400, 400), new Point3D(10, -10, -130), new Vector(-2, -2, -1), 1,
+				0.00005, 0.0000025, 5));
 
 		ImageWriter imageWriter = new ImageWriter("trianglesSpotSharp", 500, 500);
 		Render render = new Render()//

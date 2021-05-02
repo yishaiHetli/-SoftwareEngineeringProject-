@@ -30,6 +30,28 @@ public class Plane extends Geometry {
 		q0 = point_a;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Plane other = (Plane) obj;
+		if (normal == null) {
+			if (other.normal != null)
+				return false;
+		} else if (!normal.equals(other.normal))
+			return false;
+		if (q0 == null) {
+			if (other.q0 != null)
+				return false;
+		} else if (!q0.equals(other.q0))
+			return false;
+		return true;
+	}
+
 	/**
 	 * ctor that gets two parameters
 	 * 

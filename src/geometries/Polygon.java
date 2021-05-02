@@ -126,9 +126,31 @@ public class Polygon extends Geometry {
 		} catch (Exception e) {
 			return null;
 		}
-		for (GeoPoint cut : intersections) {//?
+		for (GeoPoint cut : intersections) {//
 			cut.geometry = this;
 		}
 		return intersections; // the plane intersections
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Polygon other = (Polygon) obj;
+		if (plane == null) {
+			if (other.plane != null)
+				return false;
+		} else if (!plane.equals(other.plane))
+			return false;
+		if (vertices == null) {
+			if (other.vertices != null)
+				return false;
+		} else if (!vertices.equals(other.vertices))
+			return false;
+		return true;
 	}
 }

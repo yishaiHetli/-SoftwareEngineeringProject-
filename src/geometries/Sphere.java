@@ -33,6 +33,25 @@ public class Sphere extends Geometry {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Sphere other = (Sphere) obj;
+		if (center == null) {
+			if (other.center != null)
+				return false;
+		} else if (!center.equals(other.center))
+			return false;
+		if (Double.doubleToLongBits(radius) != Double.doubleToLongBits(other.radius))
+			return false;
+		return true;
+	}
+
+	@Override
 	public List<GeoPoint> findGeoIntersections(Ray ray) {
 		Point3D p0 = ray.getP0();
 		Vector v = ray.getDir();

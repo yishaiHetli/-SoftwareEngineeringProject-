@@ -66,8 +66,14 @@ public class Render {
 	 * Check if some faild was missing and if so throws an exception
 	 */
 	private void builder() {
-		if (imageWriter == null || camera == null || rayTracer == null)
-			throw new MissingResourceException("argument was missing", "Render", "object");
+		if (imageWriter == null)
+			throw new MissingResourceException("argument was missing", "Render", "imageWriter");
+		if (camera == null)
+			throw new MissingResourceException("argument was missing", "Render", "camera");
+		if (rayTracer == null)
+			throw new MissingResourceException("argument was missing", "Render", "rayTracer");
+		if (rayTracer.scene == null)
+			throw new MissingResourceException("argument was missing", "Render", "scene");
 	}
 
 	/**

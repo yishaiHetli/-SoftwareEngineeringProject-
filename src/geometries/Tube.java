@@ -12,6 +12,26 @@ import primitives.*;
  */
 public class Tube extends Geometry {
 
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tube other = (Tube) obj;
+		if (axisRay == null) {
+			if (other.axisRay != null)
+				return false;
+		} else if (!axisRay.equals(other.axisRay))
+			return false;
+		if (Double.doubleToLongBits(radius) != Double.doubleToLongBits(other.radius))
+			return false;
+		return true;
+	}
+
 	protected Ray axisRay;
 	protected double radius;
 

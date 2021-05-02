@@ -11,7 +11,7 @@ import elements.LightSource;
  * the class help the render to process the image by the ray intersection with
  * the geometries
  * 
- * @author david&yishai
+ * @author David&Yishai
  *
  */
 public class RayTracerBasic extends RayTracerBase {
