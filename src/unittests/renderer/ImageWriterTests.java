@@ -6,7 +6,7 @@ import renderer.ImageWriter;
 import primitives.*;
 /**
  * Tests for ImageWriter class
- * @author David&&Yishai
+ * @author David&Yishai
  *
  */
 public class ImageWriterTests {
