@@ -27,11 +27,17 @@ public class Ray {
 		p0 = point;
 		dir = vector.normalized();
 	}
-
+/**
+ * 
+ * @return  point of start
+ */
 	public Point3D getP0() {
 		return p0;
 	}
-
+/**
+ * 
+ * @return  direction vector
+ */
 	public Vector getDir() {
 		return dir;
 	}
@@ -80,12 +86,12 @@ public class Ray {
 	/**
 	 * 
 	 * @param lstGeoPoint list of intersections points
-	 * @return the closes point of intersection to the ray start point
+	 * @return the closes geoPoint of intersection to the ray start point
 	 */
 	public GeoPoint findClosestGeoPoint(List<GeoPoint> lstGeoPoint) {
 		if (lstGeoPoint == null || lstGeoPoint.size() == 0)
 			return null;// return null if one of the fields is empty
-		GeoPoint geoPoint = lstGeoPoint.get(0);// initializing the first point to be the closes
+		GeoPoint geoPoint = lstGeoPoint.get(0);// initializing the first geoPoint to be the closes
 		double min = p0.distanceSquared(geoPoint.point);
 		for (GeoPoint pi : lstGeoPoint) {
 			if (p0.distanceSquared(pi.point) < min)// check if there is a closer point

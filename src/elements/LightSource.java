@@ -3,7 +3,11 @@ package elements;
 import primitives.Color;
 import primitives.Point3D;
 import primitives.Vector;
-
+/**
+ * 
+ * @author david&yishai
+ *
+ */
 public interface LightSource {
 	/**
      * Get intensity of LightSource in point
