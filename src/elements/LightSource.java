@@ -3,25 +3,28 @@ package elements;
 import primitives.Color;
 import primitives.Point3D;
 import primitives.Vector;
+
 /**
+ * An interface for all the types of light , which must implement its methods
  * 
- * @author david&yishai
+ * @author David&Yishai
  *
  */
 public interface LightSource {
 	/**
-     * Get intensity of LightSource in point
-     *
-     * @param p point
-     * @return a new color of Intensity in point
-     **/
+	 * Get intensity of LightSource in point
+	 *
+	 * @param p point
+	 * @return a new color of Intensity in point
+	 **/
 	public Color getIntensity(Point3D p);
-	 /**
-     * Get direction vector from light source to point
-     *
-     * @param p point
-     * @return a new direction vector
-     **/
+
+	/**
+	 * Get direction vector from light source to point
+	 *
+	 * @param p point
+	 * @return a new direction vector
+	 **/
 	public Vector getL(Point3D p);
 
 }

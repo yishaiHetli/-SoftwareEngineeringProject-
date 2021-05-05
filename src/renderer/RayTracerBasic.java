@@ -1,5 +1,6 @@
 package renderer;
 
+import geometries.Geometry;
 import geometries.Intersectable.GeoPoint;
 import primitives.*;
 import scene.Scene;
@@ -27,9 +28,10 @@ public class RayTracerBasic extends RayTracerBase {
 	}
 
 	/**
+	 * calculate the pixel color by adding the geometry color and the light effects
 	 * 
-	 * @param intersection yet to be explained
-	 * @param ray
+	 * @param intersection intersection point and geometry
+	 * @param ray          ray from the pixel in camera
 	 * @return the point color
 	 */
 	private Color calcColor(GeoPoint intersection, Ray ray) {
@@ -37,21 +39,30 @@ public class RayTracerBasic extends RayTracerBase {
 				add(calcLocalEffects(intersection, ray));
 	}
 
+	/**
+	 * calculate all the lights effects on the intersection point
+	 * 
+	 * @param intersection intersection point and geometry
+	 * @param ray          ray from the pixel in camera
+	 * @return the calculated color
+	 */
 	private Color calcLocalEffects(GeoPoint intersection, Ray ray) {
+		Point3D point = intersection.point;
+		Geometry geometry = intersection.geometry;
 		Vector v = ray.getDir();
-		Vector n = intersection.geometry.getNormal(intersection.point);
+		Vector n = geometry.getNormal(point);
 		double nv = alignZero(n.dotProduct(v));
 		if (nv == 0)
 			return Color.BLACK;
-		Material material = intersection.geometry.getMaterial();
+		Material material = geometry.getMaterial();
 		int nShininess = material.nShininess;
 		double kd = material.kD, ks = material.kS;
 		Color color = Color.BLACK;
-		for (LightSource lightSource : scene.lights) {
-			Vector l = lightSource.getL(intersection.point);
+		for (LightSource lightSource : scene.lights) { // add to the color the sum of all lights effect
+			Vector l = lightSource.getL(point);
 			double nl = alignZero(n.dotProduct(l));
 			if (nl * nv > 0) { // sign(nl) == sing(nv)
-				Color lightIntensity = lightSource.getIntensity(intersection.point);
+				Color lightIntensity = lightSource.getIntensity(point);
 				color = color.add(calcDiffusive(kd, l, n, lightIntensity)
 						.add(calcSpecular(ks, l, n, v, nShininess, lightIntensity)));
 			}
@@ -60,6 +71,7 @@ public class RayTracerBasic extends RayTracerBase {
 	}
 
 	/**
+	 * calculate by the formula: Specular = kS*((-v*r)^nSh)*lightIntensity
 	 * 
 	 * @param ks
 	 * @param l
@@ -67,7 +79,7 @@ public class RayTracerBasic extends RayTracerBase {
 	 * @param v
 	 * @param nShininess
 	 * @param lightIntensity
-	 * @return
+	 * @return the color of Specular effects
 	 */
 	private Color calcSpecular(double ks, Vector l, Vector n, Vector v, int nShininess, Color lightIntensity) {
 		Vector r;
@@ -76,14 +88,23 @@ public class RayTracerBasic extends RayTracerBase {
 		} catch (Exception e) {
 			return Color.BLACK;
 		}
-		double vDotR = v.scale(-1).dotProduct(r);
-		if (alignZero(vDotR) <= 0) {
+		double vDotR = v.scale(-1).dotProduct(r); // -v*r
+		if (alignZero(vDotR) <= 0) { // if the angle is more than 90 degrees
 			return Color.BLACK;
 		}
-		vDotR = Math.pow(vDotR, nShininess);
+		vDotR = Math.pow(vDotR, nShininess); //(-v*r)^nSh
 		return lightIntensity.scale(ks * vDotR);
 	}
 
+	/**
+	 * calculate by the formula: Diffusive = kD*|l*n|*lightIntensity
+	 * 
+	 * @param kd
+	 * @param l
+	 * @param n
+	 * @param lightIntensity
+	 * @return the color of Diffusive effects
+	 */
 	private Color calcDiffusive(double kd, Vector l, Vector n, Color lightIntensity) {
 		return lightIntensity.scale(kd * (Math.abs(l.dotProduct(n))));
 	}

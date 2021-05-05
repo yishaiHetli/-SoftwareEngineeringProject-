@@ -79,6 +79,30 @@ public class LightTests {
 		render.writeToImage();
 	}
 
+
+	/**
+	 * Produce a picture of a multiple lights with two triangles and sphere
+	 */
+	@Test
+	public void multipleLightsTriangleAndSphere() {
+		scene1.geometries.add(triangle1);
+		scene1.geometries.add(triangle2);
+		scene1.geometries.add(sphere);
+		scene1.lights.add(new DirectionalLight(new Color(300, 75, 75), new Vector(-15, 41, -33)));
+		scene1.lights.add(new DirectionalLight(new Color(300, 75, 75), new Vector(78, -27, -86)));
+		scene1.lights.add(new PointLight(new Color(300, 150, 150), new Point3D(60, -35, -117), 1, 0.00001, 0.000001));
+		scene1.lights.add(new SpotLight(new Color(300, 150, 150), new Point3D(64, 38, -117), new Vector(-14, -38, -33),
+				1, 0.00001, 0.000001));
+		ImageWriter imageWriter = new ImageWriter("multipleLightsTriangleAndSphere", 500, 500);
+		Render render = new Render()//
+				.setImageWriter(imageWriter) //
+				.setScene(scene1) //
+				.setCamera(camera2) //
+				.setRayTracer(new RayTracerBasic(scene1));
+		render.renderImage();
+		render.writeToImage();
+	}
+	
 	/**
 	 * Produce a picture of a sphere lighted by a directional light
 	 */
