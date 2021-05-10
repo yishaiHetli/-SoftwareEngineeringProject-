@@ -8,7 +8,7 @@ package primitives;
  */
 public class Material {
 
-	public double kS = 0, kD = 0;
+	public double kS = 0.0, kD = 0.0, kT = 0.0, kR = 0.0;
 	public int nShininess = 0;
 
 	/**
@@ -41,6 +41,28 @@ public class Material {
 	 */
 	public Material setnShininess(int nShininess) {
 		this.nShininess = nShininess;
+		return this;
+	}
+
+	/**
+	 * setter for kT feild
+	 * 
+	 * @param kT
+	 * @return the class object
+	 */
+	public Material setkT(double kT) {
+		this.kT = kT;
+		return this;
+	}
+
+	/**
+	 * setter for kR feild
+	 * 
+	 * @param kR
+	 * @return the class object
+	 */
+	public Material setkR(double kR) {
+		this.kR = kR;
 		return this;
 	}
 

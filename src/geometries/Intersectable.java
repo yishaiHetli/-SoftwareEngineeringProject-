@@ -30,7 +30,16 @@ public interface Intersectable {
 	 * @param ray ray to check for intersections
 	 * @return list of all intersections with the geometry that intersected it
 	 */
-	public List<GeoPoint> findGeoIntersections(Ray ray);
+	default List<GeoPoint> findGeoIntersections(Ray ray) {
+		return findGeoIntersections(ray, Double.POSITIVE_INFINITY);
+	}
+	/**
+	 *  find all the intersections of ray with the geometry
+	 * @param ray ray to check for intersections
+	 * @param maxDistance 
+	 * @return list of all intersections with the geometry that intersected it
+	 */
+	public List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance);
 
 	/**
 	 * intarnel static class that combain geometry ith point

@@ -52,17 +52,21 @@ public class Sphere extends Geometry {
 	}
 
 	@Override
-	public List<GeoPoint> findGeoIntersections(Ray ray) {
+	public List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
 		Point3D p0 = ray.getP0();
 		Vector v = ray.getDir();
 		if (center.equals(p0)) {
-			return List.of(new GeoPoint(this, ray.getPoint(radius)));
+			if (maxDistance == Double.POSITIVE_INFINITY || Util.alignZero(radius - maxDistance) <= 0)
+				return List.of(new GeoPoint(this, ray.getPoint(radius)));
+			return null;
 		}
 		Vector u;
 		try {
 			u = center.subtract(p0);
 		} catch (IllegalArgumentException e) { // if p0 == center
-			return List.of(new GeoPoint(this, ray.getPoint(this.radius))); // p0 + r*v
+			if (Util.alignZero(radius - maxDistance) <= 0)
+				return List.of(new GeoPoint(this, ray.getPoint(radius)));
+			return null;
 		}
 		double tm = Util.alignZero(u.dotProduct(v));
 		double length = Util.alignZero(u.lengthSquared() - tm * tm); // length square of u reduce square of tm
@@ -77,10 +81,10 @@ public class Sphere extends Geometry {
 		List<GeoPoint> lst = new LinkedList<GeoPoint>();
 		double t1 = tm + th;
 		double t2 = tm - th;
-		if (t1 > 0) {
+		if (t1 > 0 && (maxDistance == Double.POSITIVE_INFINITY || Util.alignZero(t1 - maxDistance) <= 0)) {
 			lst.add(new GeoPoint(this, ray.getPoint(t1))); // p1 = p0 + t1 * v
 		}
-		if (t2 > 0 && t1 != t2) {
+		if (t2 > 0 && t1 != t2 && (maxDistance == Double.POSITIVE_INFINITY || Util.alignZero(t2 - maxDistance) <= 0)) {
 			lst.add(new GeoPoint(this, ray.getPoint(t2))); // p2 = p0 + t2 * v
 		}
 		if (lst.isEmpty())
