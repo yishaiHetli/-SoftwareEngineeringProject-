@@ -4,7 +4,6 @@ import java.util.*;
 
 import elements.*;
 import primitives.*;
-import scene.*;
 
 /**
  * class to process the image color by calculating the color for each pixel
@@ -13,7 +12,6 @@ import scene.*;
  *
  */
 public class Render {
-	private Scene scene;
 	private Camera camera;
 	private RayTracerBase rayTracer;
 	private ImageWriter imageWriter;
@@ -76,15 +74,7 @@ public class Render {
 			throw new MissingResourceException("argument was missing", "Render", "scene");
 	}
 
-	/**
-	 * 
-	 * @param scene value of Scene to put in the field scene
-	 * @return the class object
-	 */
-	public Render setScene(Scene scene) {
-		this.scene = scene;
-		return this;
-	}
+
 
 	/**
 	 * 

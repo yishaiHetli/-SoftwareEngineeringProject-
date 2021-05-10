@@ -6,6 +6,8 @@ import primitives.*;
 import scene.Scene;
 import static primitives.Util.*;
 
+import java.util.List;
+
 import elements.LightSource;
 
 /**
@@ -16,6 +18,23 @@ import elements.LightSource;
  *
  */
 public class RayTracerBasic extends RayTracerBase {
+	private static final double DELTA = 0.1;
+
+	/**
+	 * 
+	 * @param l  vector from the light source to point
+	 * @param n  the normal to the point
+	 * @param gp intersection point and geometry
+	 * @return true if the point unshaded and false otherwise
+	 */
+	private boolean unshaded(Vector l, Vector n, GeoPoint gp) {
+		Vector lightDirection = l.scale(-1); // from point to light source
+		Vector delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : -DELTA); // if n*(n*lD)>0 +delta else -delta
+		Point3D point = gp.point.add(delta);// point += delta
+		Ray lightRay = new Ray(point, lightDirection);// ray from point to light source
+		List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
+		return intersections == null;
+	}
 
 	@Override
 	public Color traceRay(Ray ray) {
@@ -61,7 +80,7 @@ public class RayTracerBasic extends RayTracerBase {
 		for (LightSource lightSource : scene.lights) { // add to the color the sum of all lights effect
 			Vector l = lightSource.getL(point);
 			double nl = alignZero(n.dotProduct(l));
-			if (nl * nv > 0) { // sign(nl) == sing(nv)
+			if (nl * nv > 0 && unshaded(l, n, intersection)) { // sign(nl) == sing(nv) and point unsheded
 				Color lightIntensity = lightSource.getIntensity(point);
 				color = color.add(calcDiffusive(kd, l, n, lightIntensity)
 						.add(calcSpecular(ks, l, n, v, nShininess, lightIntensity)));
@@ -92,7 +111,7 @@ public class RayTracerBasic extends RayTracerBase {
 		if (alignZero(vDotR) <= 0) { // if the angle is more than 90 degrees
 			return Color.BLACK;
 		}
-		vDotR = Math.pow(vDotR, nShininess); //(-v*r)^nSh
+		vDotR = Math.pow(vDotR, nShininess); // (-v*r)^nSh
 		return lightIntensity.scale(ks * vDotR);
 	}
 
