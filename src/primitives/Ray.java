@@ -10,6 +10,7 @@ import geometries.Intersectable.GeoPoint;
  *
  */
 public class Ray {
+	private static final double DELTA = 0.1;
 	private Point3D p0;
 	private Vector dir;
 
@@ -27,17 +28,32 @@ public class Ray {
 		p0 = point;
 		dir = vector.normalized();
 	}
-/**
- * 
- * @return  point of start
- */
+
+	/**
+	 * Instantiates a new Ray and moves the point by 0.1 in the normal direction
+	 *
+	 * @param point     point in 3D
+	 * @param direction the direction
+	 * @param n         vector normal to point
+	 */
+	public Ray(Point3D point, Vector direction, Vector n) {
+		dir = direction;
+		Vector delta = n.scale(Util.alignZero(n.dotProduct(dir)) > 0 ? DELTA : -DELTA);// n*delta
+		p0 = point.add(delta);// point + (n*delta)
+	}
+
+	/**
+	 * 
+	 * @return point of start
+	 */
 	public Point3D getP0() {
 		return p0;
 	}
-/**
- * 
- * @return  direction vector
- */
+
+	/**
+	 * 
+	 * @return direction vector
+	 */
 	public Vector getDir() {
 		return dir;
 	}
@@ -51,7 +67,11 @@ public class Ray {
 		if (Util.isZero(t)) {
 			return new Point3D(p0.x, p0.y, p0.z);
 		}
-		return p0.add(dir.scale(t)); // p0 +v*t
+		try {
+			return p0.add(dir.scale(t)); // p0 +v*t
+		} catch (Exception e) {
+			return new Point3D(p0.x, p0.y, p0.z);
+		}
 	}
 
 	@Override
@@ -72,15 +92,16 @@ public class Ray {
 	 * @return the closes point of intersection to the ray start point
 	 */
 	public Point3D findClosestPoint(List<Point3D> lstPoint) {
-		if (lstPoint == null || lstPoint.size() == 0)
-			return null;// return null if one of the fields is empty
-		Point3D point = lstPoint.get(0);// initializing the first point to be the closes
-		double min = p0.distanceSquared(point);
-		for (Point3D pi : lstPoint) {
-			if (p0.distanceSquared(pi) < min)// check if there is a closer point
-				point = pi;
+		Point3D closesPoint = null;
+		double minDistance = Double.MAX_VALUE;
+		for (Point3D point : lstPoint) {
+			double distance = p0.distance(point);
+			if (distance < minDistance) {
+				minDistance = distance;
+				closesPoint = point;
+			}
 		}
-		return point;
+		return closesPoint;
 	}
 
 	/**
@@ -89,14 +110,15 @@ public class Ray {
 	 * @return the closes geoPoint of intersection to the ray start point
 	 */
 	public GeoPoint findClosestGeoPoint(List<GeoPoint> lstGeoPoint) {
-		if (lstGeoPoint == null || lstGeoPoint.size() == 0)
-			return null;// return null if one of the fields is empty
-		GeoPoint geoPoint = lstGeoPoint.get(0);// initializing the first geoPoint to be the closes
-		double min = p0.distanceSquared(geoPoint.point);
-		for (GeoPoint pi : lstGeoPoint) {
-			if (p0.distanceSquared(pi.point) < min)// check if there is a closer point
-				geoPoint = pi;
+		GeoPoint closesPoint = null;
+		double minDistance = Double.MAX_VALUE;
+		for (GeoPoint geoPoint : lstGeoPoint) {
+			double distance = p0.distance(geoPoint.point);
+			if (distance < minDistance) {
+				minDistance = distance;
+				closesPoint = geoPoint;
+			}
 		}
-		return geoPoint;
+		return closesPoint;
 	}
 }

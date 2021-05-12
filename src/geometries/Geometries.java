@@ -47,7 +47,6 @@ public class Geometries implements Intersectable {
 	@Override
 	public List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
 		List<GeoPoint> allCuts = null;
-
 		// loop on all geometries
 		for (Intersectable geo : geometric) {
 			List<GeoPoint> cuts = geo.findGeoIntersections(ray, maxDistance); // ray cuts points in the geometric

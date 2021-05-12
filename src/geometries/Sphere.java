@@ -64,7 +64,7 @@ public class Sphere extends Geometry {
 		try {
 			u = center.subtract(p0);
 		} catch (IllegalArgumentException e) { // if p0 == center
-			if (Util.alignZero(radius - maxDistance) <= 0)
+			if (maxDistance == Double.POSITIVE_INFINITY || Util.alignZero(radius - maxDistance) <= 0)
 				return List.of(new GeoPoint(this, ray.getPoint(radius)));
 			return null;
 		}
@@ -81,10 +81,12 @@ public class Sphere extends Geometry {
 		List<GeoPoint> lst = new LinkedList<GeoPoint>();
 		double t1 = tm + th;
 		double t2 = tm - th;
-		if (t1 > 0 && (maxDistance == Double.POSITIVE_INFINITY || Util.alignZero(t1 - maxDistance) <= 0)) {
+		if (Util.alignZero(t1) > 0
+				&& (maxDistance == Double.POSITIVE_INFINITY || Util.alignZero(t1 - maxDistance) <= 0)) {
 			lst.add(new GeoPoint(this, ray.getPoint(t1))); // p1 = p0 + t1 * v
 		}
-		if (t2 > 0 && t1 != t2 && (maxDistance == Double.POSITIVE_INFINITY || Util.alignZero(t2 - maxDistance) <= 0)) {
+		if (Util.alignZero(t2) > 0 && t1 != t2
+				&& (maxDistance == Double.POSITIVE_INFINITY || Util.alignZero(t2 - maxDistance) <= 0)) {
 			lst.add(new GeoPoint(this, ray.getPoint(t2))); // p2 = p0 + t2 * v
 		}
 		if (lst.isEmpty())

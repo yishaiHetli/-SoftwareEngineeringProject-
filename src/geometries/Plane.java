@@ -94,11 +94,8 @@ public class Plane extends Geometry {
 		double t = numerator / denominator;
 		if (t <= 0 || Util.isZero(t))
 			return null;
-		if (maxDistance == Double.POSITIVE_INFINITY)
+		if (maxDistance == Double.POSITIVE_INFINITY || Util.alignZero(t - maxDistance) <= 0)
 			return List.of(new GeoPoint(this, ray.getPoint(t))); // p0 + v*t
-		if (Util.alignZero(t - maxDistance) <= 0)
-			return List.of(new GeoPoint(this, ray.getPoint(t)));
 		return null;
-
 	}
 }
