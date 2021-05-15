@@ -22,22 +22,31 @@ public class RayTracerBasic extends RayTracerBase {
 	private static final double MIN_CALC_COLOR_K = 0.001;
 	private static final double INITIAL_K = 1.0;
 
+	@Override
+	public Color traceRay(Ray ray) {
+		GeoPoint closestPoint = findClosestIntersection(ray);
+		return closestPoint == null ? scene.background : calcColor(closestPoint, ray);
+	}
+
 	/**
 	 * 
-	 * @param l  vector from the light source to point
-	 * @param n  the normal to the point
-	 * @param gp intersection point and geometry
-	 * @return true if the point unshaded and false otherwise
+	 * @param light    the light source
+	 * @param l        vector from the light source to point
+	 * @param n        normal to the point
+	 * @param geopoint point and ge
+	 * @return If there are no intersection return 1 else return the product of all
+	 *         intersections' kt
 	 */
 	private double transparency(LightSource light, Vector l, Vector n, GeoPoint geopoint) {
 		Vector lightDirection = l.scale(-1); // from point to light source
-		Ray lightRay = new Ray(geopoint.point, lightDirection.normalize(), n);// ray from point to light source
-		List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay,
-				light.getDistance(geopoint.point));
+		Point3D point = geopoint.point;
+		Ray lightRay = new Ray(point, lightDirection.normalize(), n);// ray from point to light source +- delta
+		List<GeoPoint> intersections = scene.geometries. // find all intersection between the light and the point
+				findGeoIntersections(lightRay, light.getDistance(point));
 		if (intersections == null)
 			return 1.0;
 		double ktr = 1.0;
-		for (GeoPoint gp : intersections) {
+		for (GeoPoint gp : intersections) { // multiply ktr in all intersections' kt
 			ktr *= gp.geometry.getMaterial().kT;
 			if (ktr < MIN_CALC_COLOR_K)
 				return 0.0;
@@ -59,23 +68,25 @@ public class RayTracerBasic extends RayTracerBase {
 														// intersections
 	}
 
-	@Override
-	public Color traceRay(Ray ray) {
-		GeoPoint closestPoint = findClosestIntersection(ray);
-		return closestPoint == null ? scene.background : calcColor(closestPoint, ray);
-	}
-
 	/**
 	 * calculate the pixel color by adding the geometry color and the light effects
 	 * 
-	 * @param intersection intersection point and geometry
-	 * @param ray          ray from the pixel in camera
+	 * @param geopoint intersection point and geometry
+	 * @param ray      ray from the pixel in camera
 	 * @return the point color
 	 */
 	private Color calcColor(GeoPoint geopoint, Ray ray) {
 		return calcColor(geopoint, ray, MAX_CALC_COLOR_LEVEL, INITIAL_K).add(scene.ambientLight.getIntensity());
 	}
 
+	/**
+	 * 
+	 * @param geopoint
+	 * @param ray
+	 * @param level
+	 * @param k
+	 * @return
+	 */
 	private Color calcColor(GeoPoint geopoint, Ray ray, int level, double k) {
 		Color color = geopoint.geometry.getEmission();
 		color = color.add(calcLocalEffects(geopoint, ray));

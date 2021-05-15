@@ -77,7 +77,7 @@ public class ShadowTests {
 	 */
 	@Test
 	public void sphereTriangleAbove() {
-		Vector v = new Vector(6.5, 6.5, 6.5);
+		Vector v = new Vector(7, 7, 0);
 		scene.geometries.add( //
 				new Sphere(new Point3D(0, 0, -200), 60) //
 						.setEmission(new Color(java.awt.Color.BLUE)) //
@@ -98,12 +98,13 @@ public class ShadowTests {
 		render.renderImage();
 		render.writeToImage();
 	}
+
 	/**
 	 * Produce a picture of a sphere and triangle with point light and shade
 	 */
 	@Test
 	public void sphereTriangleUnder() {
-		Vector v = new Vector(20, 20, 20);
+		Vector v = new Vector(21, 21, 0);
 		scene.geometries.add( //
 				new Sphere(new Point3D(0, 0, -200), 60) //
 						.setEmission(new Color(java.awt.Color.BLUE)) //
