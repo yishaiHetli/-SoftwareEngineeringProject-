@@ -33,7 +33,7 @@ public class RayTracerBasic extends RayTracerBase {
 	 * @param light    the light source
 	 * @param l        vector from the light source to point
 	 * @param n        normal to the point
-	 * @param geopoint point and ge
+	 * @param geopoint point and geometry
 	 * @return If there are no intersection return 1 else return the product of all
 	 *         intersections' kt
 	 */
@@ -57,7 +57,7 @@ public class RayTracerBasic extends RayTracerBase {
 	/**
 	 * find the closest geoPoint of intersection
 	 * 
-	 * @param ray
+	 * @param ray ray from the pixel in camera
 	 * @return the closest point to the ray from all the intersections
 	 */
 	private GeoPoint findClosestIntersection(Ray ray) {
@@ -80,12 +80,13 @@ public class RayTracerBasic extends RayTracerBase {
 	}
 
 	/**
+	 * calculate the pixel color
 	 * 
-	 * @param geopoint
-	 * @param ray
-	 * @param level
-	 * @param k
-	 * @return
+	 * @param geopoint intersection point and geometry
+	 * @param ray      ray from the pixel in camera
+	 * @param level    the depth of recursion
+	 * @param k        stoping condetion of recursion
+	 * @return the pixel color
 	 */
 	private Color calcColor(GeoPoint geopoint, Ray ray, int level, double k) {
 		Color color = geopoint.geometry.getEmission();
@@ -93,6 +94,16 @@ public class RayTracerBasic extends RayTracerBase {
 		return 1 == level ? color : color.add(calcGlobalEffects(geopoint, ray, level, k));
 	}
 
+	/**
+	 * recursive functions for calculating the transparency and reflection on the
+	 * point
+	 * 
+	 * @param geopoint intersection point and geometry
+	 * @param inRay    ray from the pixel in camera
+	 * @param level    the depth of recursion
+	 * @param k        stoping condetion of recursion
+	 * @return the point color
+	 */
 	private Color calcGlobalEffects(GeoPoint geopoint, Ray inRay, int level, double k) {
 		if (level == 1)
 			return Color.BLACK;
@@ -118,13 +129,29 @@ public class RayTracerBasic extends RayTracerBase {
 		return color;
 	}
 
+	/**
+	 * move the ray point by +- n*delta = 0.1
+	 * 
+	 * @param n     the normal vector to point
+	 * @param point
+	 * @param inRay
+	 * @return new ray moving +- n*delta
+	 */
 	private Ray constructRefractedRay(Vector n, Point3D point, Ray inRay) {
 		return new Ray(point, inRay.getDir(), n);
 	}
 
+	/**
+	 * calculate the reflected ray
+	 * 
+	 * @param n     the normal vector to point
+	 * @param point
+	 * @param inRay
+	 * @return new ray with direction of the reflected ray +- n*delta
+	 */
 	private Ray constructReflectedRay(Vector n, Point3D point, Ray inRay) {
 		Vector v = inRay.getDir();
-		Vector r = v.subtract(n.scale(2 * (n.dotProduct(v))));
+		Vector r = v.subtract(n.scale(2 * (n.dotProduct(v)))); // v-(n(2*n*v))
 		return new Ray(point, r.normalize(), n);
 	}
 

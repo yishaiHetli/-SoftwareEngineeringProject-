@@ -46,7 +46,7 @@ public class PlanTests {
 	}
 
 	/**
-	 * Test method for {@link geometries.Plane#getNormal(primitives.Point3D)}.
+	 * Test method for {@link geometries.Plane#findIntersection(primitives.Ray)}.
 	 */
 	@Test
 	public void findIntersection() {
