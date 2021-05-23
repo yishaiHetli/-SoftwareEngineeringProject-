@@ -1,6 +1,6 @@
 package geometries;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import primitives.Ray;
@@ -19,7 +19,7 @@ public class Geometries implements Intersectable {
 	 * empty ctor that Initialize the class list
 	 */
 	public Geometries() {
-		geometric = new LinkedList<Intersectable>();
+		geometric = new ArrayList<Intersectable>();
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class Geometries implements Intersectable {
 			List<GeoPoint> cuts = geo.findGeoIntersections(ray, maxDistance); // ray cuts points in the geometric
 			if (cuts != null) {
 				if (allCuts == null) {// for the first time
-					allCuts = new LinkedList<GeoPoint>();
+					allCuts = new ArrayList<GeoPoint>();
 				}
 				allCuts.addAll(cuts);
 			}

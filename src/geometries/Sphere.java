@@ -1,6 +1,6 @@
 package geometries;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import primitives.*;
@@ -78,7 +78,7 @@ public class Sphere extends Geometry {
 		double th = Math.sqrt(radius * radius - d * d);
 		if (Util.isZero(th)) // if the ray is tangent to the sphere
 			return null;
-		List<GeoPoint> lst = new LinkedList<GeoPoint>();
+		List<GeoPoint> lst = new ArrayList<GeoPoint>();
 		double t1 = tm + th;
 		double t2 = tm - th;
 		if (Util.alignZero(t1) > 0

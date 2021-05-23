@@ -116,68 +116,173 @@ public class ReflectionRefractionTests {
 	}
 
 	/**
-	 * Produce a picture of a two triangles lighted by two spot light ,pyramid, prism
-	 * , 2 sphere
+	 * Produce a picture of a two triangles lighted by two spot light ,pyramid,
+	 * prism , spheres inside of pyramid and prism
 	 */
 	@Test
 	public void multipleShapes() {
 		Camera camera = new Camera(new Point3D(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
 				.setViewPlaneSize(200, 200).setDistance(1000);
-
 		scene.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0.15));
-		Point3D g = new Point3D(-95, -60, -140);
-		Point3D i = new Point3D(-80, 20, -140);
-		Point3D j = new Point3D(-20, -20, -140);
-		Point3D k = new Point3D(-70, -20, 40);
-		Point3D a = new Point3D(-150, -150, -115);
-		Point3D b = new Point3D(150, -150, -135);
-		Point3D c = new Point3D(75, 75, -150);
-		Point3D m = new Point3D(-150, -150, -55);
-		Point3D n = new Point3D(150, -150, -75);
-		Point3D o = new Point3D(75, 75, -90);
+		//points for pyramid
+		Point3D pointG = new Point3D(-95, -40, 100);
+		Point3D pointI = new Point3D(-80, 40, 100);
+		Point3D pointJ = new Point3D(-20, 0, 100);
+		Point3D pointK = new Point3D(-65, 0, 200); 
+        // points for prism
+		Point3D pointA = new Point3D(-25, -97, -100);
+		Point3D pointB = new Point3D(93, -78, -45);
+		Point3D pointC = new Point3D(75, 75, -130);
+		Point3D pointM = new Point3D(-55.77, -69.27, -43.57);
+		Point3D pointN = new Point3D(62.23, -50.27, 11.43);
+		Point3D pointO = new Point3D(44.23, 102.73, -73.57);
+		
+		Material material = new Material().setkD(0.5).setkS(0.5).setnShininess(60);
 		scene.geometries.add( //
 				// Two triangles to the base of the image
 				new Triangle(new Point3D(-150, -150, -115), new Point3D(150, -150, -135), new Point3D(75, 75, -150)) //
-						.setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(60).setkR(0.5))
-						.setEmission(new Color(java.awt.Color.DARK_GRAY)), //
+						.setMaterial(material.setkR(0.5)).setEmission(new Color(java.awt.Color.DARK_GRAY)), //
 				new Triangle(new Point3D(-150, -150, -115), new Point3D(-70, 70, -140), new Point3D(75, 75, -150)) //
-						.setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(60).setkR(0.5)) //
+						.setMaterial(material) //
 						.setEmission(new Color(java.awt.Color.DARK_GRAY)), //
 				// Pyramid from 4 triangles
-				new Triangle(g, i, j).setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(60).setkT(0.7))//
-						.setEmission(new Color(20, 40, 60)), //
-				new Triangle(g, j, k).setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(60).setkT(0.7)) //
-						.setEmission(new Color(20, 40, 60)), //
-				new Triangle(g, i, k).setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(60).setkT(0.7)) //
-						.setEmission(new Color(20, 40, 60)), //
-				new Triangle(i, j, k).setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(60).setkT(0.7))//
-						.setEmission(new Color(20, 40, 60)), //
-				// Prism from 3 rectangle and one triangle on top
-				new geometries.Polygon(c, o, n, b)
-						.setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(60).setkT(0.7)) //
-						.setEmission(new Color(java.awt.Color.RED)),
-				new geometries.Polygon(b, n, m, a)
-						.setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(60).setkT(0.7)) //
-						.setEmission(new Color(java.awt.Color.RED)),
-				new geometries.Polygon(a, m, o, c)
-						.setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(60).setkT(0.7)) //
-						.setEmission(new Color(java.awt.Color.RED)),
-				new Triangle(m, n, o).setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(60).setkT(0.5)) //
-						.setEmission(new Color(java.awt.Color.CYAN)),
-				// Sphere that reflcted on the prism
-				new Sphere(new Point3D(100, 25, 100), 30) //
-						.setEmission(new Color(java.awt.Color.lightGray)) //
-						.setMaterial(new Material().setkD(0.25).setkS(0.25).setnShininess(20)),
-				// Sphere that reflcted on the pyramid
-				new Sphere(new Point3D(-45, 25, 70), 20) //
+				new Triangle(pointG, pointI, pointJ).setMaterial(material.setkT(0.5).setkR(0)),//
+				new Triangle(pointG, pointJ, pointK).setMaterial(material) //
+						.setEmission(new Color(java.awt.Color.BLUE)), //
+				new Triangle(pointG, pointI, pointK).setMaterial(material) //
+						.setEmission(new Color(java.awt.Color.PINK)), //
+				new Triangle(pointI, pointJ, pointK).setMaterial(material)//
+						.setEmission(new Color(java.awt.Color.CYAN)), //
+				// Prism from 3 rectangle and two triangle one on top and one down
+				new geometries.Polygon(pointC, pointO, pointN, pointB).setMaterial(material.setkT(0)) //
+						.setEmission(new Color(java.awt.Color.PINK)),
+				new geometries.Polygon(pointB, pointN, pointM, pointA).setMaterial(material) //
+						.setEmission(new Color(java.awt.Color.PINK)),
+				new geometries.Polygon(pointA, pointM, pointO, pointC).setMaterial(material) //
+						.setEmission(new Color(java.awt.Color.PINK)),
+				new Triangle(pointM, pointN, pointO).setMaterial(material.setkT(0.85)) //
+						.setEmission(new Color(java.awt.Color.GREEN)),
+				new Triangle(pointA, pointB, pointC).setMaterial(material) //
+						.setEmission(new Color(java.awt.Color.GREEN)),
+				// Spheres inside the prism /(mansera)
+				new Sphere(new Point3D(35, 8, -55), 17) //
+						.setEmission(new Color(java.awt.Color.CYAN)) //
+						.setMaterial(material.setkR(0).setkT(0)),
+				new Sphere(new Point3D(50, -22, -45), 16) //
+						.setEmission(new Color(java.awt.Color.MAGENTA)) //
+						.setMaterial(material),
+				new Sphere(new Point3D(20, -22, -50), 16) //
+						.setEmission(new Color(java.awt.Color.BLACK)) //
+						.setMaterial(material),
+				new Sphere(new Point3D(50, -50, -25), 14) //
+						.setEmission(new Color(java.awt.Color.LIGHT_GRAY)) //
+						.setMaterial(material),
+				new Sphere(new Point3D(20, -50, -30), 14) //
+						.setEmission(new Color(java.awt.Color.GRAY)) //
+						.setMaterial(material),
+			   //sphere inside the pyramid
+				new Sphere(new Point3D(-70, 0, 50), 12) //
 						.setEmission(new Color(java.awt.Color.RED)) //
-						.setMaterial(new Material().setkD(0.25).setkS(0.25).setnShininess(20)));
+						.setMaterial(material));
 
 		scene.lights.add(new SpotLight(new Color(500, 300, 0), new Point3D(-200, -160, 300), new Vector(-1, -1, -4)) //
 				.setkL(0.00001).setkQ(0.000005));
 		scene.lights.add(new SpotLight(new Color(500, 300, 0), new Point3D(75, 75, -150), new Vector(-136, -96, 69)) //
 				.setkL(0.00001).setkQ(0.000005));
-		ImageWriter imageWriter = new ImageWriter("multipleShapes", 600, 600);
+		ImageWriter imageWriter = new ImageWriter("multipleShapes", 500, 500);
+		Render render = new Render() //
+				.setImageWriter(imageWriter) //
+				.setCamera(camera) //
+				.setRayTracer(new RayTracerBasic(scene));
+
+		render.renderImage();
+		render.writeToImage();
+	}
+	/**
+	 * Produce a picture of a two triangles lighted by a spot light with a partially
+	 * transparent Sphere producing partial shadow
+	 */
+	@Test
+	public void lotsOfShapesBonus() {
+		Camera camera = new Camera(new Point3D(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
+				.setViewPlaneSize(200, 200).setDistance(1000);
+
+		scene.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0.15));
+
+		Point3D point = new Point3D(-5, 25, 0);
+		Vector v = new Vector(0, 0, 25);
+		//Two triangles to the base of the image
+		scene.geometries.add(
+				new Triangle(new Point3D(-150, -150, -115), new Point3D(150, -150, -135), new Point3D(75, 75, -150)) //
+						.setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(60).setkR(0.85)) //
+				, new Triangle(new Point3D(-150, -150, -115), new Point3D(-70, 70, -140), new Point3D(75, 75, -150)) //
+						.setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(60).setkR(0.85)) //
+		);
+
+ 		Color color = new Color(0, 0, 80);
+		Color colorAdd = new Color(1, 2, 1);
+		Material material = new Material().setkD(0.2).setkS(0.2).setnShininess(30).setkT(0.85);
+		//Creates 35 connected spheres 
+		for (int i = 1; i < 26; ++i) {
+			scene.geometries.add(new Sphere(point, 30 - i).setEmission(color).setMaterial(material));
+			point = point.add(v);
+			if (i == 25) {
+				for (int j = 1; j < 6; ++j) {
+					scene.geometries
+							.add(new Sphere(point, 30 - i).setEmission(new Color(10, 20, 100)).setMaterial(material));
+					point = point.add(new Vector(0, 0, 10));
+				}
+			}
+			color = color.add(colorAdd);
+		}
+		// 4 spheres for the end
+		for (int i = 0; i < 4; ++i) {
+			scene.geometries
+					.add(new Sphere(point, 4 - i).setEmission(new Color(java.awt.Color.RED)).setMaterial(material));
+			point = point.add(new Vector(0, 0, 10));
+		}
+		
+		//Moving squares 
+		Point3D pointE = new Point3D(60, -10, 0);
+		Point3D pointF = new Point3D(10, -10, 0);
+		Point3D pointG = new Point3D(10, -60, 0);
+		Point3D pointH = new Point3D(60, -60, 0);
+		Point3D pointHead = new Point3D(35, -35, 150);
+		Vector moveE = new Vector(0, -3, 10);
+		Vector moveF = new Vector(3, 0, 10);
+		Vector moveG = new Vector(0, 3, 10);
+		Vector moveH = new Vector(-3, 0, 10);
+
+		material.setkT(0).setkR(0.6);
+		color = new Color(0, 0, 80);
+		colorAdd = new Color(10, 10, 5);
+		//Creates 10 movinigs squares
+		for (int i = 0; i < 10; ++i) {
+			scene.geometries.add(
+					new geometries.Polygon(pointG, pointH, pointE, pointF).setMaterial(material).setEmission(color));
+			if (i == 9)//dont move the points
+				break;
+			pointE = pointE.add(moveE);
+			pointF = pointF.add(moveF);
+			pointG = pointG.add(moveG);
+			pointH = pointH.add(moveH);
+			color = color.add(colorAdd);
+		}
+		// pyramid on the last square
+		scene.geometries.add(
+				new geometries.Triangle(pointG, pointH, pointHead).setMaterial(material)
+						.setEmission(new Color(java.awt.Color.PINK)),
+				new geometries.Triangle(pointG, pointF, pointHead).setMaterial(material)
+						.setEmission(new Color(java.awt.Color.RED)),
+				new geometries.Triangle(pointE, pointF, pointHead).setMaterial(material)
+						.setEmission(new Color(java.awt.Color.PINK)),
+				new geometries.Triangle(pointE, pointH, pointHead).setMaterial(material)
+						.setEmission(new Color(java.awt.Color.RED)));
+		
+		scene.lights.add(new SpotLight(new Color(700, 400, 400), new Point3D(60, 50, 0), new Vector(0, 0, -1)) //
+				.setkL(4E-5).setkQ(2E-7));
+
+		ImageWriter imageWriter = new ImageWriter("lotsOfShapesBonus", 500, 500);
 		Render render = new Render() //
 				.setImageWriter(imageWriter) //
 				.setCamera(camera) //
