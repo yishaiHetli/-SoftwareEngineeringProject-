@@ -1,7 +1,8 @@
 package primitives;
 
+import java.util.LinkedList;
 import java.util.List;
-
+import static primitives.Util.*;
 import geometries.Intersectable.GeoPoint;
 
 /**
@@ -37,7 +38,7 @@ public class Ray {
 	 * @param n         vector normal to point
 	 */
 	public Ray(Point3D point, Vector direction, Vector n) {
-		dir = direction;
+		this(point, direction);
 		Vector delta = n.scale(Util.alignZero(n.dotProduct(dir)) > 0 ? DELTA : -DELTA);// n*delta
 		p0 = point.add(delta);// point + (n*delta)
 	}
@@ -64,14 +65,54 @@ public class Ray {
 	 * @return the point of start + (direction vector * t)
 	 */
 	public Point3D getPoint(double t) {
-		if (Util.isZero(t)) {
-			return new Point3D(p0.x, p0.y, p0.z);
-		}
 		try {
-			return p0.add(dir.scale(t)); // p0 +v*t
-		} catch (Exception e) {
-			return new Point3D(p0.x, p0.y, p0.z);
+			if (Util.isZero(t))
+				return p0;
+			return p0.add(dir.scale(t));
+		} catch (IllegalArgumentException e) {
+			return p0;
 		}
+	}
+
+	/**
+	 * this function generat beam of rays when radius is bigger our beam spread on
+	 * more area
+	 * 
+	 * @param n         normal vector of the point where beam start
+	 * @param radius    radius of virtual circle
+	 * @param distance  Distance between The intersetion point to the virtual circle
+	 * @param numOfRays The number of the rays of the beam
+	 * @return beam of rays
+	 */
+	public List<Ray> generateBeam(Vector n, double radius, double distance, int numOfRays) {
+		List<Ray> rays = new LinkedList<Ray>();
+		rays.add(this);// Includeing the main ray
+		if (numOfRays == 1 || isZero(radius))// The component (glossy surface /diffuse glass) is turned off
+			return rays;
+		Vector nX = dir.createNormal();
+		Vector nY = dir.crossProduct(nX);
+		Point3D centerCircle = this.getPoint(distance);
+		Point3D randomPoint;
+		double x, y, d;
+		double nv = alignZero(n.dotProduct(dir)); 
+		for (int i = 1; i < numOfRays; ++i) {
+			x = Util.random(-1, 1);
+			y = Math.sqrt(1 - x * x);
+			d = Util.random(-radius, radius);//rendom value inside the circle
+			x = alignZero(x * d);
+			y = alignZero(y * d);
+			randomPoint = centerCircle;
+			if (x != 0)
+				randomPoint = randomPoint.add(nX.scale(x));
+			if (y != 0)
+				randomPoint = randomPoint.add(nY.scale(y));
+			Vector tPoint = randomPoint.subtract(p0);
+			double nt = alignZero(n.dotProduct(tPoint));
+			if (nv * nt > 0) {// sign(nv) == sing(nt)
+				rays.add(new Ray(p0, tPoint));
+			}
+		}
+		return rays;
 	}
 
 	@Override

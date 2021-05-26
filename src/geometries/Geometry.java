@@ -51,7 +51,7 @@ public abstract class Geometry implements Intersectable {
 	 */
 	public Geometry setMaterial(Material material) {
 		this.material.setkD(material.kD).setkR(material.kR).setkS(material.kS).setkT(material.kT)
-				.setnShininess(material.nShininess);
+				.setnShininess(material.nShininess).setkMatteD(material.kMatteD).setkMatteG(material.kMatteG);
 		return this;
 	}
 
