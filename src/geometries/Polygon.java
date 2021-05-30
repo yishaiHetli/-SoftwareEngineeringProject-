@@ -1,6 +1,5 @@
 package geometries;
 
-import java.util.ArrayList;
 import java.util.List;
 import primitives.*;
 import static primitives.Util.*;
@@ -90,46 +89,34 @@ public class Polygon extends Geometry {
 	@Override
 	public List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
 		List<GeoPoint> intersections = plane.findGeoIntersections(ray, maxDistance);
-		if (intersections == null) // if there are no intersections with the plane
+		// First of all, check if there is a point of intersection with the plane
+		if (intersections == null)
 			return null;
-		List<Vector> lst = new ArrayList<Vector>();
-		Point3D p0 = ray.getP0();
 		Vector v = ray.getDir();
-		try {
-			for (Point3D pi : vertices) { // calculate all the vi = pi - p0 and add them to the list
-				Vector vi = pi.subtract(p0);
-				lst.add(vi);
-			}
-			Vector Ni = lst.get(0).crossProduct(lst.get(1));
-			Ni.normalize();
-			double val = Ni.dotProduct(v);
-			if (Util.isZero(val))
-				return null;
-			boolean positive = false;
-			if (val > 0) {
-				positive = true;
-			}
-			int size = lst.size();
-			for (int i = 1; i < size; ++i) {
-				if (i == size - 1) { // for the last loop
-					Ni = lst.get(i).crossProduct(lst.get(0));
-				} else {
-					Ni = lst.get(i).crossProduct(lst.get(i + 1));
-				}
-				Ni.normalize();
-				val = Ni.dotProduct(v);
-				if (Util.isZero(val))
-					return null;
-				if (val > 0 && !positive || val < 0 && positive)
-					return null;
-			}
-		} catch (Exception e) {
+		Point3D p0 = ray.getP0();
+ 		Vector v1 = vertices.get(0).subtract(p0);
+		Vector v2 = vertices.get(1).subtract(p0);
+		double t = v.dotProduct(v1.crossProduct(v2).normalize());
+		if (isZero(t)) {
 			return null;
 		}
-		for (GeoPoint cut : intersections) {//
-			cut.geometry = this;
+		boolean sign = t > 0;
+		int size = vertices.size();
+		Vector vn = vertices.get(size - 1).subtract(p0);
+		t = v.dotProduct(vn.crossProduct(v1).normalize());
+		if (isZero(t) || sign != (t > 0)) {
+			return null;
 		}
-		return intersections; // the plane intersections
+		for (int i = 2; i < size; ++i) {
+			v1 = v2;
+			v2 = vertices.get(i).subtract(p0);
+			t = v.dotProduct(v1.crossProduct(v2).normalize());
+			if (isZero(t) || sign != (t > 0)) {
+				return null;
+			}
+		}
+		intersections.get(0).geometry = this;
+		return intersections;
 	}
 
 	@Override

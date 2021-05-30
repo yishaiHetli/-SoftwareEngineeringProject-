@@ -241,17 +241,17 @@ public class RayTracerBasic extends RayTracerBase {
 	 */
 	private Color calcBeamColor(Color color, Vector n, Ray refRay, int level, double k, double kk, double radius) {
 		Color addColor = Color.BLACK;
-		if (findClosestIntersection(refRay) == null)
+		if(findClosestIntersection(refRay) == null)
 			return addColor;
-		List<Ray> rays = refRay.generateBeam(n, radius, DISTANCE, numOfRays);
-		for (Ray ray : rays) {
+		List<Ray> rays = refRay.generateBeam(n, radius, DISTANCE, numOfRays); 
+		for (Ray ray : rays) { 
 			GeoPoint refPoint = findClosestIntersection(ray);
 			if (refPoint != null) {
 				addColor = addColor.add(calcColor(refPoint, ray, level - 1, kk).scale(k));
 			}
 		}
 		int size = rays.size();
-		color = color.add(size > 1 ? addColor.reduce(size) : addColor);
+		color = color.add(size > 1 ? addColor.reduce(size) : addColor);//divide the add color by rays size
 		return color;
 	}
 

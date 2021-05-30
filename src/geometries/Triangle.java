@@ -12,16 +12,18 @@ public class Triangle extends Polygon {
 
 	@Override
 	public String toString() {
-		return  super.toString();
+		return super.toString();
 	}
-/**
- *  ctor that get three points 
- * @param point_a first point 
- * @param point_b second point
- * @param point_c third point
- */
+
+	/**
+	 * ctor that get three points
+	 * 
+	 * @param point_a first point
+	 * @param point_b second point
+	 * @param point_c third point
+	 */
 	public Triangle(Point3D point_a, Point3D point_b, Point3D point_c) {
 		super(point_a, point_b, point_c);
 	}
-	
+
 }

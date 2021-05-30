@@ -91,22 +91,22 @@ public class Ray {
 			return rays;
 		Vector nX = dir.createNormal();
 		Vector nY = dir.crossProduct(nX);
-		Point3D centerCircle = this.getPoint(distance);
+		Point3D centerCircle = this.getPoint(distance); //p0+(v*t)
 		Point3D randomPoint;
 		double x, y, d;
 		double nv = alignZero(n.dotProduct(dir)); 
 		for (int i = 1; i < numOfRays; ++i) {
+			randomPoint = centerCircle; // 
 			x = Util.random(-1, 1);
-			y = Math.sqrt(1 - x * x);
+			y = Math.sqrt(1 - x * x);//y= root(1-x^2)
 			d = Util.random(-radius, radius);//rendom value inside the circle
 			x = alignZero(x * d);
-			y = alignZero(y * d);
-			randomPoint = centerCircle;
+			y = alignZero(y * d); 
 			if (x != 0)
-				randomPoint = randomPoint.add(nX.scale(x));
+				randomPoint = randomPoint.add(nX.scale(x));//rp+(nX*x) 
 			if (y != 0)
-				randomPoint = randomPoint.add(nY.scale(y));
-			Vector tPoint = randomPoint.subtract(p0);
+				randomPoint = randomPoint.add(nY.scale(y));//rp+(nY*y)
+			Vector tPoint = randomPoint.subtract(p0);//rendom point inside the circle subtract the start point 
 			double nt = alignZero(n.dotProduct(tPoint));
 			if (nv * nt > 0) {// sign(nv) == sing(nt)
 				rays.add(new Ray(p0, tPoint));
