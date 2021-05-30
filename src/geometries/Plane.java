@@ -70,6 +70,9 @@ public class Plane extends Geometry {
 		return normal;
 	}
 
+	/**
+	 * return q0
+	 */
 	public Point3D getQ0() {
 		return q0;
 	}

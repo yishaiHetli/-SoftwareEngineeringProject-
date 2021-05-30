@@ -90,15 +90,24 @@ public class Camera {
 			return null;
 		}
 	}
-
+/**
+ * 
+ * @return the vector vUP
+ */
 	public Vector getvUp() {
 		return vUp;
 	}
-
+	/**
+	 * 
+	 * @return the vector vTo
+	 */
 	public Vector getvTo() {
 		return vTo;
 	}
-
+	/**
+	 * 
+	 * @return the vector vRight
+	 */
 	public Vector getvRight() {
 		return vRight;
 	}
