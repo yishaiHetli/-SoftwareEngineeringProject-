@@ -160,21 +160,21 @@ public class Vector {
 		int min = 1;
 		double x = head.getX(), y = head.getY(), z = head.getZ();
 		double minCoor = x > 0 ? x : -x;
-		if (Math.abs(y) < minCoor) {
+		if (Math.abs(y) < minCoor) { // |y|<|x|
 			minCoor = y > 0 ? y : -y;
 			min = 2;
 		}
-		if (Math.abs(z) < minCoor) {
+		if (Math.abs(z) < minCoor) { //|z|<|x|,|y|
 			min = 3;
 		}
 		switch (min) {
-		case 1: {
+		case 1: { //|x|<|y|,|z|
 			return new Vector(0, -z, y).normalize();
 		}
-		case 2: {
+		case 2: { //|y|<|x|,|z|
 			return new Vector(-z, 0, x).normalize();
 		}
-		case 3: {
+		case 3: { //|z|<|x|,|y|
 			return new Vector(y, -x, 0).normalize();
 		}
 		default:
