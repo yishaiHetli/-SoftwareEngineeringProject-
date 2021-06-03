@@ -58,8 +58,8 @@ public class Tube extends Geometry {
 	 * @return the normal to the sending point
 	 */
 	public Vector getNormal(Point3D p) {
-		Vector getDir = axisRay.getDir(); // v
-		Point3D getP0 = axisRay.getP0(); // p0
+		Vector getDir = axisRay.dir; // v
+		Point3D getP0 = axisRay.p0; // p0
 		double t;
 		try {
 			t = p.subtract(getP0).dotProduct(getDir); // t = v * (p - p0)
@@ -78,5 +78,12 @@ public class Tube extends Geometry {
 	public List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
 		return null;
 	}
+
+	@Override
+	protected void setBox() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 
 }

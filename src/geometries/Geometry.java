@@ -9,28 +9,9 @@ import primitives.*;
  * @author David&Yishai
  *
  */
-public abstract class Geometry implements Intersectable {
-
-	protected Color emission = Color.BLACK;
-	private Material material = new Material();
-
-	/**
-	 * getter for emission feild
-	 * 
-	 * @return the emission color
-	 */
-	public Color getEmission() {
-		return emission;
-	}
-
-	/**
-	 * getter for material feild
-	 * 
-	 * @return the light material
-	 */
-	public Material getMaterial() {
-		return material;
-	}
+public abstract class Geometry extends Box {
+	public Color emission = Color.BLACK;
+	public Material material = new Material();
 
 	/**
 	 * setter for emission feild
@@ -44,7 +25,7 @@ public abstract class Geometry implements Intersectable {
 	}
 
 	/**
-	 * setter for material feild
+	 * setter for material feild with deep copy
 	 * 
 	 * @param material object in type of Material to set
 	 * @return the class object
@@ -62,4 +43,5 @@ public abstract class Geometry implements Intersectable {
 	 * @return vector that normal to the received point
 	 */
 	public abstract Vector getNormal(Point3D point);
+
 }

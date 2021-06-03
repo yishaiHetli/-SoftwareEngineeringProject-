@@ -13,21 +13,10 @@ public class Point3D {
 		return "x=" + x + ", y=" + y + ", z=" + z;
 	}
 
-	final Coordinate x;
-	final Coordinate y;
-	final Coordinate z;
+	final public Coordinate x;
+	final public Coordinate y;
+	final public Coordinate z;
 
-	public double getX() {
-		return x.coord;
-	}
-
-	public double getY() {
-		return y.coord;
-	}
-
-	public double getZ() {
-		return z.coord;
-	}
 
 	public final static Point3D ZERO = new Point3D(0, 0, 0);
 
@@ -56,10 +45,12 @@ public class Point3D {
 		y = new Coordinate(coord_y);
 		z = new Coordinate(coord_z);
 	}
-/**
- * ctor: get point 3D and and set class Coordinates by calling another ctor
- * @param point3D point in the class type 
- */
+
+	/**
+	 * ctor: get point 3D and and set class Coordinates by calling another ctor
+	 * 
+	 * @param point3D point in the class type
+	 */
 	public Point3D(Point3D point3D) {
 		this(point3D.x, point3D.y, point3D.z);
 	}
@@ -71,7 +62,7 @@ public class Point3D {
 	 * @return return vector of their sum
 	 */
 	public Point3D add(Vector vec) {
-		Point3D head = vec.getHead();
+		Point3D head = vec.head;
 		return new Point3D(x.coord + head.x.coord, y.coord + head.y.coord, z.coord + head.z.coord);
 	}
 

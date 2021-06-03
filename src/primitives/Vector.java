@@ -8,7 +8,7 @@ package primitives;
  *
  */
 public class Vector {
-	private Point3D head;
+	public Point3D head;
 
 	/**
 	 * ctor that get one parameter that represent a point in 3D
@@ -158,7 +158,7 @@ public class Vector {
 	 */
 	public Vector createNormal() {
 		int min = 1;
-		double x = head.getX(), y = head.getY(), z = head.getZ();
+		double x = head.x.coord, y = head.y.coord, z = head.z.coord;
 		double minCoor = x > 0 ? x : -x;
 		if (Math.abs(y) < minCoor) { // |y|<|x|
 			minCoor = y > 0 ? y : -y;

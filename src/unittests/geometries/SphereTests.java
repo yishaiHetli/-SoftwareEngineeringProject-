@@ -42,7 +42,7 @@ public class SphereTests {
 		Point3D p2 = new Point3D(1.53484692283495, 0.844948974278318, 0);
 		List<Point3D> result = sphere.findIntersections(new Ray(new Point3D(-1, 0, 0), new Vector(3, 1, 0)));
 		assertEquals("Wrong number of points", 2, result.size());
-		if (result.get(0).getX() > result.get(1).getX())
+		if (result.get(0).x.coord> result.get(1).x.coord)
 			result = List.of(result.get(1), result.get(0));
 		assertEquals("Ray crosses sphere", List.of(p1, p2), result);
 

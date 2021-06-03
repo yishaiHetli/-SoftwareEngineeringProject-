@@ -43,7 +43,7 @@ public class RenderTests {
 																													// right
 						.setEmission(new Color(java.awt.Color.BLUE)));
 
-		ImageWriter imageWriter = new ImageWriter("color render test", 1000, 1000);
+		ImageWriter imageWriter = new ImageWriter("Color render test", 1000, 1000);
 		Render render = new Render() //
 				.setImageWriter(imageWriter) //
 				.setCamera(camera) //
@@ -75,7 +75,7 @@ public class RenderTests {
 				new Triangle(new Point3D(100, 0, -100), new Point3D(0, -100, -100), new Point3D(100, -100, -100))); // down
 																													// right
 
-		ImageWriter imageWriter = new ImageWriter("base render test", 1000, 1000);
+		ImageWriter imageWriter = new ImageWriter("base render test 2", 1000, 1000);
 		Render render = new Render() //
 				.setImageWriter(imageWriter) //
 				.setCamera(camera) //
@@ -146,7 +146,7 @@ public class RenderTests {
 			fail(e.getMessage());
 		}
 
-		ImageWriter imageWriter = new ImageWriter("xml render test", 1000, 1000);
+		ImageWriter imageWriter = new ImageWriter("Xml render test", 1000, 1000);
 		Render render = new Render() //
 				.setImageWriter(imageWriter) //
 				.setCamera(camera) //

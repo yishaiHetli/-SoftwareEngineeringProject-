@@ -1553,6 +1553,7 @@ public class TeapotTest {
 				new Triangle(pnts[470], pnts[469], pnts[529]).setEmission(color).setMaterial(mat), //
 				new Triangle(pnts[529], pnts[530], pnts[470]).setEmission(color).setMaterial(mat) //
 		);
+		scene.geometries.createBox();
 		scene.lights.add(new PointLight(new Color(500, 500, 500), new Point3D(100, 0, -100)) //
 				.setkQ(0.000001));
 
@@ -1560,7 +1561,7 @@ public class TeapotTest {
 		Render render = new Render() //
 				.setCamera(camera) //
 				.setImageWriter(imageWriter) //
-				.setRayTracer(new RayTracerBasic(scene));
+				.setRayTracer(new RayTracerBasic(scene)).setMultithreading(3).setDebugPrint();
 		render.renderImage();
 		render.printGrid(50, new Color(java.awt.Color.YELLOW));
 		render.writeToImage();

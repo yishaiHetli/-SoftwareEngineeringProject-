@@ -1,6 +1,5 @@
 package geometries;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import primitives.*;
@@ -53,21 +52,14 @@ public class Sphere extends Geometry {
 
 	@Override
 	public List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
-		Point3D p0 = ray.getP0();
-		Vector v = ray.getDir();
+		Point3D p0 = ray.p0;
+		Vector v = ray.dir;
 		if (center.equals(p0)) {
-			if (maxDistance == Double.POSITIVE_INFINITY || Util.alignZero(radius - maxDistance) <= 0)
+			if (Util.alignZero(radius - maxDistance) <= 0)
 				return List.of(new GeoPoint(this, ray.getPoint(radius)));
 			return null;
 		}
-		Vector u;
-		try {
-			u = center.subtract(p0);
-		} catch (IllegalArgumentException e) { // if p0 == center
-			if (maxDistance == Double.POSITIVE_INFINITY || Util.alignZero(radius - maxDistance) <= 0)
-				return List.of(new GeoPoint(this, ray.getPoint(radius)));
-			return null;
-		}
+		Vector u = center.subtract(p0);
 		double tm = Util.alignZero(u.dotProduct(v));
 		double length = Util.alignZero(u.lengthSquared() - tm * tm); // length square of u reduce square of tm
 		if (length < 0)
@@ -78,19 +70,29 @@ public class Sphere extends Geometry {
 		double th = Math.sqrt(radius * radius - d * d);
 		if (Util.isZero(th)) // if the ray is tangent to the sphere
 			return null;
-		List<GeoPoint> lst = new ArrayList<GeoPoint>();
 		double t1 = tm + th;
 		double t2 = tm - th;
-		if (Util.alignZero(t1) > 0
-				&& (maxDistance == Double.POSITIVE_INFINITY || Util.alignZero(t1 - maxDistance) <= 0)) {
-			lst.add(new GeoPoint(this, ray.getPoint(t1))); // p1 = p0 + t1 * v
+		if (Util.alignZero(t1) > 0 && (Util.alignZero(t1 - maxDistance) <= 0 && Util.alignZero(t2) > 0
+				&& !Util.isZero(t1 - t2) && (Util.alignZero(t2 - maxDistance) <= 0)))
+			return List.of(new GeoPoint(this, ray.getPoint(t1)), new GeoPoint(this, ray.getPoint(t2)));
+		if (Util.alignZero(t1) > 0 && (Util.alignZero(t1 - maxDistance) <= 0)) {
+			return List.of(new GeoPoint(this, ray.getPoint(t1))); // p1 = p0 + t1 * v
 		}
-		if (Util.alignZero(t2) > 0 && t1 != t2
-				&& (maxDistance == Double.POSITIVE_INFINITY || Util.alignZero(t2 - maxDistance) <= 0)) {
-			lst.add(new GeoPoint(this, ray.getPoint(t2))); // p2 = p0 + t2 * v
+		if (Util.alignZero(t2) > 0 && !Util.isZero(t1 - t2) && (Util.alignZero(t2 - maxDistance) <= 0)) {
+			return List.of(new GeoPoint(this, ray.getPoint(t2))); // p2 = p0 + t2 * v
 		}
-		if (lst.isEmpty())
 			return null;
-		return lst;
 	}
+	
+	 @Override
+	    public void setBox() {
+	        minX = center.x.coord - radius;
+	        maxX = center.x.coord + radius;
+	        minY = center.y.coord - radius;
+	        maxY = center.y.coord + radius;
+	        minZ = center.z.coord - radius;
+	        maxZ = center.z.coord + radius;
+	        middlePoint = center;
+	        finity = true;
+	    }
 }

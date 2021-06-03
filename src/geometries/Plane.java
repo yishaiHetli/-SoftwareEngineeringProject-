@@ -4,7 +4,7 @@ import java.util.List;
 
 import primitives.*;
 
-public class Plane extends Geometry {
+public class Plane extends Geometry  {
 
 	@Override
 	public String toString() {
@@ -86,8 +86,8 @@ public class Plane extends Geometry {
 
 	@Override
 	public List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
-		Vector v = ray.getDir();
-		Point3D p0 = ray.getP0();
+		Vector v = ray.dir;
+		Point3D p0 = ray.p0;
 		if (q0.equals(p0))
 			return null;
 		double numerator = normal.dotProduct(q0.subtract(p0));
@@ -97,8 +97,38 @@ public class Plane extends Geometry {
 		double t = numerator / denominator;
 		if (t <= 0 || Util.isZero(t))
 			return null;
-		if (maxDistance == Double.POSITIVE_INFINITY || Util.alignZero(t - maxDistance) <= 0)
+		if (Util.alignZero(t - maxDistance) <= 0)
 			return List.of(new GeoPoint(this, ray.getPoint(t))); // p0 + v*t
 		return null;
+	}
+
+	private static double DELTA = 0.1;
+
+	@Override
+	protected void setBox() {
+		if (normal.head.y.coord == 0 && normal.head.z.coord == 0) {
+			minX = maxX = q0.x.coord;
+			minX -= DELTA;
+			maxX += DELTA;
+		} else {
+			minX = Double.NEGATIVE_INFINITY;
+			maxX = Double.POSITIVE_INFINITY;
+		}
+		if (normal.head.x.coord == 0 && normal.head.z.coord == 0) {
+			minY = maxY = q0.y.coord;
+			minY -= DELTA;
+			maxY += DELTA;
+		} else {
+			minY = Double.NEGATIVE_INFINITY;
+			maxY = Double.POSITIVE_INFINITY;
+		}
+		if (normal.head.x.coord == 0 && normal.head.y.coord == 0) {
+			minZ = maxZ = q0.z.coord;
+			minZ -= DELTA;
+			maxZ += DELTA;
+		} else {
+			minZ = Double.NEGATIVE_INFINITY;
+			maxZ = Double.POSITIVE_INFINITY;
+		}
 	}
 }

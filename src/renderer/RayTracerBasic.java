@@ -49,7 +49,7 @@ public class RayTracerBasic extends RayTracerBase {
 			return 1.0;
 		double ktr = 1.0;
 		for (GeoPoint gp : intersections) { // multiply ktr in all intersections' kt
-			ktr *= gp.geometry.getMaterial().kT;
+			ktr *= gp.geometry.material.kT;
 			if (ktr < MIN_CALC_COLOR_K)
 				return 0.0;
 		}
@@ -91,7 +91,7 @@ public class RayTracerBasic extends RayTracerBase {
 	 * @return the pixel color
 	 */
 	private Color calcColor(GeoPoint geopoint, Ray ray, int level, double k) {
-		Color color = geopoint.geometry.getEmission();
+		Color color = geopoint.geometry.emission;
 		color = color.add(calcLocalEffects(geopoint, ray, k));
 		return 1 == level ? color : color.add(calcGlobalEffects(geopoint, ray, level, k));
 	}
@@ -111,7 +111,7 @@ public class RayTracerBasic extends RayTracerBase {
 			return Color.BLACK;
 		Color color = Color.BLACK;
 		Geometry geometry = geopoint.geometry;
-		Material material = geometry.getMaterial();
+		Material material = geometry.material;
 		Point3D point = geopoint.point;
 		Vector n = geometry.getNormal(point);
 		double kr = material.kR, kkr = k * kr, kMG = alignZero(material.kMatteG);
@@ -136,7 +136,7 @@ public class RayTracerBasic extends RayTracerBase {
 	 * @return new ray moving +- n*delta
 	 */
 	private Ray constructRefractedRay(Vector n, Point3D point, Ray inRay) {
-		return new Ray(point, inRay.getDir(), n);
+		return new Ray(point, inRay.dir, n);
 	}
 
 	/**
@@ -148,7 +148,7 @@ public class RayTracerBasic extends RayTracerBase {
 	 * @return new ray with direction of the reflected ray +- n*delta
 	 */
 	private Ray constructReflectedRay(Vector n, Point3D point, Ray inRay) {
-		Vector v = inRay.getDir();
+		Vector v = inRay.dir;
 		Vector r = v.subtract(n.scale(2 * (n.dotProduct(v)))); // v-(n(2*n*v))
 		return new Ray(point, r, n);
 	}
@@ -163,12 +163,12 @@ public class RayTracerBasic extends RayTracerBase {
 	private Color calcLocalEffects(GeoPoint intersection, Ray ray, double k) {
 		Point3D point = intersection.point;
 		Geometry geometry = intersection.geometry;
-		Vector v = ray.getDir();
+		Vector v = ray.dir;
 		Vector n = geometry.getNormal(point);
 		double nv = alignZero(n.dotProduct(v));
 		if (nv == 0)
 			return Color.BLACK;
-		Material material = geometry.getMaterial();
+		Material material = geometry.material;
 		int nShininess = material.nShininess;
 		double kd = material.kD, ks = material.kS;
 		Color color = Color.BLACK;

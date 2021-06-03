@@ -12,8 +12,8 @@ import geometries.Intersectable.GeoPoint;
  */
 public class Ray {
 	private static final double DELTA = 0.1;
-	private Point3D p0;
-	private Vector dir;
+	public Point3D p0;
+	public Vector dir;
 
 	@Override
 	public String toString() {
@@ -41,22 +41,6 @@ public class Ray {
 		this(point, direction);
 		Vector delta = n.scale(Util.alignZero(n.dotProduct(dir)) > 0 ? DELTA : -DELTA);// n*delta
 		p0 = point.add(delta);// point + (n*delta)
-	}
-
-	/**
-	 * 
-	 * @return point of start
-	 */
-	public Point3D getP0() {
-		return p0;
-	}
-
-	/**
-	 * 
-	 * @return direction vector
-	 */
-	public Vector getDir() {
-		return dir;
 	}
 
 	/**
@@ -91,22 +75,21 @@ public class Ray {
 			return rays;
 		Vector nX = dir.createNormal();
 		Vector nY = dir.crossProduct(nX);
-		Point3D centerCircle = this.getPoint(distance); //p0+(v*distance)
+		Point3D centerCircle = this.getPoint(distance); // p0+(v*distance)
 		Point3D randomPoint;
-		double x, y, d;
-		double nv = alignZero(n.dotProduct(dir)); 
+		double x, y, r, theta, pi = Math.PI;
+		double nv = alignZero(n.dotProduct(dir));
 		for (int i = 1; i < numOfRays; ++i) {
-			randomPoint = centerCircle; // 
-			x = Util.random(-1, 1);
-			y = Math.sqrt(1 - x * x);//y= root(1-x^2)
-			d = Util.random(-radius, radius);//rendom value inside the circle
-			x = alignZero(x * d);
-			y = alignZero(y * d); 
+			randomPoint = centerCircle; // pc
+			r = radius * Math.sqrt(Math.random());
+			theta = Math.random() * 2 * pi;
+			x = alignZero(r * Math.cos(theta));
+			y = alignZero(r * Math.sin(theta));
 			if (x != 0)
-				randomPoint = randomPoint.add(nX.scale(x));//pc+(nX*x) 
+				randomPoint = randomPoint.add(nX.scale(x));// pc+(nX*x)
 			if (y != 0)
-				randomPoint = randomPoint.add(nY.scale(y));//pc+(nY*y)
-			Vector tPoint = randomPoint.subtract(p0);//rendom point inside the circle subtract the start point 
+				randomPoint = randomPoint.add(nY.scale(y));// pc+(nY*y)
+			Vector tPoint = randomPoint.subtract(p0);// rendom point inside the circle subtract the start point
 			double nt = alignZero(n.dotProduct(tPoint));
 			if (nv * nt > 0) {// sign(nv) == sing(nt)
 				rays.add(new Ray(p0, tPoint));

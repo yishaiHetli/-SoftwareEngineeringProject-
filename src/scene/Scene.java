@@ -2,8 +2,8 @@ package scene;
 
 import elements.AmbientLight;
 import elements.LightSource;
+import geometries.Box;
 import geometries.Geometries;
-import geometries.Intersectable;
 import primitives.Color;
 
 import java.util.LinkedList;
@@ -75,7 +75,7 @@ public class Scene {
 	 * @param geo intersectable shape
 	 * @return a Scene performance with the new shape in the fields geometries
 	 */
-	public Scene addGeometry(Intersectable geo) {
+	public Scene addGeometry(Box geo) {
 		geometries.add(geo);
 		return this;
 	}

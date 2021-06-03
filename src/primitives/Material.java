@@ -76,6 +76,7 @@ public class Material {
 		this.kMatteD = kMatteD;
 		return this;
 	}
+
 	/**
 	 * setter for kS feild
 	 * 
@@ -86,6 +87,5 @@ public class Material {
 		this.kMatteG = kMatteG;
 		return this;
 	}
-	
-	
+
 }

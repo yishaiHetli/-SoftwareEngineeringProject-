@@ -12,13 +12,13 @@ import primitives.*;
  */
 public class Camera {
 
-	private Point3D p0;
-	private Vector vUp;
-	private Vector vTo;
-	private Vector vRight;
-	private double width;
-	private double height;
-	private double distance;
+	public Point3D p0;
+	public Vector vUp;
+	public Vector vTo;
+	public Vector vRight;
+	public double width;
+	public double height;
+	public double distance;
 
 	/**
 	 * 
@@ -89,27 +89,6 @@ public class Camera {
 		} catch (Exception e) { // if we get the zero vector
 			return null;
 		}
-	}
-/**
- * 
- * @return the vector vUP
- */
-	public Vector getvUp() {
-		return vUp;
-	}
-	/**
-	 * 
-	 * @return the vector vTo
-	 */
-	public Vector getvTo() {
-		return vTo;
-	}
-	/**
-	 * 
-	 * @return the vector vRight
-	 */
-	public Vector getvRight() {
-		return vRight;
 	}
 
 }

@@ -34,7 +34,7 @@ public class ReflectionRefractionTests {
 		scene.lights.add( //
 				new SpotLight(new Color(1000, 600, 0), new Point3D(-100, -100, 500), new Vector(-1, -1, -2)) //
 						.setkL(0.0004).setkQ(0.0000006));
-
+		scene.geometries.createBox();
 		Render render = new Render() //
 				.setImageWriter(new ImageWriter("refractionTwoSpheres", 500, 500)) //
 				.setCamera(camera) //
@@ -71,7 +71,7 @@ public class ReflectionRefractionTests {
 
 		scene.lights.add(new SpotLight(new Color(1020, 400, 400), new Point3D(-750, -750, -150), new Vector(-1, -1, -4)) //
 				.setkL(0.00001).setkQ(0.000005));
-
+		scene.geometries.createBox();
 		ImageWriter imageWriter = new ImageWriter("reflectionTwoSpheresMirrored", 500, 500);
 		Render render = new Render() //
 				.setImageWriter(imageWriter) //
@@ -104,7 +104,7 @@ public class ReflectionRefractionTests {
 
 		scene.lights.add(new SpotLight(new Color(700, 400, 400), new Point3D(60, 50, 0), new Vector(0, 0, -1)) //
 				.setkL(4E-5).setkQ(2E-7));
-
+		scene.geometries.createBox();
 		ImageWriter imageWriter = new ImageWriter("refractionShadow", 600, 600);
 		Render render = new Render() //
 				.setImageWriter(imageWriter) //
@@ -184,17 +184,16 @@ public class ReflectionRefractionTests {
 				new Sphere(new Point3D(-70, 0, 50), 12) //
 						.setEmission(new Color(java.awt.Color.RED)) //
 						.setMaterial(material));
-
 		scene.lights.add(new SpotLight(new Color(500, 300, 0), new Point3D(-200, -160, 300), new Vector(-1, -1, -4)) //
 				.setkL(0.00001).setkQ(0.000005));
 		scene.lights.add(new SpotLight(new Color(500, 300, 0), new Point3D(75, 75, -150), new Vector(-136, -96, 69)) //
 				.setkL(0.00001).setkQ(0.000005));
-		ImageWriter imageWriter = new ImageWriter("multipleShapes", 500, 500);
+		scene.geometries.createBox();
+		ImageWriter imageWriter = new ImageWriter("multipleShapes", 1000, 1000);
 		Render render = new Render() //
 				.setImageWriter(imageWriter) //
 				.setCamera(camera) //
-				.setRayTracer(new RayTracerBasic(scene));
-
+				.setRayTracer(new RayTracerBasic(scene)).setMultithreading(3).setDebugPrint();
 		render.renderImage();
 		render.writeToImage();
 	}
@@ -215,9 +214,9 @@ public class ReflectionRefractionTests {
 		// Two triangles to the base of the image
 		scene.geometries.add(
 				new Triangle(new Point3D(-150, -150, -115), new Point3D(150, -150, -135), new Point3D(75, 75, -150)) //
-						.setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(60).setkR(0.85)) //
+						.setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(60).setkR(0)) //
 				, new Triangle(new Point3D(-150, -150, -115), new Point3D(-70, 70, -140), new Point3D(75, 75, -150)) //
-						.setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(60).setkR(0.85)) //
+						.setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(60).setkR(0)) //
 		);
 
 		Color color = new Color(0, 0, 80);
@@ -282,12 +281,12 @@ public class ReflectionRefractionTests {
 
 		scene.lights.add(new SpotLight(new Color(700, 400, 400), new Point3D(60, 50, 0), new Vector(0, 0, -1)) //
 				.setkL(4E-5).setkQ(2E-7));
-
-		ImageWriter imageWriter = new ImageWriter("lotsOfShapesBonus", 500, 500);
+		scene.geometries.createBox();
+		ImageWriter imageWriter = new ImageWriter("lotsOfShapesBonusNotR", 1000, 1000);
 		Render render = new Render() //
 				.setImageWriter(imageWriter) //
 				.setCamera(camera) //
-				.setRayTracer(new RayTracerBasic(scene));
+				.setRayTracer(new RayTracerBasic(scene)).setMultithreading(3).setDebugPrint();
 
 		render.renderImage();
 		render.writeToImage();
