@@ -94,7 +94,7 @@ public class Polygon extends Geometry {
 			return null;
 		Vector v = ray.dir;
 		Point3D p0 = ray.p0;
- 		Vector v1 = vertices.get(0).subtract(p0);
+		Vector v1 = vertices.get(0).subtract(p0);
 		Vector v2 = vertices.get(1).subtract(p0);
 		double t = v.dotProduct(v1.crossProduct(v2).normalize());
 		if (isZero(t)) {
@@ -119,28 +119,30 @@ public class Polygon extends Geometry {
 		return intersections;
 	}
 
-	  @Override
-	    public void setBox() {
-	        minX = Double.MAX_VALUE;
-	        minY = Double.MAX_VALUE;
-	        minZ = Double.MAX_VALUE;
-	        maxX = Double.MIN_VALUE;
-	        maxY = Double.MIN_VALUE;
-	        maxZ = Double.MIN_VALUE;
-	        for (Point3D point : vertices) {
-	            if (point.x.coord < minX) minX = point.x.coord;
-	            if (point.x.coord > maxX) maxX = point.x.coord;
-	            if (point.y.coord < minY) minY = point.y.coord;
-	            if (point.y.coord > maxY) maxY = point.y.coord;
-	            if (point.z.coord < minZ) minZ = point.z.coord;
-	            if (point.z.coord > maxZ) maxZ = point.z.coord;
-	        }
-	        middlePoint = getMiddlePoint();
-	        finity = true;
-	    }
-	
-	
-	
+	@Override
+	public void setBox() {
+		minX = Double.MAX_VALUE;
+		minY = Double.MAX_VALUE;
+		minZ = Double.MAX_VALUE;
+		maxX = Double.MIN_VALUE;
+		maxY = Double.MIN_VALUE;
+		maxZ = Double.MIN_VALUE;
+		for (Point3D point : vertices) {
+			if (point.x.coord < minX)
+				minX = point.x.coord;
+			if (point.x.coord > maxX)
+				maxX = point.x.coord;
+			if (point.y.coord < minY)
+				minY = point.y.coord;
+			if (point.y.coord > maxY)
+				maxY = point.y.coord;
+			if (point.z.coord < minZ)
+				minZ = point.z.coord;
+			if (point.z.coord > maxZ)
+				maxZ = point.z.coord;
+		}
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

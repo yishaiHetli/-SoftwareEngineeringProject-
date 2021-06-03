@@ -60,28 +60,8 @@ public class Geometries extends Box {
 
 	@Override
 	public void setBox() {
-		minX = Double.MAX_VALUE;
-		minY = Double.MAX_VALUE;
-		minZ = Double.MAX_VALUE;
-		maxX = Double.MIN_VALUE;
-		maxY = Double.MIN_VALUE;
-		maxZ = Double.MIN_VALUE;
 		for (Box geo : geometric) {
-			geo.createBox();
-			if (geo.minX < minX)
-				minX = geo.minX;
-			if (geo.maxX > maxX)
-				maxX = geo.maxX;
-			if (geo.minY < minY)
-				minY = geo.minY;
-			if (geo.maxY > maxY)
-				maxY = geo.maxY;
-			if (geo.minZ < minZ)
-				minZ = geo.minZ;
-			if (geo.maxZ > maxZ)
-				maxZ = geo.maxZ;
-
+			geo.createBox(); // set box for each geometry
 		}
-		middlePoint = getMiddlePoint();
 	}
 }

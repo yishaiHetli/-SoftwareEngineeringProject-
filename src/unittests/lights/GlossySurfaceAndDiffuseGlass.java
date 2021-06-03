@@ -22,7 +22,7 @@ public class GlossySurfaceAndDiffuseGlass {
 				new Sphere(new Point3D(-3.25, 8, 3), 3).setEmission(new Color(10, 100, 100))
 						.setMaterial((new Material().setkD(0.5).setkS(0.5).setnShininess(100)).setkR(0.5)),
 				new Sphere(new Point3D(3.25, 8, 3), 3).setEmission(new Color(10, 100, 100)).setMaterial(
-						(new Material().setkD(0.5).setkS(0.5).setnShininess(100)).setkR(0.5).setkMatteG(0.5)),
+						(new Material().setkD(0.5).setkS(0.5).setnShininess(100)).setkR(0.5).setkMatteG(0.4)),
 				new Sphere(new Point3D(0, 0, 1.5), 1.5).setEmission(new Color(129, 129, 129))
 						.setMaterial((new Material().setkD(0.5).setkS(0.5).setnShininess(100))),
 				new Sphere(new Point3D(3, 1, 1.5), 1.5).setEmission(new Color(0, 129, 129))
@@ -41,7 +41,7 @@ public class GlossySurfaceAndDiffuseGlass {
 		scene.lights.add(new DirectionalLight(new Color(200, 200, 200), new Vector(0, 0, -1)));
 		scene.geometries.createBox();
 		Render render = new Render() //
-				.setImageWriter(new ImageWriter("glossySurface", 1000, 1000)) //
+				.setImageWriter(new ImageWriter("glossySurface", 1800, 1800)) //
 				.setCamera(camera) //
 				.setRayTracer(new RayTracerBasic(scene, 100)).setMultithreading(3).setDebugPrint();
 		;

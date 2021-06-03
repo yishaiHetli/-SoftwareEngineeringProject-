@@ -5,12 +5,15 @@ import java.util.List;
 import primitives.Point3D;
 import primitives.Ray;
 
+/**
+ * 
+ * @author David&Yishai
+ *
+ */
 public abstract class Box implements Intersectable {
 
 	protected boolean boudingVolume = false; // turn off the bouding volume
 	protected double minX, minY, minZ, maxX, maxY, maxZ;
-	protected Point3D middlePoint;
-	protected boolean finity = false;
 
 	/**
 	 * creating boxes for all shapes in the geometries list and setting the bounding
@@ -27,13 +30,6 @@ public abstract class Box implements Intersectable {
 	protected abstract void setBox();
 
 	/**
-	 * @return the middle point of a bouding volume box.
-	 */
-	public Point3D getMiddlePoint() {
-		return new Point3D(minX + ((maxX - minX) / 2), minY + ((maxY - minY) / 2), minZ + ((maxZ - minZ) / 2));
-	}
-
-	/**
 	 * check if ray intersect with the box
 	 *
 	 * @param ray the ray
@@ -42,8 +38,7 @@ public abstract class Box implements Intersectable {
 	public boolean isIntersect(Ray ray) {
 		Point3D head = ray.dir.head;
 		Point3D p = ray.p0;
-		double temp;
-
+		double temp; // for swapping
 		double dirX = head.x.coord, dirY = head.y.coord, dirZ = head.z.coord;
 		double origX = p.x.coord, origY = p.y.coord, origZ = p.z.coord;
 
@@ -74,7 +69,7 @@ public abstract class Box implements Intersectable {
 			tZMmin = tZmax;
 			tZmax = temp;
 		}
-		return tXmin <= tZmax && tZMmin <= tXmax;
+		return tXmin <= tZmax && tZMmin <= tXmax;// if xMin<zMax , xMax> zMin return true
 	}
 
 	/**

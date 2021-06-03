@@ -92,7 +92,5 @@ public class Sphere extends Geometry {
 	        maxY = center.y.coord + radius;
 	        minZ = center.z.coord - radius;
 	        maxZ = center.z.coord + radius;
-	        middlePoint = center;
-	        finity = true;
 	    }
 }
