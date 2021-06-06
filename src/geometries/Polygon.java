@@ -127,7 +127,7 @@ public class Polygon extends Geometry {
 		maxX = Double.MIN_VALUE;
 		maxY = Double.MIN_VALUE;
 		maxZ = Double.MIN_VALUE;
-		for (Point3D point : vertices) {
+		for (Point3D point : vertices) { 
 			if (point.x.coord < minX)
 				minX = point.x.coord;
 			if (point.x.coord > maxX)
