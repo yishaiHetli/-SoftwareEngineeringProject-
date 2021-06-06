@@ -1,6 +1,7 @@
 package geometries;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import primitives.Ray;
@@ -19,7 +20,7 @@ public class Geometries extends Box {
 	 * empty ctor that Initialize the class list
 	 */
 	public Geometries() {
-		geometric = new ArrayList<Box>();
+		geometric = new LinkedList<Box>();
 	}
 
 	/**
@@ -51,7 +52,7 @@ public class Geometries extends Box {
 			List<GeoPoint> tempIntersections = shape.findIntsersectionsBound(ray, maxDistance);
 			if (tempIntersections != null) {
 				if (intersections == null)
-					intersections = new ArrayList<GeoPoint>();
+					intersections = new LinkedList<GeoPoint>();
 				intersections.addAll(tempIntersections);
 			}
 		}
@@ -64,4 +65,5 @@ public class Geometries extends Box {
 			geo.createBox(); // set box for each geometry
 		}
 	}
+
 }

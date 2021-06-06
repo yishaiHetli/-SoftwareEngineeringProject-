@@ -49,13 +49,9 @@ public class Ray {
 	 * @return the point of start + (direction vector * t)
 	 */
 	public Point3D getPoint(double t) {
-		try {
-			if (Util.isZero(t))
-				return p0;
-			return p0.add(dir.scale(t));
-		} catch (IllegalArgumentException e) {
+		if (Util.isZero(t))
 			return p0;
-		}
+		return p0.add(dir.scale(t));
 	}
 
 	/**

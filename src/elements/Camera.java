@@ -12,13 +12,13 @@ import primitives.*;
  */
 public class Camera {
 
-	public Point3D p0;
-	public Vector vUp;
-	public Vector vTo;
-	public Vector vRight;
-	public double width;
-	public double height;
-	public double distance;
+	private Point3D p0;
+	private Vector vUp;
+	private Vector vTo;
+	private Vector vRight;
+	private double width;
+	private double height;
+	private double distance;
 
 	/**
 	 * 

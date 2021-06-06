@@ -59,7 +59,7 @@ public class Point3D {
 	 * add the class coordinates to the sent vector
 	 * 
 	 * @param vec vector to add
-	 * @return return vector of their sum
+	 * @return return new point of their sum
 	 */
 	public Point3D add(Vector vec) {
 		Point3D head = vec.head;

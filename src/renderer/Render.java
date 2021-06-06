@@ -1,7 +1,7 @@
 package renderer;
 
 import java.util.*;
-
+import java.lang.System;
 import elements.*;
 import primitives.*;
 
@@ -220,8 +220,9 @@ public class Render {
 
 	/**
 	 * Cast ray from camera in order to color a pixel
-	 * @param nX resolution on X axis (number of pixels in row)
-	 * @param nY resolution on Y axis (number of pixels in column)
+	 * 
+	 * @param nX  resolution on X axis (number of pixels in row)
+	 * @param nY  resolution on Y axis (number of pixels in column)
 	 * @param col pixel's column number (pixel index in row)
 	 * @param row pixel's row number (pixel index in column)
 	 */
@@ -307,6 +308,5 @@ public class Render {
 				if (j % step == 0 || i % step == 0)
 					imageWriter.writePixel(j, i, color);
 	}
-	
 
 }

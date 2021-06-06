@@ -49,6 +49,8 @@ public abstract class Box implements Intersectable {
 			tXmin = tXmax;
 			tXmax = temp;
 		}
+		if (tXmax < 0)
+			return false;
 
 		double tYmin = (minY - origY) / dirY, tYmax = (maxY - origY) / dirY;
 		if (tYmin > tYmax) { // swap between tmax and tmin
@@ -56,20 +58,26 @@ public abstract class Box implements Intersectable {
 			tYmin = tYmax;
 			tYmax = temp;
 		}
-		if ((tXmin > tYmax) || (tYmin > tXmax))// if the min of some coord bigger from min of other
+		if (tYmax < 0)
 			return false;
-		if (tYmin > tXmin) // the absolute min is tXmin
+
+		if ((tXmin > tYmax) || (tYmin > tXmax))// if the min of some coord bigger from max of other
+			return false;
+		if (tYmin > tXmin) // the absolute min between y,x is tXmin
 			tXmin = tYmin;
-		if (tYmax < tXmax)// the absolute max is tXmax
+		if (tYmax < tXmax)// the absolute max between y,x is tXmax
 			tXmax = tYmax;
 
-		double tZMmin = (minZ - origZ) / dirZ, tZmax = (maxZ - origZ) / dirZ;
-		if (tZMmin > tZmax) { // swap between tmax and tmin
-			temp = tZMmin;
-			tZMmin = tZmax;
+		double tZmin = (minZ - origZ) / dirZ, tZmax = (maxZ - origZ) / dirZ;
+		if (tZmin > tZmax) { // swap between tmax and tmin
+			temp = tZmin;
+			tZmin = tZmax;
 			tZmax = temp;
 		}
-		return tXmin <= tZmax && tZMmin <= tXmax;// if xMin<zMax , xMax> zMin return true
+		if (tZmax < 0)
+			return false;
+
+		return tXmin <= tZmax && tZmin <= tXmax;// if xMin > zMax || xMax < zMin return false
 	}
 
 	/**

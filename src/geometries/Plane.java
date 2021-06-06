@@ -103,7 +103,6 @@ public class Plane extends Geometry  {
 	}
 
 	private static double DELTA = 0.1;
-
 	@Override
 	protected void setBox() {
 		if (normal.head.y.coord == 0 && normal.head.z.coord == 0) {
