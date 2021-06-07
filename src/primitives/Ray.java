@@ -85,7 +85,7 @@ public class Ray {
 				randomPoint = randomPoint.add(nX.scale(x));// pc+(nX*x)
 			if (y != 0)
 				randomPoint = randomPoint.add(nY.scale(y));// pc+(nY*y)
-			Vector tPoint = randomPoint.subtract(p0);// rendom point inside the circle subtract the start point
+			Vector tPoint = randomPoint.subtract(p0);// random point inside the circle subtract the start point
 			double nt = alignZero(n.dotProduct(tPoint));
 			if (nv * nt > 0) {// sign(nv) == sing(nt)
 				rays.add(new Ray(p0, tPoint));

@@ -14,6 +14,7 @@ public abstract class Box implements Intersectable {
 
 	protected boolean boudingVolume = false; // turn off the bouding volume
 	protected double minX, minY, minZ, maxX, maxY, maxZ;
+	protected Point3D middlePoint;
 
 	/**
 	 * creating boxes for all shapes in the geometries list and setting the bounding
@@ -22,6 +23,7 @@ public abstract class Box implements Intersectable {
 	public void createBox() {
 		boudingVolume = true;
 		setBox();
+		middlePoint = getMiddlePoint();
 	}
 
 	/**
@@ -93,6 +95,13 @@ public abstract class Box implements Intersectable {
 	 */
 	public List<GeoPoint> findIntsersectionsBound(Ray ray, double maxDistance) {
 		return boudingVolume && !isIntersect(ray) ? null : findGeoIntersections(ray, maxDistance);
+	}
+
+	/**
+	 * @return the middle point of a bvh box.
+	 */
+	public Point3D getMiddlePoint() {
+		return new Point3D(minX + ((maxX - minX) / 2), minY + ((maxY - minY) / 2), minZ + ((maxZ - minZ) / 2));
 	}
 
 }

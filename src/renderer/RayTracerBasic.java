@@ -117,12 +117,12 @@ public class RayTracerBasic extends RayTracerBase {
 		double kr = material.kR, kkr = k * kr, kMG = alignZero(material.kMatteG);
 		if (kkr > MIN_CALC_COLOR_K) {
 			Ray reflectedRay = constructReflectedRay(n, point, inRay);
-			color = calcBeamColor(color, n, reflectedRay, level, kr, kkr, kMG);
+			color = color.add(calcBeamColor(n, reflectedRay, level, kr, kkr, kMG));
 		}
 		double kt = material.kT, kkt = k * kt, kMD = alignZero(material.kMatteD);
 		if (kkt > MIN_CALC_COLOR_K) {
 			Ray refractedRay = constructRefractedRay(n, point, inRay);
-			color = calcBeamColor(color, n, refractedRay, level, kt, kkt, kMD);
+			color = color.add(calcBeamColor(n, refractedRay, level, kt, kkt, kMD));
 		}
 		return color;
 	}
@@ -229,7 +229,6 @@ public class RayTracerBasic extends RayTracerBase {
 	/**
 	 * this function calculate the color of point with the help of beam
 	 * 
-	 * @param color  the color of the intersection point
 	 * @param n      The normal vector of the point where beam start
 	 * @param refRay reflected/refracted ray
 	 * @param level  The level of recursiun
@@ -239,20 +238,19 @@ public class RayTracerBasic extends RayTracerBase {
 	 *               intense
 	 * @return The color
 	 */
-	private Color calcBeamColor(Color color, Vector n, Ray refRay, int level, double k, double kk, double radius) {
+	private Color calcBeamColor(Vector n, Ray refRay, int level, double k, double kk, double radius) {
+		if (findClosestIntersection(refRay) == null)
+			return Color.BLACK;
 		Color addColor = Color.BLACK;
-		if(findClosestIntersection(refRay) == null)
-			return addColor;
-		List<Ray> rays = refRay.generateBeam(n, radius, DISTANCE, numOfRays); 
-		for (Ray ray : rays) { 
+		List<Ray> rays = refRay.generateBeam(n, radius, DISTANCE, numOfRays);
+		for (Ray ray : rays) {
 			GeoPoint refPoint = findClosestIntersection(ray);
 			if (refPoint != null) {
 				addColor = addColor.add(calcColor(refPoint, ray, level - 1, kk).scale(k));
 			}
 		}
 		int size = rays.size();
-		color = color.add(size > 1 ? addColor.reduce(size) : addColor);//divide the add color by rays size
-		return color;
+		return size > 1 ? addColor.reduce(size) : addColor;// divide the add color by rays size
 	}
 
 	/**
