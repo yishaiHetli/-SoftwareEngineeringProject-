@@ -1,10 +1,10 @@
 package geometries;
 
 import java.util.ArrayList;
-//import java.util.LinkedList;
 import java.util.List;
 
 import primitives.Ray;
+import primitives.Util;
 
 /**
  * this class represents a collection of Intersectable shapes
@@ -69,6 +69,8 @@ public class Geometries extends Box {
 		maxZ = Double.MIN_VALUE;
 		for (Box geo : geometric) {
 			geo.createBox(); // set box for each geometry
+			if (geo.infinite)
+				infinite = true;
 			// get the absolute min and max
 			if (geo.minX < minX)
 				minX = geo.minX;
@@ -87,41 +89,54 @@ public class Geometries extends Box {
 	}
 
 	/**
-	*
+	 * call to make tree for the uninfinite shapes
 	 */
 	public void callMakeTree() {
-		geometric = makeTree(geometric);
+		if (infinite) {
+			List<Box> withoutBox = new ArrayList<>();
+			for (int i = 0; i < geometric.size(); ++i) {
+				if (geometric.get(i).infinite)
+					withoutBox.add(geometric.remove(i));// removes and add
+			}
+			geometric = makeTree(geometric);
+			geometric.addAll(withoutBox);
+		} else
+			geometric = makeTree(geometric);
 	}
 
 	/**
 	 * the function is making pears of two closes geometries until the list is empty
-	 * the function calls itself until the list contains one geometry node
+	 * the function calls itself until the list contains only one geometry node
+	 * 
+	 * for example: {t1,t2,t3,t4,t5} => {{t1,t3} = t1',{t2,t5}= t2',{t4}= t3'} =>
+	 * {{t1',t3'} = t1'',{t2'} = t2''} => {{t1'',t2''}}
 	 *
 	 * @param shapes the list of finite shapes
 	 * @return a list of shapes in a binary way
 	 */
 	private List<Box> makeTree(List<Box> shapes) {
-		if (shapes.size() == 1)
+		if (shapes.size() == 1) // recursion stop condition
 			return shapes;
-		ArrayList<Box> newShapes = null;
-		while (!shapes.isEmpty()) {
-			Box first = shapes.remove(0), nextTo = shapes.get(0);
-			double minD = first.middlePoint.distance(nextTo.middlePoint);
-			int min = 0;
-			for (int i = 1; i < shapes.size(); ++i) {
-				if (minD == 0)
+		List<Box> newShapes = null;
+		while (!shapes.isEmpty()) { // loop until shapes is empty
+			Box first = shapes.remove(0), nextTo = shapes.get(0); // remove to first and get second
+			double minD1 = first.middlePoint.distance(nextTo.middlePoint); // distance between first snd second middles
+			int minIndex = 0;
+			int size = shapes.size();
+			for (int i = 1; i < size; ++i) { // loop to find the absolute minimum from first shape
+				if (Util.isZero(minD1))
 					break;
-				double temp = first.middlePoint.distance(shapes.get(i).middlePoint);
-				if (temp < minD) {
-					minD = temp;
-					nextTo = shapes.get(i);
-					min = i;
+				double minD2 = first.middlePoint.distance(shapes.get(i).middlePoint);
+				if (minD2 < minD1) {
+					minD1 = minD2;
+					nextTo = shapes.get(i); // keep the shape of the minimum distance from first
+					minIndex = i; // keep the index of the minimum to remove
 				}
 			}
 			if (newShapes == null)
 				newShapes = new ArrayList<Box>();
-			shapes.remove(min);
-			Geometries newGeo = new Geometries(first, nextTo);
+			shapes.remove(minIndex);
+			Geometries newGeo = new Geometries(first, nextTo);// making pears of two closes geometries
 			newGeo.updateBoxSize(first, nextTo);
 			newShapes.add(newGeo);
 			if (shapes.size() == 1)
@@ -135,18 +150,12 @@ public class Geometries extends Box {
 	 */
 	protected void updateBoxSize(Box a, Box b) {
 		boudingVolume = true;
-		minX = Double.MAX_VALUE;
-		minY = Double.MAX_VALUE;
-		minZ = Double.MAX_VALUE;
-		maxX = Double.MIN_VALUE;
-		maxY = Double.MIN_VALUE;
-		maxZ = Double.MIN_VALUE;
-		minX = Math.min(a.minX, b.minX);
-		minY = Math.min(a.minY, b.minY);
-		minZ = Math.min(a.minZ, b.minZ);
-		maxX = Math.max(a.maxX, b.maxX);
-		maxY = Math.max(a.maxY, b.maxY);
-		maxZ = Math.max(a.maxZ, b.maxZ);
+		minX = a.minX <= b.minX ? a.minX : b.minX;
+		minY = a.minY <= b.minY ? a.minY : b.minY;
+		minZ = a.minZ <= b.minZ ? a.minZ : b.minZ;
+		maxX = a.maxX >= b.maxX ? a.maxX : b.maxX;
+		maxY = a.maxY >= b.maxY ? a.maxY : b.maxY;
+		maxZ = a.maxZ >= b.maxZ ? a.maxZ : b.maxZ;
 		middlePoint = getMiddlePoint();
 	}
 

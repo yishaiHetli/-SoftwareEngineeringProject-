@@ -129,5 +129,6 @@ public class Plane extends Geometry  {
 			minZ = Double.NEGATIVE_INFINITY;
 			maxZ = Double.POSITIVE_INFINITY;
 		}
+		 infinite = true;
 	}
 }

@@ -13,6 +13,7 @@ import primitives.Ray;
 public abstract class Box implements Intersectable {
 
 	protected boolean boudingVolume = false; // turn off the bouding volume
+	protected boolean infinite = false;
 	protected double minX, minY, minZ, maxX, maxY, maxZ;
 	protected Point3D middlePoint;
 
@@ -98,7 +99,7 @@ public abstract class Box implements Intersectable {
 	}
 
 	/**
-	 * @return the middle point of a bvh box.
+	 * @return the middle point of a BVH box.
 	 */
 	public Point3D getMiddlePoint() {
 		return new Point3D(minX + ((maxX - minX) / 2), minY + ((maxY - minY) / 2), minZ + ((maxZ - minZ) / 2));
