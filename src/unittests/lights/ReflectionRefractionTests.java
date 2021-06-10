@@ -206,7 +206,6 @@ public class ReflectionRefractionTests {
 	public void lotsOfShapesBonus() {
 		Camera camera = new Camera(new Point3D(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
 				.setViewPlaneSize(200, 200).setDistance(1000);
-
 		scene.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0.15));
 
 		Point3D point = new Point3D(-5, 25, 0);
@@ -282,8 +281,8 @@ public class ReflectionRefractionTests {
 		scene.lights.add(new SpotLight(new Color(700, 400, 400), new Point3D(60, 50, 0), new Vector(0, 0, -1)) //
 				.setkL(4E-5).setkQ(2E-7));
 		scene.geometries.createBox();
-		//scene.geometries.callMakeTree();
-		ImageWriter imageWriter = new ImageWriter("lotsOfShapesBonusNotR", 1000, 1000);
+		// scene.geometries.callMakeTree();
+		ImageWriter imageWriter = new ImageWriter("lotsOfShapesBonus", 1000, 1000);
 		Render render = new Render() //
 				.setImageWriter(imageWriter) //
 				.setCamera(camera) //

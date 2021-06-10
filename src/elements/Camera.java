@@ -19,6 +19,7 @@ public class Camera {
 	private double width;
 	private double height;
 	private double distance;
+	static final double PIdiv180 = Math.PI / 180.0;
 
 	/**
 	 * 
@@ -89,6 +90,111 @@ public class Camera {
 		} catch (Exception e) { // if we get the zero vector
 			return null;
 		}
+	}
+
+	/**
+	 * 
+	 * Rotates the camera around x in the given angle
+	 * 
+	 * @param angle the angle in degrees to turn in around x
+	 */
+	public void rotateX(double angle) {
+		angle = angle * PIdiv180;
+		this.p0 = this.p0.rotateX(angle);
+		this.vUp = new Vector(this.vUp.head.rotateX(angle)).normalize();
+		this.vTo = new Vector(this.vTo.head.rotateX(angle)).normalize();
+		if (!Util.isZero(vUp.dotProduct(vTo))) { // if the vectors vUp and vTo not orthogonal
+			throw new IllegalArgumentException("the vectors vUp and vTo must be orthogonal");
+		}
+		this.vRight = this.vTo.crossProduct(this.vUp).normalized();
+	}
+
+	/**
+	 * 
+	 * Rotates the camera around y in the given angle
+	 * 
+	 * @param angle the angle in degrees to turn in around y
+	 */
+	public void rotateY(double angle) {
+		angle = angle * PIdiv180;
+		this.p0 = this.p0.rotateY(angle);
+		this.vUp = new Vector(this.vUp.head.rotateY(angle)).normalize();
+		this.vTo = new Vector(this.vTo.head.rotateY(angle)).normalize();
+		if (!Util.isZero(vUp.dotProduct(vTo))) { // if the vectors vUp and vTo not orthogonal
+			throw new IllegalArgumentException("the vectors vUp and vTo must be orthogonal");
+		}
+		this.vRight = this.vTo.crossProduct(this.vUp).normalize();
+	}
+
+	/**
+	 * 
+	 * Rotates the camera around z in the given angle
+	 * 
+	 * @param angle the angle in degrees to turn in around z
+	 */
+	public void rotateZ(double angle) {
+		angle = angle * PIdiv180;
+		this.p0 = this.p0.rotateZ(angle);
+		this.vUp = new Vector(this.vUp.head.rotateZ(angle)).normalize();
+		this.vTo = new Vector(this.vTo.head.rotateZ(angle)).normalize();
+		if (!Util.isZero(vUp.dotProduct(vTo))) { // if the vectors vUp and vTo not orthogonal
+			throw new IllegalArgumentException("the vectors vUp and vTo must be orthogonal");
+		}
+		this.vRight = this.vTo.crossProduct(this.vUp).normalize();
+	}
+
+	/**
+	 * move the camera position right in the number of moves
+	 * 
+	 * @param moves steps to move right
+	 */
+	public void moveRight(double moves) {
+		this.p0 = p0.add(vRight.scale(moves));
+	}
+
+	/**
+	 * move the camera position left in the number of moves
+	 * 
+	 * @param moves steps to move left
+	 */
+	public void moveLeft(double moves) {
+		this.p0 = p0.add(vRight.scale(-moves));
+	}
+
+	/**
+	 * move the camera position up in the number of moves
+	 * 
+	 * @param moves steps to move up
+	 */
+	public void moveUp(double moves) {
+		this.p0 = this.p0.add(vUp.scale(moves));
+	}
+
+	/**
+	 * move the camera position down in the number of moves
+	 * 
+	 * @param moves steps to move down
+	 */
+	public void moveDown(double moves) {
+		this.p0 = this.p0.add(vUp.scale(-moves));
+	}
+
+	/**
+	 * move the camera position forth in the number of moves
+	 * 
+	 * @param moves steps to move forth
+	 */
+	public void moveForth(double moves) {
+		this.p0 = this.p0.add(vTo.scale(moves));
+	}
+
+	/**
+	 * move the camera position back in the number of moves
+	 * 
+	 * @param moves steps to move back
+	 */
+	public void moveBack(double moves) {
+		this.p0 = this.p0.add(vTo.scale(-moves));
 	}
 
 }

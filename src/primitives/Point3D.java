@@ -17,7 +17,6 @@ public class Point3D {
 	final public Coordinate y;
 	final public Coordinate z;
 
-
 	public final static Point3D ZERO = new Point3D(0, 0, 0);
 
 	/**
@@ -96,6 +95,48 @@ public class Point3D {
 	 */
 	public double distance(Point3D other) {
 		return Math.sqrt(distanceSquared(other));
+	}
+
+	/**
+	 * Rotates the given point around the X-axis by the amount of angle sent
+	 * 
+	 * @param angle the angle in radian to turn
+	 * @return the rotated point
+	 */
+	public Point3D rotateX(double angle) {
+		double s = Math.sin(angle);
+		double c = Math.cos(angle);
+		double yy = c * y.coord - s * z.coord;
+		double zz = s * y.coord + c * z.coord;
+		return new Point3D(x.coord, yy, zz);
+	}
+
+	/**
+	 * Rotates the given point around the Y-axis by the amount of angle sent
+	 * 
+	 * @param angle the angle in radian to turn
+	 * @return the rotated point
+	 */
+	public Point3D rotateY(double angle) {
+		double s = Math.sin(angle);
+		double c = Math.cos(angle);
+		double zz = c * z.coord - s * x.coord;
+		double xx = s * z.coord + c * x.coord;
+		return new Point3D(xx, y.coord, zz);
+	}
+
+	/**
+	 * Rotates the given point around the Z-axis by the amount of angle sent
+	 * 
+	 * @param angle the angle in radian to turn
+	 * @return the rotated point
+	 */
+	public Point3D rotateZ(double angle) {
+		double s = Math.sin(angle);
+		double c = Math.cos(angle);
+		double xx = c * x.coord - s * y.coord;
+		double yy = s * x.coord + c * y.coord;
+		return new Point3D(xx, yy, z.coord);
 	}
 
 	@Override

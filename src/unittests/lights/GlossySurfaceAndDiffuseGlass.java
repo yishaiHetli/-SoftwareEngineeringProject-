@@ -49,60 +49,60 @@ public class GlossySurfaceAndDiffuseGlass {
 		render.writeToImage();
 	}
 
-	/**
-	 * Produce a picture of 5 mirrors that transfrent with a diffused glass on some
-	 * level for each mirror
-	 */
-	@Test
-	public void diffusedGlassTest() {
-		Scene scene = new Scene("Test scene");
-		Camera camera = new Camera(new Point3D(30, -100, 10), new Vector(0, 1, 0), new Vector(0, 0, 1)) //
-				.setViewPlaneSize(70, 70).setDistance(100);
-
-		Point3D a = new Point3D(0, 0, 0);
-		Point3D b = new Point3D(11.8, 0, 0);
-		Point3D c = new Point3D(11.8, 0, 20);
-		Point3D d = new Point3D(0, 0, 20);
-		Point3D startSp = new Point3D(8, 10, 6);
-
-		Vector addPoint = new Vector(12, 0, 0);
-		Vector addSp = new Vector(14, 0, 0);
-		for (int i = 0; i < 5; ++i) {
-			scene.geometries.add( //
-					new Polygon(a, b, c, d) //
-							.setEmission(new Color(15, 15, 15)) //
-							.setMaterial(
-									new Material().setkD(0).setkS(0.3).setnShininess(100).setkT(1).setkMatteD(i * 1)));
-			a = a.add(addPoint);
-			b = b.add(addPoint);
-			c = c.add(addPoint);
-			d = d.add(addPoint);
-		}
-		for (int i = 0; i < 4; ++i) {
-			scene.geometries.add( //
-					new Sphere(startSp, 6) //
-							.setEmission(new Color(212, 235, 212)) //
-							.setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(100)));
-			startSp = startSp.add(addSp);
-		}
-
-		scene.geometries.add( //
-				// table
-				new Plane(new Point3D(0, 0, 0), new Vector(0, 0, 1)) //
-						.setEmission(new Color(255, 200, 255)) //
-						.setMaterial(new Material().setkD(0.4).setkS(0.3).setnShininess(100)),
-				new Plane(new Point3D(0, 100, 0), new Vector(0, 1, 0)) //
-						.setEmission(new Color(180, 245, 245)) //
-						.setMaterial(new Material().setkD(0.4).setkS(0.3).setnShininess(100)));
-		scene.lights.add( //
-				new DirectionalLight(new Color(1000, 600, 0), new Vector(12, -50, -30)));
-		scene.geometries.createBox();
-		Render render = new Render() //
-				.setImageWriter(new ImageWriter("diffusedGlass", 1000, 1000)) //
-				.setCamera(camera) //
-				.setRayTracer(new RayTracerBasic(scene, 100)).setMultithreading(3).setDebugPrint();
-		render.renderImage();
-		render.writeToImage();
-
-	}
+//	/**
+//	 * Produce a picture of 5 mirrors that transfrent with a diffused glass on some
+//	 * level for each mirror
+//	 */
+//	@Test
+//	public void diffusedGlassTest() {
+//		Scene scene = new Scene("Test scene");
+//		Camera camera = new Camera(new Point3D(30, -100, 10), new Vector(0, 1, 0), new Vector(0, 0, 1)) //
+//				.setViewPlaneSize(70, 70).setDistance(100);
+//
+//		Point3D a = new Point3D(0, 0, 0);
+//		Point3D b = new Point3D(11.8, 0, 0);
+//		Point3D c = new Point3D(11.8, 0, 20);
+//		Point3D d = new Point3D(0, 0, 20);
+//		Point3D startSp = new Point3D(8, 10, 6);
+//
+//		Vector addPoint = new Vector(12, 0, 0);
+//		Vector addSp = new Vector(14, 0, 0);
+//		for (int i = 0; i < 5; ++i) {
+//			scene.geometries.add( //
+//					new Polygon(a, b, c, d) //
+//							.setEmission(new Color(15, 15, 15)) //
+//							.setMaterial(
+//									new Material().setkD(0).setkS(0.3).setnShininess(100).setkT(1).setkMatteD(i * 1)));
+//			a = a.add(addPoint);
+//			b = b.add(addPoint);
+//			c = c.add(addPoint);
+//			d = d.add(addPoint);
+//		}
+//		for (int i = 0; i < 4; ++i) {
+//			scene.geometries.add( //
+//					new Sphere(startSp, 6) //
+//							.setEmission(new Color(212, 235, 212)) //
+//							.setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(100)));
+//			startSp = startSp.add(addSp);
+//		}
+//
+//		scene.geometries.add( //
+//				// table
+//				new Plane(new Point3D(0, 0, 0), new Vector(0, 0, 1)) //
+//						.setEmission(new Color(255, 200, 255)) //
+//						.setMaterial(new Material().setkD(0.4).setkS(0.3).setnShininess(100)),
+//				new Plane(new Point3D(0, 100, 0), new Vector(0, 1, 0)) //
+//						.setEmission(new Color(180, 245, 245)) //
+//						.setMaterial(new Material().setkD(0.4).setkS(0.3).setnShininess(100)));
+//		scene.lights.add( //
+//				new DirectionalLight(new Color(1000, 600, 0), new Vector(12, -50, -30)));
+//		scene.geometries.createBox();
+//		Render render = new Render() //
+//				.setImageWriter(new ImageWriter("diffusedGlass", 1000, 1000)) //
+//				.setCamera(camera) //
+//				.setRayTracer(new RayTracerBasic(scene, 100)).setMultithreading(3).setDebugPrint();
+//		render.renderImage();
+//		render.writeToImage();
+//
+//	}
 }
