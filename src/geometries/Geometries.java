@@ -98,10 +98,10 @@ public class Geometries extends Box {
 				if (geometric.get(i).infinite)
 					withoutBox.add(geometric.remove(i));// removes and add
 			}
-			geometric = makeTree(geometric);
+			makeTree(geometric);
 			geometric.addAll(withoutBox);
 		} else
-			geometric = makeTree(geometric);
+			makeTree(geometric);
 	}
 
 	/**
@@ -112,37 +112,39 @@ public class Geometries extends Box {
 	 * {{t1',t3'} = t1'',{t2'} = t2''} => {{t1'',t2''}}
 	 *
 	 * @param shapes the list of finite shapes
-	 * @return a list of shapes in a binary way
 	 */
-	private List<Box> makeTree(List<Box> shapes) {
-		if (shapes.size() == 1) // recursion stop condition
-			return shapes;
+	private void makeTree(List<Box> shapes) {
 		List<Box> newShapes = null;
-		while (!shapes.isEmpty()) { // loop until shapes is empty
-			Box first = shapes.remove(0), nextTo = shapes.get(0); // remove to first and get second
-			double minD1 = first.middlePoint.distance(nextTo.middlePoint); // distance between first snd second middles
-			int minIndex = 0;
-			int size = shapes.size();
-			for (int i = 1; i < size; ++i) { // loop to find the absolute minimum from first shape
-				if (Util.isZero(minD1))
-					break;
-				double minD2 = first.middlePoint.distance(shapes.get(i).middlePoint);
-				if (minD2 < minD1) {
-					minD1 = minD2;
-					nextTo = shapes.get(i); // keep the shape of the minimum distance from first
-					minIndex = i; // keep the index of the minimum to remove
+		while (shapes.size() > 1) {
+			while (!shapes.isEmpty()) { // loop until shapes is empty
+				Box first = shapes.remove(0), nextTo = shapes.get(0); // remove to first and get second
+				double minD1 = first.middlePoint.distance(nextTo.middlePoint); // distance between first snd second
+																				// middles
+				int minIndex = 0;
+				int size = shapes.size();
+				for (int i = 1; i < size; ++i) { // loop to find the absolute minimum from first shape
+					if (Util.isZero(minD1))
+						break;
+					double minD2 = first.middlePoint.distance(shapes.get(i).middlePoint);
+					if (minD2 < minD1) {
+						minD1 = minD2;
+						nextTo = shapes.get(i); // keep the shape of the minimum distance from first
+						minIndex = i; // keep the index of the minimum to remove
+					}
 				}
+				if (newShapes == null)
+					newShapes = new ArrayList<Box>();
+				shapes.remove(minIndex);
+				Geometries newGeo = new Geometries(first, nextTo);// making pears of two closes geometries
+				newGeo.updateBoxSize(first, nextTo);
+				newShapes.add(newGeo);
+				if (shapes.size() == 1)
+					newShapes.add(shapes.remove(0));
 			}
-			if (newShapes == null)
-				newShapes = new ArrayList<Box>();
-			shapes.remove(minIndex);
-			Geometries newGeo = new Geometries(first, nextTo);// making pears of two closes geometries
-			newGeo.updateBoxSize(first, nextTo);
-			newShapes.add(newGeo);
-			if (shapes.size() == 1)
-				newShapes.add(shapes.remove(0));
+			shapes = newShapes;
+			newShapes = null;
 		}
-		return makeTree(newShapes);
+		geometric = shapes;
 	}
 
 	/**

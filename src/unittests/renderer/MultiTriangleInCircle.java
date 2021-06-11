@@ -27,9 +27,6 @@ public class MultiTriangleInCircle {
 	public void MultiTrianglestest() {
 		Camera camera = new Camera(new Point3D(0, 0, 5), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
 				.setViewPlaneSize(3.5, 3.5).setDistance(5);
-//		 camera.rotateX(90);
-//		 camera.moveUp(0.5);
-//		 camera.moveForth(1);
 		Scene scene = new Scene("Test scene").setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0.2)); //
 		scene.background = new Color(10,100,100);
 		Vector addP2 = new Vector(0.03, 0, 1);
@@ -44,8 +41,13 @@ public class MultiTriangleInCircle {
 		}
 		scene.geometries.add(new Plane(new Point3D(0, 0, 0), new Vector(0, 0, 1)).setEmission(new Color(10, 100, 100))
 				.setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(100)));
+		
 		scene.geometries.createBox();
 		scene.geometries.callMakeTree();
+		
+		camera.rotateX(45);
+		camera.moveForth(1);
+		camera.moveUp(0.5);
 		scene.lights.add(new SpotLight(new Color(500, 300, 0), new Point3D(-200, -160, 300), new Vector(-1, -1, -4)) //
 				.setkL(0.00001).setkQ(0.000005));
 		scene.lights.add(new SpotLight(new Color(500, 300, 0), new Point3D(75, 75, -150), new Vector(-136, -96, 69)) //
