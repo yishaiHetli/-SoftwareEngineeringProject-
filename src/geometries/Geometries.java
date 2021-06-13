@@ -85,7 +85,6 @@ public class Geometries extends Box {
 			if (geo.maxZ > maxZ)
 				maxZ = geo.maxZ;
 		}
-		middlePoint = this.getMiddlePoint();
 	}
 
 	/**
@@ -98,59 +97,57 @@ public class Geometries extends Box {
 				if (geometric.get(i).infinite)
 					withoutBox.add(geometric.remove(i));// removes and add
 			}
-			makeTree(geometric);
+			makeTree();
 			geometric.addAll(withoutBox);
 		} else
-			makeTree(geometric);
+			makeTree();
 	}
 
 	/**
 	 * the function is making pears of two closes geometries until the list is empty
-	 * the function calls itself until the list contains only one geometry node
+	 * the function loops until the geometric list contains only one geometry node
 	 * 
 	 * for example: {t1,t2,t3,t4,t5} => {{t1,t3} = t1',{t2,t5}= t2',{t4}= t3'} =>
 	 * {{t1',t3'} = t1'',{t2'} = t2''} => {{t1'',t2''}}
 	 *
-	 * @param shapes the list of finite shapes
 	 */
-	private void makeTree(List<Box> shapes) {
+	private void makeTree() {
 		List<Box> newShapes = null;
-		while (shapes.size() > 1) {
-			while (!shapes.isEmpty()) { // loop until shapes is empty
-				Box first = shapes.remove(0), nextTo = shapes.get(0); // remove to first and get second
+		while (geometric.size() > 1) {
+			while (!geometric.isEmpty()) { // loop until shapes is empty
+				Box first = geometric.remove(0), nextTo = geometric.get(0); // remove to first and get second
 				double minD1 = first.middlePoint.distance(nextTo.middlePoint); // distance between first snd second
 																				// middles
 				int minIndex = 0;
-				int size = shapes.size();
+				int size = geometric.size();
 				for (int i = 1; i < size; ++i) { // loop to find the absolute minimum from first shape
 					if (Util.isZero(minD1))
 						break;
-					double minD2 = first.middlePoint.distance(shapes.get(i).middlePoint);
+					double minD2 = first.middlePoint.distance(geometric.get(i).middlePoint);
 					if (minD2 < minD1) {
 						minD1 = minD2;
-						nextTo = shapes.get(i); // keep the shape of the minimum distance from first
+						nextTo = geometric.get(i); // keep the shape of the minimum distance from first
 						minIndex = i; // keep the index of the minimum to remove
 					}
 				}
 				if (newShapes == null)
 					newShapes = new ArrayList<Box>();
-				shapes.remove(minIndex);
+				geometric.remove(minIndex);
 				Geometries newGeo = new Geometries(first, nextTo);// making pears of two closes geometries
 				newGeo.updateBoxSize(first, nextTo);
 				newShapes.add(newGeo);
-				if (shapes.size() == 1)
-					newShapes.add(shapes.remove(0));
+				if (geometric.size() == 1)
+					newShapes.add(geometric.remove(0));
 			}
-			shapes = newShapes;
+			geometric = newShapes;
 			newShapes = null;
 		}
-		geometric = shapes;
 	}
 
 	/**
 	 * update box size after every new geometry we add to geometries list.
 	 */
-	protected void updateBoxSize(Box a, Box b) {
+	private void updateBoxSize(Box a, Box b) {
 		boudingVolume = true;
 		minX = a.minX <= b.minX ? a.minX : b.minX;
 		minY = a.minY <= b.minY ? a.minY : b.minY;

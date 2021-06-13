@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import elements.AmbientLight;
 import elements.Camera;
+import elements.DirectionalLight;
 import elements.SpotLight;
 import geometries.Plane;
 import geometries.Triangle;
@@ -26,14 +27,17 @@ public class MultiTriangleInCircle {
 	@Test
 	public void MultiTrianglestest() {
 		Camera camera = new Camera(new Point3D(0, 0, 5), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
-				.setViewPlaneSize(3.5, 3.5).setDistance(5);
-		Scene scene = new Scene("Test scene").setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0.2)); //
-		scene.background = new Color(10,100,100);
+				.setViewPlaneSize(4.5, 4.5).setDistance(5);
+		Scene scene = new Scene("Test scene");// .setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE),
+												// 0.2)); //
+		scene.background = new Color(10, 100, 100);
 		Vector addP2 = new Vector(0.03, 0, 1);
 		Vector addP3 = new Vector(0, 0.03, 1);
 		Point3D t1, t2, t3;
-
-		for (int i = 0; i < 3000; ++i) { // creates multiple triangles
+		// double r = 2;
+		for (int i = 1; i < 3000; ++i) { // creates multiple triangles
+//			if (i % 1000 == 0)
+//				r -= 0.2;
 			t1 = t2 = t3 = randomPointIncircle();
 			t2 = t2.add(addP2);
 			t3 = t3.add(addP3);
@@ -41,19 +45,19 @@ public class MultiTriangleInCircle {
 		}
 		scene.geometries.add(new Plane(new Point3D(0, 0, 0), new Vector(0, 0, 1)).setEmission(new Color(10, 100, 100))
 				.setMaterial(new Material().setkD(0.5).setkS(0.5).setnShininess(100)));
-		
+
 		scene.geometries.createBox();
 		scene.geometries.callMakeTree();
-		
-		camera.rotateX(45);
 		camera.moveForth(1);
-		camera.moveUp(0.5);
-		scene.lights.add(new SpotLight(new Color(500, 300, 0), new Point3D(-200, -160, 300), new Vector(-1, -1, -4)) //
+		camera.rotateX(45);
+		// camera.moveUp(0.5);
+
+		scene.lights.add(new SpotLight(new Color(300, 300, 300), new Point3D(-200, -160, 300), new Vector(-1, -1, -4)) //
 				.setkL(0.00001).setkQ(0.000005));
-		scene.lights.add(new SpotLight(new Color(500, 300, 0), new Point3D(75, 75, -150), new Vector(-136, -96, 69)) //
-				.setkL(0.00001).setkQ(0.000005));
-		
-		ImageWriter imageWriter = new ImageWriter("MultiTrianglesRotate", 1000, 1000);
+
+		scene.lights.add(new DirectionalLight(new Color(200, 200, 200), new Vector(0, 0, -1)));
+
+		ImageWriter imageWriter = new ImageWriter("MultiTrianglesRotate1", 800, 800);
 		Render render = new Render() //
 				.setCamera(camera) //
 				.setImageWriter(imageWriter) //
@@ -75,6 +79,20 @@ public class MultiTriangleInCircle {
 		double y = alignZero(r * Math.sin(theta)); // add to center coord y (0 in our case)
 		return new Point3D(x, y, 0);
 	}
+
+//	/**
+//	 * gives a random point in circle when the radius is one and the center is point
+//	 * ZERO
+//	 * 
+//	 * @param r the current radius
+//	 * @return random 3D point in circle
+//	 */
+//	private Point3D randomPointIncircle(double r) {
+//		double theta = Math.random() * 2 * pi;
+//		double x = r * Math.cos(theta); // add to center coord x (0 in our case)
+//		double y = r * Math.sin(theta); // add to center coord y (0 in our case)
+//		return new Point3D(x, y, 0);
+//	}
 
 	/**
 	 * Gives a random color of rgb

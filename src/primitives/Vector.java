@@ -125,7 +125,7 @@ public class Vector {
 
 	@Override
 	public String toString() {
-		return "head= " + head ;
+		return "head= " + head;
 	}
 
 	/**
@@ -164,24 +164,54 @@ public class Vector {
 			minCoor = y > 0 ? y : -y;
 			min = 2;
 		}
-		if (Math.abs(z) < minCoor) { //|z|<|x|,|y|
+		if (Math.abs(z) < minCoor) { // |z|<|x|,|y|
 			min = 3;
 		}
 		switch (min) {
-		case 1: { //|x|<|y|,|z|
+		case 1: { // |x|<|y|,|z|
 			return new Vector(0, -z, y).normalize();
 		}
-		case 2: { //|y|<|x|,|z|
+		case 2: { // |y|<|x|,|z|
 			return new Vector(-z, 0, x).normalize();
 		}
-		case 3: { //|z|<|x|,|y|
+		case 3: { // |z|<|x|,|y|
 			return new Vector(y, -x, 0).normalize();
 		}
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + min);
 		}
 	}
-	
+
+	/**
+	 * Rotates the given point around the X-axis by the amount of angle sent
+	 * 
+	 * @param angle the angle in radian to turn
+	 * @return the rotated vector
+	 */
+	public Vector rotateX(double angle) {
+		return new Vector(head.rotateX(angle));
+	}
+
+	/**
+	 * Rotates the given point around the Y-axis by the amount of angle sent
+	 * 
+	 * @param angle the angle in radian to turn
+	 * @return the rotated vector
+	 */
+	public Vector rotateY(double angle) {
+		return new Vector(head.rotateY(angle));
+	}
+
+	/**
+	 * Rotates the given point around the Z-axis by the amount of angle sent
+	 * 
+	 * @param angle the angle in radian to turn
+	 * @return the rotated vector
+	 */
+	public Vector rotateZ(double angle) {
+		return new Vector(head.rotateZ(angle));
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

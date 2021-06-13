@@ -101,8 +101,8 @@ public class Camera {
 	public void rotateX(double angle) {
 		angle = angle * PIdiv180;
 		this.p0 = this.p0.rotateX(angle);
-		this.vUp = new Vector(this.vUp.head.rotateX(angle)).normalize();
-		this.vTo = new Vector(this.vTo.head.rotateX(angle)).normalize();
+		this.vUp = this.vUp.rotateX(angle).normalize();
+		this.vTo = this.vTo.rotateX(angle).normalize();
 		if (!Util.isZero(vUp.dotProduct(vTo))) { // if the vectors vUp and vTo not orthogonal
 			throw new IllegalArgumentException("the vectors vUp and vTo must be orthogonal");
 		}
@@ -118,8 +118,8 @@ public class Camera {
 	public void rotateY(double angle) {
 		angle = angle * PIdiv180;
 		this.p0 = this.p0.rotateY(angle);
-		this.vUp = new Vector(this.vUp.head.rotateY(angle)).normalize();
-		this.vTo = new Vector(this.vTo.head.rotateY(angle)).normalize();
+		this.vUp = this.vUp.rotateY(angle).normalize();
+		this.vTo = this.vTo.rotateY(angle).normalize();
 		if (!Util.isZero(vUp.dotProduct(vTo))) { // if the vectors vUp and vTo not orthogonal
 			throw new IllegalArgumentException("the vectors vUp and vTo must be orthogonal");
 		}
@@ -135,8 +135,8 @@ public class Camera {
 	public void rotateZ(double angle) {
 		angle = angle * PIdiv180;
 		this.p0 = this.p0.rotateZ(angle);
-		this.vUp = new Vector(this.vUp.head.rotateZ(angle)).normalize();
-		this.vTo = new Vector(this.vTo.head.rotateZ(angle)).normalize();
+		this.vUp = this.vUp.rotateZ(angle).normalize();
+		this.vTo = this.vTo.rotateZ(angle).normalize();
 		if (!Util.isZero(vUp.dotProduct(vTo))) { // if the vectors vUp and vTo not orthogonal
 			throw new IllegalArgumentException("the vectors vUp and vTo must be orthogonal");
 		}

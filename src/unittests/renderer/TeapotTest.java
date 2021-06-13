@@ -1555,12 +1555,15 @@ public class TeapotTest {
 		);
 		scene.geometries.createBox();
 		scene.geometries.callMakeTree();
-		//camera.rotateY(315);
+		//camera.rotateY(0);
 		scene.lights.add(new PointLight(new Color(500, 500, 500), new Point3D(100, 0, -100)) //
 				.setkQ(0.000001));
-//		scene.lights.add(new PointLight(new Color(500, 500, 500), new Point3D(100,0, 100)) //
+//		scene.lights.add(new PointLight(new Color(250, 250, 250), new Point3D(100, 0, 100)) //
 //				.setkQ(0.000001));
-		ImageWriter imageWriter = new ImageWriter("teapot", 800, 800);
+//		scene.lights.add(new SpotLight(new Color(150, 150, 150), new Point3D(0, 0, -1000), new Vector(0, 0, 1)) //
+//				.setkQ(0.000001));
+//		scene.lights.add(new DirectionalLight(new Color(150, 150, 150), new Vector(0, 0, 1)));
+		ImageWriter imageWriter = new ImageWriter("teapot0", 800, 800);
 		Render render = new Render() //
 				.setCamera(camera) //
 				.setImageWriter(imageWriter) //
